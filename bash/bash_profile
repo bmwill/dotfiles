@@ -1,0 +1,3 @@
+# If a bashrc file exists, source it
+#
+[[ -s ~/.bashrc ]] && source ~/.bashrc
