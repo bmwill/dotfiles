@@ -12,6 +12,8 @@ PS1="$RED\u$NORMAL@$CYAN\h $RED[ $NORMAL\w$RED ]\$ $NORMAL"
 alias ls="ls -G"
 
 #export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
+#export CLICOLOR=1
+#export LSCOLORS=Gxfxcxdxbxegedabagacad
 
 # Colors
 

@@ -8,7 +8,7 @@
 #   Author: Brandon Williams                                        #
 #####################################################################
 
-files="vim bash/bashrc bash/bash_profile"
+files="vim bash/bashrc bash/bash_profile git/gitignore"
 
 curdir=`pwd`
 backupdir=~/dotfiles_bkup
