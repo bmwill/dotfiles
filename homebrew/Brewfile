@@ -1,0 +1,15 @@
+# List of brew commands to run to install a bunch of packages
+
+# Install Brews - Command-Line Applications
+
+#install wget
+
+# Install Casks - GUI Applications
+
+#install caskroom/cask/brew-cask
+#
+#cask install alfred
+#cask install caffeine
+#cask install flux
+#
+#cask install virtualbo
