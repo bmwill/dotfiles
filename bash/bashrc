@@ -15,6 +15,9 @@ alias ls="ls -G"
 #export CLICOLOR=1
 #export LSCOLORS=Gxfxcxdxbxegedabagacad
 
+# Add personal Scripts to PATH
+PATH=$PATH:/$HOME/dotfiles/bin
+
 # Colors
 
 # Reset
