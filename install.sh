@@ -6,11 +6,11 @@
 #   dotfiles included in dotfiles/                                  #
 #                                                                   #
 #   Author: Brandon Williams                                        #
-#                                                                   #
-#   Based on:                                                       #
-#   github.com/holman/dotfiles.git/dotfiles/script/bootstrap        #
 #####################################################################
 
+# List of files or directories to be linked
+# must specify the relative path from ./ to each file
+#
 files="vim bash/bashrc bash/bash_profile git/gitignore"
 
 curdir=`pwd`
