@@ -6,6 +6,9 @@
 #   dotfiles included in dotfiles/                                  #
 #                                                                   #
 #   Author: Brandon Williams                                        #
+#                                                                   #
+#   Based on:                                                       #
+#   github.com/holman/dotfiles.git/dotfiles/script/bootstrap        #
 #####################################################################
 
 files="vim bash/bashrc bash/bash_profile git/gitignore"
@@ -13,13 +16,26 @@ files="vim bash/bashrc bash/bash_profile git/gitignore"
 curdir=`pwd`
 backupdir=~/dotfiles_bkup
 
-# Function used to backup old dotfiles
-#
-function backup {
-    oldFile=~/.$1
+info() {
+  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+}
+
+user() {
+  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
+}
+
+success() {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+link_file() {
+    local filebasename=$(basename $1)
+    local src=$curdir/$1
+    local dst=~/.$filebasename
+
     # check if the file or directory exists
     #
-    if [ -d $oldFile ] || [ -f $oldFile ]
+    if [ -d $dst ] || [ -f $dst ]
     then
         # Create a backup directory if it doesn't exists
         #
@@ -30,17 +46,46 @@ function backup {
 
         # Move the file into the backup directory
         #
-        mv $oldFile $backupdir/$1
-        echo "Backed up $oldFile to $backupdir/$1"
+        mv $dst $backupdir/$filebasename
+        success "Backed up $dst to $backupdir/$filebasename"
     fi
+
+    # Link the file
+    #
+    ln -s $src $dst
+
+    success "Link from $dst to $src created"
 }
 
-for file in $files
-do
-    filebasename=$(basename $file)
-    backup $filebasename
+install_dotfiles() {
+    info "Installing Dotfiles"
 
-    ln -s $curdir/$file ~/.$filebasename
+    for file in $files
+    do
+        link_file $file
+    done
+}
 
-    echo "Created symlink from ~/.$filebasename to $curdir/$file"
-done
+setup_gitconfig() {
+    info 'setup gitconfig'
+
+    user ' - What is your github author name?'
+    read -e git_authorname
+    user ' - What is your github author email?'
+    read -e git_authoremail
+
+    sed -e "s/AUTHORNAME/$git_authorname/g"     \
+        -e "s/AUTHOREMAIL/$git_authoremail/g"   \
+        git/gitconfig.local > ~/.gitconfig.local
+
+    # link base gitconfig file
+    #
+    link_file "git/gitconfig"
+
+    success 'gitconfig'
+}
+
+setup_gitconfig
+install_dotfiles
+
+echo "  Finished!"
