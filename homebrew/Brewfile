@@ -1,10 +1,15 @@
 # List of brew commands to run to install a bunch of packages
+#
+# Can be executed by running 'brew bundle'
 
 # Install Brews - Command-Line Applications
 
 #install wget
 
 # Install Casks - GUI Applications
+
+# Set directory where Casks will be installed
+cask_args appdir: '/Applications'
 
 #install caskroom/cask/brew-cask
 #
