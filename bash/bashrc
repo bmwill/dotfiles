@@ -1,17 +1,17 @@
 # .bashrc File
 
+# Load the shell dotfiles, and then some:
+# * ~/.path can be used to extend `$PATH`.
+# * ~/.bash_prompt is used to setup the prompt $PS1
+# * ~/.aliases is used to store aliases
+for file in ~/.{path,bash_prompt,aliases}; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
 # Setup PATH
 # Add personal Scripts to PATH
 PATH=$PATH:/$HOME/dotfiles/bin
-
-# Setup prompt
-NORMAL="\[\e[0m\]"
-RED="\[\e[1;31m\]"
-GREEN="\[\e[1;32m\]"
-BLUE="\[\e[0;34m\]"
-PURPLE="\[\e[0;35m\]"
-CYAN="\[\e[0;36m\]"
-PS1="$RED\u$NORMAL@$CYAN\h $RED[ $NORMAL\w$RED ]\$ $NORMAL"
 
 # Setup Aliases
 alias ls="ls -G"
