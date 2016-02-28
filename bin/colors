@@ -1,6 +1,53 @@
 #!/bin/bash
 
-for i in $(seq 0 $(tput colors))
-do
-    echo "$(tput setaf $i)  tput setaf $i"
-done
+#for i in $(seq 0 $(tput colors))
+#do
+#    echo "$(tput setaf $i)  tput setaf $i"
+#done
+
+horiz_bars_256() {
+    local reset=$(tput op)
+    local bar=$(printf %$(($(tput cols)-6))s)
+    for i in {0..255}
+    do
+        o=00$i
+        echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${bar// /=}$reset;
+    done
+}
+
+grid_256() {
+    local reset=$(tput op)
+    local bar=$(printf %6s)
+    for i in {0..15}
+    do
+        line=''
+        for j in {0..15}
+        do
+            color=$(( ${i}+16*${j} ))
+            num=00$color
+            line+="${num:${#num}-3:3} `tput setaf $color;tput setab $color`${bar// /=}$reset"
+
+        done
+
+        echo -e $line
+
+    done
+}
+
+# tput_colors - Demonstrate color combinations.
+# for colors = 8
+grid_8() {
+    for fg_color in {0..7}; do
+        set_foreground=$(tput setaf $fg_color)
+        for bg_color in {0..7}; do
+            set_background=$(tput setab $bg_color)
+            echo -n $set_background$set_foreground
+            printf ' F:%s B:%s ' $fg_color $bg_color
+        done
+        echo $(tput sgr0)
+    done
+}
+
+horiz_bars_256
+grid_256
+grid_8
