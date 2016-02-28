@@ -11,7 +11,7 @@
 # List of files or directories to be linked
 # must specify the relative path from ./ to each file
 #
-files="vim bash/bashrc bash/bash_profile git/gitignore git/git-completion.bash"
+files="vim bash/bashrc bash/bash_profile git/gitignore"
 
 curdir=`pwd`
 backupdir=~/dotfiles_bkup

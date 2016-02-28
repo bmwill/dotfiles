@@ -5,6 +5,8 @@
 # Install Brews - Command-Line Applications
 
 #install wget
+install git
+install bash-completion
 
 # Install Casks - GUI Applications
 
