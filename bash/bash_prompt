@@ -14,6 +14,63 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 	export TERM=xterm-256color
 fi
 
+# Create the git prompt
+prompt_git() {
+	local s='';
+	local branchName='';
+
+	# Check if the current directory is in a Git repository.
+	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+
+		# check if the current directory is in .git before running git checks
+		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+			# Ensure the index is up to date.
+			git update-index --really-refresh -q &>/dev/null;
+
+			# Check for uncommitted changes in the index.
+			if ! $(git diff --quiet --ignore-submodules --cached); then
+				s+='+';
+			fi;
+
+			# Check for unstaged changes.
+			if ! $(git diff-files --quiet --ignore-submodules --); then
+				s+='!';
+			fi;
+
+			# Check for untracked files.
+			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+				s+='?';
+			fi;
+
+			# Check for stashed files.
+			if $(git rev-parse --verify refs/stash &>/dev/null); then
+				s+='$';
+			fi;
+
+		fi;
+
+		# Get the short symbolic ref.
+		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+		# Otherwise, just give up.
+		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+			git rev-parse --short HEAD 2> /dev/null || \
+			echo '(unknown)')";
+
+		[ -n "${s}" ] && s=" [${s}]";
+
+		echo -e "${1}${branchName}${2}${s}";
+	else
+		return;
+	fi;
+}
+
+# Function used to wrap colors in '\[ \]'
+# This helps Bash ignore non-printable characters like colors
+wrapColor() {
+    echo -e "\[$1\]"
+}
+
 # set up the colors that will be used for the prompt
 if tput setaf 1 &> /dev/null; then
     # use the following if if there aren't 256 colors?
@@ -86,5 +143,40 @@ RED="\[\e[1;31m\]"
 GREEN="\[\e[1;32m\]"
 BLUE="\[\e[0;34m\]"
 PURPLE="\[\e[0;35m\]"
-CYAN="\[\e[0;36m\]"
+CYAN=$(wrapColor $cyan) #"\[\e[0;36m\]"
 PS1="$RED\u$NORMAL@$CYAN\h $RED[ $NORMAL\w$RED ]\$ $NORMAL"
+
+#
+#default_username='brandon'
+#
+#
+#function parse_git_dirty() {
+#	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
+#}
+#
+#function parse_git_branch() {
+#	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+#}
+#
+## Old, from Mathias
+##export PS1="\[${BOLD}${MAGENTA}\]\u \[$WHITE\]at \[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
+##export PS2="\[$ORANGE\]→ \[$RESET\]"
+#
+## Updated, from Paul Irish
+## Only show username/host if not default
+#function usernamehost() {
+#	if [ $USER != $default_username ]; then echo "${MAGENTA}$USER ${WHITE}at ${ORANGE}$HOSTNAME $WHITEin "; fi
+#}
+#
+## iTerm Tab and Title Customization and prompt customization
+## http://sage.ucsc.edu/xtal/iterm_tab_customization.html
+#
+## Put the string " [bash]   hostname::/full/directory/path"
+## in the title bar using the command sequence
+## \[\e]2;[bash]   \h::\]$PWD\[\a\]
+#
+## Put the penultimate and current directory
+## in the iterm tab
+## \[\e]1;\]$(basename $(dirname $PWD))/\W\[\a\]
+#
+#PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]${BOLD}\$(usernamehost)\[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
