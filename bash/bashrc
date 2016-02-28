@@ -36,12 +36,10 @@ if [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]; then
     . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
 fi
 
-#[ -f ~/.git-completion.bash ] && source ~/.git-completion.bash
-
 # Add tab completon for many Bash commands
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
 fi
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-#[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
