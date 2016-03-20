@@ -86,16 +86,16 @@ setup_gitconfig() {
 }
 
 # If the user specifies a file to install then install that file and exit
-#FIXME change to ensure that the input really exists in the list of files
 if [ $# -ne 0 ]
 then
     for input in "$@"
     do
         # Check if the file the user wants to install is part
         # of the group of files that get installed by default
-        if [[ "$files" =~ "$input" ]]
+        if [[ $files =~ (^| )$input($| ) ]]
         then
-            link_file $file
+            #echo $input
+            link_file $input
         fi
     done
 
