@@ -5,8 +5,13 @@
 # Install Brews - Command-Line Applications
 
 #install wget
+#install coreutils
 install git
 install bash-completion
+#install id3lib
+#install archey
+#install imagemagick
+
 
 # Install Casks - GUI Applications
 
