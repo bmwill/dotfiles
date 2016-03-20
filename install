@@ -11,7 +11,7 @@
 # List of files or directories to be linked
 # must specify the relative path from ./ to each file
 #
-files="vim bash/bashrc bash/bash_profile bash/bash_prompt git/gitignore"
+files="vim bash/bashrc bash/bash_profile bash/bash_prompt bash/aliases git/gitignore"
 
 curdir=`pwd`
 backupdir=~/dotfiles_bkup
@@ -86,6 +86,7 @@ setup_gitconfig() {
 }
 
 # If the user specifies a file to install then install that file and exit
+#FIXME change to ensure that the input really exists in the list of files
 if [ $# -ne 0 ]
 then
     for input in "$@"

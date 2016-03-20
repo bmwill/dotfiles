@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #####################################################################
 #   bash_prompt                                                     #
 #   Sets up the bash prompt env variable PS1                        #
@@ -151,6 +149,18 @@ PS1+=" ${red}[ "
 PS1+="${reset}\w"          # working directory full path
 PS1+="${red} ]"
 PS1+="${red}\$ ${reset}"   # `$`
+
+# Set the terminal title to the current working directory.
+#PS1="\[\033]0;\w\007\]";
+#PS1+="\[${bold}\]\n"; # newline
+#PS1+="\[${userStyle}\]\u"; # username
+#PS1+="\[${white}\] at ";
+#PS1+="\[${hostStyle}\]\h"; # host
+#PS1+="\[${white}\] in ";
+#PS1+="\[${green}\]\w"; # working directory
+#PS1+="\$(prompt_git \"${white} on ${violet}\")"; # Git repository details
+#PS1+="\n";
+#PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
 
 # Set the continuation interactive prompt
 #PS2="\[${yellow}\]→ \[${reset}\]";
