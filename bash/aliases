@@ -14,46 +14,104 @@
 #alias -- -="cd -"
 
 # Shortcuts
-#alias d="cd ~/Documents/Dropbox"
 #alias dl="cd ~/Downloads"
 #alias dt="cd ~/Desktop"
 #alias p="cd ~/projects"
-#alias g="git"
-#alias h="history"
-#alias j="jobs"
- 
+
+#=======================================#
+#           Configure `ls`              #
+#=======================================#
+
+#-----------------------------------------------------------#
+#   Configure LSCOLORS                                      #
+#   Env variable used by OSX `ls`                           #
+#                                                           #
+#   Colors                                                  #
+#   a   black             A   bold black                    #
+#   b   red               B   bold red                      #
+#   c   green             C   bold green                    #
+#   d   brown             D   bold brown                    #
+#   e   blue              E   bold blue                     #
+#   f   magenta           F   bold magenta                  #
+#   g   cyan              G   bold cyan                     #
+#   h   light grey        H   bold light grey               #
+#   x   Default                                             #
+#                                                           #
+#   The default is "exfxcxdxbxegedabagacad"                 #
+#   Where each pair 'fb' is Foreground+Background           #
+#-----------------------------------------------------------#
+LSCOLORS="ex"       # Directory
+LSCOLORS+="fx"      # Symbolic Link
+LSCOLORS+="cx"      # Socket
+LSCOLORS+="dx"      # Pipe
+LSCOLORS+="bx"      # Executable
+LSCOLORS+="eg"      # Block Special
+LSCOLORS+="ed"      # Character Special
+LSCOLORS+="ab"      # executable with setuid bit set
+LSCOLORS+="ag"      # executable with setgid bit set
+LSCOLORS+="ac"      # directory writable to others, with sticky bit
+LSCOLORS+="ad"      # directory writable to others, without sticky bit
+
+#-----------------------------------------------------------#
+#   Configure LS_COLORS                                     #
+#   Env variable used by GNU `ls`                           #
+#                                                           #
+#   Colors                  Backgrounds                     #
+#   30  Black                40  Black Background           #
+#   31  Red                  41  Red Background             #
+#   32  Green                42  Green Background           #
+#   33  Orange               43  Orange Background          #
+#   34  Blue                 44  Blue Background            #
+#   35  Purple               45  Purple Background          #
+#   36  Cyan                 46  Cyan Background            #
+#   37  Grey                 47  Grey Backgorund            #
+#   90  Dark Grey           100  Dark Grey Background       #
+#   91  Light Red           101  Light Red Background       #
+#   92  Light Green         102  Light Green Background     #
+#   93  Yellow              103  Yellow Background          #
+#   94  Light Blue          104  Light Blue Background      #
+#   95  Light Purple        105  Light Purple Background    #
+#   96  Turquoise           106  Turquoise Background       #
+#   97  White                                               #
+#                                                           #
+#                    Effects                                #
+#   00  Default Color       07  Reversed                    #
+#   01  Bold                08  Concealed                   #
+#   04  Underlined                                          #
+#-----------------------------------------------------------#
+LS_COLORS="no=00"       # Global default
+LS_COLORS+=":fi=00"     # Normal file
+LS_COLORS+=":di=34"     # Directory
+LS_COLORS+=":ln=35"     # Symbolic Link
+LS_COLORS+=":so=32"     # Socket
+LS_COLORS+=":pi=33"     # Named Pipe
+LS_COLORS+=":ex=31"     # Executable file
+LS_COLORS+=":bd=34;46"  # Block Device
+LS_COLORS+=":cd=34;33"  # Character Device
+LS_COLORS+=":su=30;41"  # SetUID: File that is setuid (u+s)
+LS_COLORS+=":sg=30;46"  # SetGID: File that is setgid (g+s)
+LS_COLORS+=":tw=30;42"  # Directory: sticky and other-writable (+t,o+w)
+LS_COLORS+=":ow=30;43"  # Directory: other-writable (o+w)
+LS_COLORS+=":or=31;40"  # Orphan: Symlink pointing to non-existent file
+LS_COLORS+=":mi=31;40"  # Non-existent file pointed to by Symlink
+LS_COLORS+=":*.tar=32"  # *.extension for file specific coloring
+
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
-	colorflag="--color"
+    alias ls="ls --color"
+    export LS_COLORS
+elif gls > /dev/null 2>&1; then # GNU coreutils
+    alias ls="gls --color -N"
+    export LS_COLORS
 else # OS X `ls`
-	colorflag="-G"
+    alias ls="ls -G"
+    export LSCOLORS
 fi
 
-# List all files colorized in long format
-#alias l="ls -lF ${colorflag}"
-
-# List all files colorized in long format, including dot files
-#alias la="ls -laF ${colorflag}"
-
-# List only directories
-#alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
-
-# Always use color output for `ls`
-alias ls="command ls ${colorflag}"
-
-# LSCOLORS - Env variable used by OSX ls
-#export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
-#export CLICOLOR=1
-#export LSCOLORS=Gxfxcxdxbxegedabagacad
-
-# LS_COLORS - Env variable used by GNU ls
-#export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
-
 # Always enable colored `grep` output
-# Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
 alias grep='grep --color=auto'
-#alias fgrep='fgrep --color=auto'
-#alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
@@ -64,13 +122,13 @@ alias week='date +%V'
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
-# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-#alias update='sudo softwareupdate -i -a; brew update; brew upgrade --all; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update'
+# Get OS X Software Updates
+# also update installed Ruby gems, Homebrew and their installed packages
+#alias update='sudo softwareupdate -i -a; brew update; brew upgrade --all; brew cleanup; sudo gem update --system; sudo gem update'
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
-alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
@@ -97,10 +155,6 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 # Merge PDF files
 # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
 alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-
-# Disable/Enable Spotlight
-#alias spotoff="sudo mdutil -a -i off"
-#alias spoton="sudo mdutil -a -i on"
 
 # Ring the terminal bell, and put a badge on Terminal.app’s Dock icon
 # (useful when executing time-consuming commands)
