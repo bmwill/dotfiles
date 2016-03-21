@@ -30,6 +30,19 @@ colors desert "torte
 " If the 'molokai' colorscheme exists, use it instead
 silent! colors molokai
 
+" Use the OS clipboard by default (on versions compiled with `+clipboard`)
+"set clipboard=unnamed
+" Show “invisible” characters
+" tab:▸\ ,trail:·,eol:¬
+"set listchars=tab:,trail:,eol:,nbsp:_
+"set list
+
+" <Leader>  default is '\'
+" Change mapleader
+"let mapleader=","
+
+" Start scrolling three lines before the horizontal window border
+set scrolloff=3
 
 set guifont=monospace
 " In an xterm the mouse should work quite well, thus enable it.
