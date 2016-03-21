@@ -1,27 +1,34 @@
 # List of brew commands to run to install a bunch of packages
 #
 # Can be executed by running 'brew bundle'
+#
+# Cleanup
+# 'brew cleanup -ns' to list items that will be removed
+# 'brew cleanup -s' to actually remove them
 
+#
 # Install Brews - Command-Line Applications
+#
 
 #install wget
-#install coreutils
-install git
-install bash-completion
+brew 'coreutils'
+brew 'git'
+brew 'bash-completion'
 #install id3lib
 #install archey
 #install imagemagick
 
-
+#
 # Install Casks - GUI Applications
+#
 
 # Set directory where Casks will be installed
 cask_args appdir: '/Applications'
+tap 'caskroom/cask'
 
-#install caskroom/cask/brew-cask
 #
 #cask install alfred
-#cask install caffeine
+#cask 'caffeine'
 #cask install flux
 #
 #cask install virtualbo
