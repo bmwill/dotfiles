@@ -73,9 +73,9 @@ set autoindent              " Copy indentation from previous line
 "set smartindent                " Automatically inserts one extra level of indentation in some cases
 "set cindent                    " Same as smartindent but more strict
 set expandtab                   " Expands tabs into spaces
-set tabstop=4                   " Changes the width of the <TAB> character
-set shiftwidth=4                " Affects what happens when you press >>, <<, ==. Also affects how automatic indentation works
-set softtabstop=4               " Affects what happens when you press <TAB> or <BS>
+set tabstop=2                   " Changes the width of the <TAB> character
+set shiftwidth=2                " Affects what happens when you press >>, <<, ==. Also affects how automatic indentation works
+set softtabstop=2               " Affects what happens when you press <TAB> or <BS>
 
 """""""""""""""""""
 "   Status Line   "

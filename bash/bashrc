@@ -10,7 +10,7 @@
 # * ~/.bash_prompt is used to setup the prompt $PS1
 # * ~/.aliases is used to store aliases
 for file in ~/.{path,bash_prompt,aliases}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+  [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
@@ -31,12 +31,12 @@ export HISTCONTROL='ignoredups:ignorespace'
 
 # Add tab completion for many Bash commands
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    source $(brew --prefix)/etc/bash_completion
+  source $(brew --prefix)/etc/bash_completion
 fi
 
 # Autocomplete git commands
 if [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]; then
-    source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+  source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
 fi
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards

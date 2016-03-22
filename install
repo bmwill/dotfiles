@@ -29,77 +29,77 @@ success() {
 }
 
 link_file() {
-    local filebasename=$(basename $1)
-    local src=$curdir/$1
-    local dst=~/.$filebasename
+  local filebasename=$(basename $1)
+  local src=$curdir/$1
+  local dst=~/.$filebasename
 
-    # check if the file or directory exists
+  # check if the file or directory exists
+  #
+  if [ -d $dst ] || [ -f $dst ]
+  then
+    # Create a backup directory if it doesn't exists
     #
-    if [ -d $dst ] || [ -f $dst ]
+    if [ ! -d $backupdir ]
     then
-        # Create a backup directory if it doesn't exists
-        #
-        if [ ! -d $backupdir ]
-        then
-            mkdir -p $backupdir
-        fi
-
-        # Move the file into the backup directory
-        #
-        mv $dst $backupdir/$filebasename
-        success "Backed up $dst to $backupdir/$filebasename"
+        mkdir -p $backupdir
     fi
 
-    # Link the file
+    # Move the file into the backup directory
     #
-    ln -s $src $dst
+    mv $dst $backupdir/$filebasename
+    success "Backed up $dst to $backupdir/$filebasename"
+  fi
 
-    success "Link from $dst to $src created"
+  # Link the file
+  #
+  ln -s $src $dst
+
+  success "Link from $dst to $src created"
 }
 
 install_dotfiles() {
-    info "Installing Dotfiles"
+  info "Installing Dotfiles"
 
-    for file in $files
-    do
-        link_file $file
-    done
+  for file in $files
+  do
+    link_file $file
+  done
 }
 
 setup_gitconfig() {
-    info 'setup gitconfig'
+  info 'setup gitconfig'
 
-    user ' - What is your github author name?'
-    read -e git_authorname
-    user ' - What is your github author email?'
-    read -e git_authoremail
+  user ' - What is your github author name?'
+  read -e git_authorname
+  user ' - What is your github author email?'
+  read -e git_authoremail
 
-    sed -e "s/AUTHORNAME/$git_authorname/g"     \
-        -e "s/AUTHOREMAIL/$git_authoremail/g"   \
-        git/gitconfig.local > ~/.gitconfig.local
+  sed -e "s/AUTHORNAME/$git_authorname/g"     \
+      -e "s/AUTHOREMAIL/$git_authoremail/g"   \
+      git/gitconfig.local > ~/.gitconfig.local
 
-    # link base gitconfig file
-    #
-    link_file "git/gitconfig"
+  # link base gitconfig file
+  #
+  link_file "git/gitconfig"
 
-    success 'gitconfig'
+  success 'gitconfig'
 }
 
 # If the user specifies a file to install then install that file and exit
 if [ $# -ne 0 ]
 then
-    for input in "$@"
-    do
-        # Check if the file the user wants to install is part
-        # of the group of files that get installed by default
-        if [[ $files =~ (^| )$input($| ) ]]
-        then
-            #echo $input
-            link_file $input
-        fi
-    done
+  for input in "$@"
+  do
+    # Check if the file the user wants to install is part
+    # of the group of files that get installed by default
+    if [[ $files =~ (^| )$input($| ) ]]
+    then
+      #echo $input
+      link_file $input
+    fi
+  done
 
-    exit
+  exit
 fi
 
 # If there were no arguments are given then perform a default install
