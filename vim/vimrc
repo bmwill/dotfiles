@@ -1,103 +1,127 @@
-" .vimrc File
-" Created by: Brandon Williams
-" Date: 5/21/14
-
+" =========================================================
+" vimrc
+" Configuration file for Vim
+"
 " For more examples look at $VIMRUNTIME/vimrc_example.vim
+" =========================================================
 
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
+" -------------------------------------
+"         General Configuration
+" -------------------------------------
+
+" Use Vim settings, rather then Vi settings
+" This must be first, because it changes other options as a side effect
 set nocompatible
 
-" allow backspacing over everything in insert mode
+syntax on                 " Turns syntax on
+set history=1000          " Increase :cmdline history
+set showcmd               " Display incomplete commands
+set showmode              " Display current mode
+set number                " Turns on line numbering
+set ruler                 " Status line shows cursor position
+set mouse=a               " Enable the mouse in Terminal
+set wildmenu              " Allow Tab completion of commands
+set scrolloff=3           " Scroll 3 lines prior to horizontal border
+"set clipboard=unnamed    " Use the OS clipboard by default
+"let mapleader=","        " Change <Leader>, default is '\'
+
+" -------------------------------------
+"               Movement
+" -------------------------------------
+
+" Allow backspacing in insert mode
 set backspace=indent,eol,start
-" change how j and k function to move through wrapped lines
+
+" Change j and k to move through wrapped lines
 nmap j gj
 nmap k gk
-"set whichwrap+=<,>,h,l,[,] " <,> are cursor keys in normal and visual. [,] are the cursor keys in insert mode
 
-syntax on                   " Turns syntax on
-set number                  " Turns on line numbering
-set showcmd                 " Display incomplete commands in the last line of the screen
-set ruler                   " Status line shows cursor position
-set incsearch               " Search while typing
-"set ignorecase             " ignore case while searching
-set smartcase               " ignore case only when all lowercase
-set wildmenu                " Allow Tab completion of commands
-"set spell                  " Turns on spell checking.  Press z= with cursor on misspelled word for suggestions
+" -------------------------------------
+"               Colors
+" -------------------------------------
 
 " Set default colorscheme to desert
-colors desert "torte
+colors desert
 " If the 'molokai' colorscheme exists, use it instead
 silent! colors molokai
 
-" Use the OS clipboard by default (on versions compiled with `+clipboard`)
-"set clipboard=unnamed
-" Show “invisible” characters
-" tab:▸\ ,trail:·,eol:¬
-"set listchars=tab:,trail:,eol:,nbsp:_
-"set list
+" -------------------------------------
+"               Search
+" -------------------------------------
 
-" <Leader>  default is '\'
-" Change mapleader
-"let mapleader=","
+set incsearch       " Search while typing
+set hlsearch        " Highlight matching searches
+set ignorecase      " ignore case while searching
+set smartcase       " ignore case only when all lowercase
 
-" Start scrolling three lines before the horizontal window border
-set scrolloff=3
-
-set guifont=monospace
-" In an xterm the mouse should work quite well, thus enable it.
-set mouse=a
-
-set hlsearch
-
-" Clear Search highlighting when hitting ESC
-"nnoremap <esc> :noh<return><esc>
-"This unsets the "last search pattern" register by hitting return
+" Clear Search highlighting when hitting 'return'
+" This unsets the 'last search pattern' register
 nnoremap <CR> :noh<CR><CR>
 
-if has('gui_running')
-    set cursorline " Highlight the line containing the cursor
-endif 
+" -------------------------------------
+"             Indentation
+" -------------------------------------
 
-"""""""""""""""""""
-"   Indenting
-"""""""""""""""""""
+set autoindent      " Copy indentation from previous line
+set expandtab       " Expands tabs into spaces
+set tabstop=2       " Changes the width of the <TAB> character
+set shiftwidth=2    " Affects how automatic indentation works (>>,<<,==)
+set softtabstop=2   " Affects what happens when you press <TAB> or <BS>
 
-" Enable file type detection.
-" Use the default filetype settings, so that mail gets 'tw' set to 72,
-" 'cindent' is on in C files, etc.
-" Also load indent files, to automatically do language-dependent indenting.
+" Enable file type detection
+" Use the default filetype settings and
+" Load indent files, to automatically do language-dependent indenting
 filetype plugin indent on
 
-set autoindent              " Copy indentation from previous line
-"set smartindent                " Automatically inserts one extra level of indentation in some cases
-"set cindent                    " Same as smartindent but more strict
-set expandtab                   " Expands tabs into spaces
-set tabstop=2                   " Changes the width of the <TAB> character
-set shiftwidth=2                " Affects what happens when you press >>, <<, ==. Also affects how automatic indentation works
-set softtabstop=2               " Affects what happens when you press <TAB> or <BS>
+" Show 'invisible' whitespace characters
+set listchars=tab:▸-,trail:·,eol:¬,nbsp:_
+"set list
 
-"""""""""""""""""""
-"   Status Line   "
-"""""""""""""""""""
-set laststatus=2        " Always displays the status line
-set statusline=%t\      "tail of the filename
-"set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
-"set statusline+=%{&ff}] "file format
-set statusline+=%h      "help file flag
-set statusline+=%m      "modified flag
-set statusline+=%r      "read only flag
-set statusline+=%y      "filetype
-set statusline+=%=      "left/right separator
-set statusline+=%c,     "cursor column
-set statusline+=%l/%L   "cursor line/total lines
-set statusline+=\ %P    "percent through file
+" -------------------------------------
+"               Folding
+" -------------------------------------
 
-"""""""""""""""""""
-"   Gui Options   "
-"""""""""""""""""""
-set guioptions=agim
-"set guioptions+=e " change the tab heading style
+set foldmethod=indent   " Fold based on indent level
+set foldnestmax=3       " Deepest fold is 3 levels
+set nofoldenable        " Don't fold by Default
+
+" -------------------------------------
+"             Status Line
+" -------------------------------------
+
+set laststatus=2                  " Always displays the status line
+set statusline=%t\                " Tail of the filename
+set statusline+=%y                " Filetype
+set statusline+=%{FileFormat()}   " File Encoding/Format
+set statusline+=%r                " Read only flag
+set statusline+=%m                " Modified flag
+set statusline+=%=                " left/right separator
+set statusline+=%c,               " Cursor column
+set statusline+=%l/%L             " Cursor line/total lines
+set statusline+=\ %P              " Percent through file
+
+" Returns a string '[Encoding,Format]' for the statusline
+" if the encoding isn't 'utf-8' or the format isn't 'unix'
+function FileFormat()
+  let fmt = ''
+  if &fenc != 'utf-8'
+    let fmt = strlen(&fenc) ? &fenc : 'none'
+  endif
+
+  if &ff != 'unix'
+    let fmt = strlen(fmt) ? fmt . ',' . &ff : &ff
+  endif
+
+  return strlen(fmt) ? '[' . fmt . ']' : ''
+endfunction
+
+" -------------------------------------
+"             Gui Options
+" -------------------------------------
+if has('gui_running')
+  set cursorline      " Highlight the line containing the cursor
+  set guioptions=agim
+endif
 
 " Key Remaps
 noremap <c-s> :update<CR>
@@ -110,19 +134,17 @@ map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<
 " Highlights characters that exceed the 80 char/line maximum
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "match OverLength /\%>80v.\+/
-
-filetype plugin on
-autocmd BufNewFile,BufRead *.cc,*.cpp,*.h set syntax=cpp11
-autocmd BufNewFile,BufRead *.md set syntax=markdown
-autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\%>80v.\+/
-
-autocmd BufNewFile,BufRead *.js set tabstop=2 shiftwidth=2 softtabstop=2
 " Show trailing whitespace
 "autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\s\+$/
 " Show Tabs
 "autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\t/
 
-" Associate *.vx with verilog
-"autocmd BufRead,BufNewFile *.vx setfiletype verilog
-"autocmd FileType verilog setlocal shiftwidth=2 softtabstop=2 expandtab "syntax=verilog
-"autocmd FileType viva setlocal shiftwidth=2 softtabstop=2 expandtab "syntax=verilog
+" -------------------------------------
+"         File Specific Settings
+" -------------------------------------
+
+autocmd BufNewFile,BufRead *.cc,*.cpp,*.h set syntax=cpp11
+autocmd BufNewFile,BufRead *.md set syntax=markdown
+autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\%>80v.\+/
+
+autocmd BufNewFile,BufRead *.js set tabstop=2 shiftwidth=2 softtabstop=2
