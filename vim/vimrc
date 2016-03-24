@@ -102,17 +102,46 @@ set statusline+=\ %P              " Percent through file
 
 " Returns a string '[Encoding,Format]' for the statusline
 " if the encoding isn't 'utf-8' or the format isn't 'unix'
-function FileFormat()
-  let fmt = ''
+function! FileFormat()
+  let l:fmt = ''
   if &fenc != 'utf-8'
-    let fmt = strlen(&fenc) ? &fenc : 'none'
+    let l:fmt = strlen(&fenc) ? &fenc : 'none'
   endif
 
   if &ff != 'unix'
-    let fmt = strlen(fmt) ? fmt . ',' . &ff : &ff
+    let l:fmt = strlen(l:fmt) ? l:fmt . ',' . &ff : &ff
   endif
 
-  return strlen(fmt) ? '[' . fmt . ']' : ''
+  return strlen(l:fmt) ? '[' . l:fmt . ']' : ''
+endfunction
+
+" -------------------------------------
+"               Splits
+" -------------------------------------
+
+set splitbelow  " Open new splits to the bottom
+set splitright  " Open new splits to the right
+
+nnoremap <silent> <Right> :call IntelligentVerticalResize('right')<CR>
+nnoremap <silent> <Left> :call IntelligentVerticalResize('left')<CR>
+nnoremap <silent> <Up> :resize +1<CR>
+nnoremap <silent> <Down> :resize -1<CR>
+
+" Be aware of whether you are right or left vertical split
+" so you can use arrow keys more naturally to rezie windows
+function! g:IntelligentVerticalResize(direction) abort
+  let l:window_resize_count = 5
+  let l:current_window_is_last_window = (winnr() == winnr('$'))
+
+  if (a:direction ==# 'left')
+    let [l:modifier_1, l:modifier_2] = ['+', '-']
+  else
+    let [l:modifier_1, l:modifier_2] = ['-', '+']
+  endif
+
+  let l:modifier = l:current_window_is_last_window ? l:modifier_1 : l:modifier_2
+  let l:command = 'vertical resize ' . l:modifier . l:window_resize_count . '<CR>'
+  execute l:command
 endfunction
 
 " -------------------------------------
@@ -127,6 +156,13 @@ endif
 noremap <c-s> :update<CR>
 inoremap <c-s> <Esc>:update<CR>
 vmap <c-s> <Esc>:update<CR>gv
+
+" Execute current line or current selection as Vim EX commands.
+nnoremap <F2> :exe getline(".")<CR>
+vnoremap <F2> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
+
+" Convert word to all caps
+" gUiwgi
 
 " What is the current syntax highlighting group?
 map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#") . " BG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"bg#")<CR>
