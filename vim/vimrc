@@ -124,8 +124,12 @@ set splitright  " Open new splits to the right
 
 nnoremap <silent> <Right> :call IntelligentVerticalResize('right')<CR>
 nnoremap <silent> <Left> :call IntelligentVerticalResize('left')<CR>
-nnoremap <silent> <Up> :resize +1<CR>
-nnoremap <silent> <Down> :resize -1<CR>
+" Only map up and down arrows to resize if the GUI is running
+" This is because the CLI interprets mouse scrolling as arrow events
+if has('gui_running')
+  nnoremap <silent> <Up> :resize +1<CR>
+  nnoremap <silent> <Down> :resize -1<CR>
+end
 
 " Be aware of whether you are right or left vertical split
 " so you can use arrow keys more naturally to rezie windows
