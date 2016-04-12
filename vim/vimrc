@@ -124,8 +124,8 @@ set splitright  " Open new splits to the right
 
 nnoremap <silent> <Right> :call IntelligentVerticalResize('right')<CR>
 nnoremap <silent> <Left> :call IntelligentVerticalResize('left')<CR>
-nnoremap <silent> <Up> :resize +1<CR>
-nnoremap <silent> <Down> :resize -1<CR>
+"nnoremap <silent> <Up> :resize +1<CR>
+"nnoremap <silent> <Down> :resize -1<CR>
 
 " Be aware of whether you are right or left vertical split
 " so you can use arrow keys more naturally to rezie windows
