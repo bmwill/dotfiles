@@ -16,7 +16,7 @@ unset file;
 
 # Setup PATH
 # Add personal Scripts to PATH
-PATH=$PATH:/$HOME/dotfiles/bin
+PATH=$PATH:$HOME/dotfiles/bin
 
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend
