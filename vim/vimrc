@@ -45,6 +45,12 @@ colors desert
 " If the 'molokai' colorscheme exists, use it instead
 silent! colors molokai
 
+" disable Background Color Erase (BCE) so that color schemes
+" render properly when inside 256-color tmux and GNU screen.
+if &term =~ '256color'
+  set t_ut=
+endif
+
 " -------------------------------------
 "               Search
 " -------------------------------------
@@ -84,6 +90,10 @@ set listchars=tab:▸-,trail:·,eol:¬,nbsp:_
 set foldmethod=indent   " Fold based on indent level
 set foldnestmax=3       " Deepest fold is 3 levels
 set nofoldenable        " Don't fold by Default
+
+" Space to toggle folds
+nnoremap <Space> za
+vnoremap <Space> za
 
 " -------------------------------------
 "             Status Line
@@ -172,7 +182,7 @@ vnoremap <F2> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#") . " BG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"bg#")<CR>
 
 " Highlights characters that exceed the 80 char/line maximum
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+highlight OverLength ctermbg=88 ctermfg=white guibg=#592929
 "match OverLength /\%>80v.\+/
 " Show trailing whitespace
 "autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\s\+$/
@@ -187,4 +197,9 @@ autocmd BufNewFile,BufRead *.cc,*.cpp,*.h set syntax=cpp11
 autocmd BufNewFile,BufRead *.md set syntax=markdown
 autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\%>80v.\+/
 
-autocmd BufNewFile,BufRead *.js set tabstop=2 shiftwidth=2 softtabstop=2
+" Git Dev Settings
+autocmd! BufNewFile,BufReadPost $HOME/work/git/* call SetupGitEnv()
+function! SetupGitEnv()
+  "let l:path = expand('%:p')
+  setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab
+endfunction
