@@ -18,6 +18,18 @@ unset file;
 # Add personal Scripts to PATH
 PATH=$PATH:$HOME/dotfiles/bin
 
+# Ctrl+X Ctrl+E to enter editor to edit a command
+export EDITOR=vim
+# Enable vi style normal mode
+# Run 'bind -P' to see if mode has been applied correctly
+#set -o vi
+
+# Stop ctrl-s and ctrl-q from sending START/STOP signals
+stty -ixon -ixoff
+
+# must press ctrl-D 2+1 times to exit shell
+export IGNOREEOF="2"
+
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend
 
