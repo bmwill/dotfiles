@@ -1,6 +1,9 @@
 [include]
-    path = ~/.gitconfig.local
+	path = ~/.gitconfig.local
 
 [core]
-    excludesfile = ~/.gitignore
-    editor = vim
+	excludesfile = ~/.gitignore
+	editor = vim
+[alias]
+	unstage = reset HEAD --
+	last = log -1 HEAD
