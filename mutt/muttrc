@@ -51,9 +51,6 @@ set sidebar_divider_char = '│'
 set sidebar_visible = yes
 set sidebar_width   = 25
 set sidebar_format = "%B %> %N"
-#color sidebar_new color221 color233
-#color sidebar_highlight brightcolor39 color233
-#color sidebar_indicator brightcolor7 color233
 
 bind index,pager <down>   sidebar-next
 bind index,pager <up>     sidebar-prev
@@ -137,6 +134,7 @@ macro index c "<change-folder>?<toggle-mailboxes>"  "change folder"
 macro index \' "<change-folder>+INBOX<enter>"   "go to INBOX"
 #macro index \" "<change-folder>+archive<enter>" "go to archive"
 macro index gi "<change-folder>=INBOX<enter>" "Go to INBOX"
+macro index ,g "<change-folder>=git_me<enter>" "Go to git_me"
 macro index ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
 macro index gs "<change-folder>=[Gmail]/Starred<enter>" "Go to starred messages"
 macro index gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"

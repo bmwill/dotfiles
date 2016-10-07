@@ -4,6 +4,32 @@
 #
 # make sure that you are using mutt linked against slang, not ncurses, or
 # suffer the consequences of weird color issues. use "mutt -v" to check this.
+#
+# bmwill: Well it seems like slang doesn't work now?
+#
+#
+# Dark Color Palette
+#J_base03        ,color234        ,brightblack     ,
+#J_base02        ,color235        ,black           ,
+#J_base01        ,color240        ,brightgreen     ,
+#J_base00        ,color241        ,brightyellow    ,
+#J_base0         ,color244        ,brightblue      ,
+#J_base1         ,color245        ,brightcyan      ,
+#J_base2         ,color254        ,white           ,
+#J_base3         ,color230        ,brightwhite     ,
+#J_yellow        ,color136        ,yellow          ,
+#J_orange        ,color166        ,brightred       ,
+#J_red           ,color160        ,red             ,
+#J_magenta       ,color125        ,magenta         ,
+#J_violet        ,color61         ,brightmagenta   ,
+#J_blue          ,color33         ,blue            ,
+#J_cyan          ,color37         ,cyan            ,
+#J_green         ,color64         ,green           ,
+#J_bg            ,color234        ,default         ,
+#J_fg            ,color244        ,default         ,
+#J_statusfg      ,color241        ,brightyellow    ,
+#J_statusbg      ,color235        ,black           ,
+#
 
 # custom body highlights -----------------------------------------------
 # highlight my name and other personally relevant strings
@@ -35,6 +61,8 @@ color search        color61         color234
 color status        color241        color235        
 color indicator     color234        color136        
 color tree          color136        color234                                    # arrow in threads
+color sidebar_new   color33        color234
+#color sidebar_highlight brightcolor39 color233
 
 # basic monocolor screen
 mono  bold          bold
@@ -69,20 +97,22 @@ color index         color160        color234        "~N~F"                      
 color index         color160        color234        "~N~F~p"                    # new flagged messages to me
 color index         color160        color234        "~U~F~p"                    # new flagged messages to me
 color index         color235        color160        "~D"                        # deleted messages
-color index         color245        color234        "~v~(!~N)"                  # collapsed thread with no unread
-color index         color136        color234        "~v~(~N)"                   # collapsed thread with some unread
-color index         color64         color234        "~N~v~(~N)"                 # collapsed thread with unread parent
+color index         color245        color235        "~v~(!~N)"                  # collapsed thread with no unread
+color index         color33        color235        "~v~(~N)"                   # collapsed thread with some unread
+color index         color37        color235        "~v~(~N~p)"                   # collapsed thread with some unread to me
+#color index         color64         color235        "~N~v~(~N)"                 # collapsed thread with unread parent
 # statusbg used to indicated flagged when foreground color shows other status
 # for collapsed thread
 color index         color160        color235        "~v~(~F)!~N"                # collapsed thread with flagged, no unread
 color index         color136        color235        "~v~(~F~N)"                 # collapsed thread with some unread & flagged
 color index         color64         color235        "~N~v~(~F~N)"               # collapsed thread with unread parent & flagged
 color index         color64         color235        "~N~v~(~F)"                 # collapsed thread with unread parent, no unread inside, but some flagged
-color index         color37         color235        "~v~(~p)"                   # collapsed thread with unread parent, no unread inside, some to me directly
+#color index         color37         color235        "~v~(~p)"                   # collapsed thread with unread parent, no unread inside, some to me directly
 color index         color136        color160        "~v~(~D)"                   # thread with deleted (doesn't differentiate between all or partial)
 #color index         color136        color234        "~(~N)"                    # messages in threads with some unread
 #color index         color64         color234        "~S"                       # superseded messages
-#color index         color160        color234        "~T"                       # tagged messages
+color index         color136        color234        "~T"                       # tagged messages
+color index         color136        color235        "~v~(~T)"                       # collapsed thread with tagged messages
 #color index         color166        color160        "~="                       # duplicated messages
 
 # message headers ------------------------------------------------------
