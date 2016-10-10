@@ -19,6 +19,7 @@ set showcmd               " Display incomplete commands
 set showmode              " Display current mode
 set number                " Turns on line numbering
 set ruler                 " Status line shows cursor position
+set cursorline            " Highlight the line containing the cursor
 set mouse=a               " Enable the mouse in Terminal
 set wildmenu              " Allow Tab completion of commands
 set scrolloff=3           " Scroll 3 lines prior to horizontal border
@@ -41,9 +42,12 @@ nmap k gk
 " -------------------------------------
 
 " Set default colorscheme to desert
-colors desert
+colorscheme desert
 " If the 'molokai' colorscheme exists, use it instead
-silent! colors molokai
+" as well as making it look closer to the gui colors
+let g:molokai_original = 1
+let g:rehash256 = 1
+silent! colorscheme molokai
 
 " disable Background Color Erase (BCE) so that color schemes
 " render properly when inside 256-color tmux and GNU screen.
@@ -132,14 +136,14 @@ endfunction
 set splitbelow  " Open new splits to the bottom
 set splitright  " Open new splits to the right
 
-nnoremap <silent> <Right> :call IntelligentVerticalResize('right')<CR>
-nnoremap <silent> <Left> :call IntelligentVerticalResize('left')<CR>
-" Only map up and down arrows to resize if the GUI is running
-" This is because the CLI interprets mouse scrolling as arrow events
-if has('gui_running')
-  nnoremap <silent> <Up> :resize +1<CR>
-  nnoremap <silent> <Down> :resize -1<CR>
-end
+"nnoremap <silent> <Right> :call IntelligentVerticalResize('right')<CR>
+"nnoremap <silent> <Left> :call IntelligentVerticalResize('left')<CR>
+"" Only map up and down arrows to resize if the GUI is running
+"" This is because the CLI interprets mouse scrolling as arrow events
+"if has('gui_running')
+"  nnoremap <silent> <Up> :resize +1<CR>
+"  nnoremap <silent> <Down> :resize -1<CR>
+"end
 
 " Be aware of whether you are right or left vertical split
 " so you can use arrow keys more naturally to rezie windows
@@ -162,9 +166,21 @@ endfunction
 "             Gui Options
 " -------------------------------------
 if has('gui_running')
-  set cursorline      " Highlight the line containing the cursor
   set guioptions=agim
 endif
+
+" allows cursor change in tmux mode
+"if exists('$TMUX')
+"  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"  let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+"  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"else
+"  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+"  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"endif
+
+"set relativenumber!
 
 " Key Remaps
 noremap <c-s> :update<CR>
@@ -175,14 +191,23 @@ vmap <c-s> <Esc>:update<CR>gv
 nnoremap <F2> :exe getline(".")<CR>
 vnoremap <F2> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 
+" edit vimrc and load vimrc bindings
+" nnoremap <leader>ev :vsp $MYVIMRC<CR>
+" nnoremap <leader>sv :source $MYVIMRC<CR>
+
 " Convert word to all caps
 " gUiwgi
+
+" highlight last inserted text
+" nnoremap gV `[v`]
+
+" set virtualedit+=block
 
 " What is the current syntax highlighting group?
 map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#") . " BG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"bg#")<CR>
 
 " Highlights characters that exceed the 80 char/line maximum
-highlight OverLength ctermbg=88 ctermfg=white guibg=#592929
+highlight OverLength ctermbg=52 guibg=#592929
 "match OverLength /\%>80v.\+/
 " Show trailing whitespace
 "autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\s\+$/
