@@ -7,3 +7,4 @@
 [alias]
 	unstage = reset HEAD --
 	last = log -1 HEAD
+  discard = checkout --
