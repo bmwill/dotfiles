@@ -48,13 +48,13 @@ bind editor <space> noop  # allow IMAP folders with spaces in their names
 
 # Sidebar --------------------------------------------
 set sidebar_divider_char = '│'
-set sidebar_visible = yes
+#set sidebar_visible = yes
 set sidebar_width   = 25
 set sidebar_format = "%B %> %N"
 
-bind index,pager <down>   sidebar-next
-bind index,pager <up>     sidebar-prev
-bind index,pager <right>  sidebar-open
+#bind index,pager <down>   sidebar-next
+#bind index,pager <up>     sidebar-prev
+#bind index,pager <right>  sidebar-open
 
 # Status Bar -----------------------------------------
 set status_chars  = " *%A"
@@ -68,7 +68,7 @@ set sort_aux = reverse-last-date-received  # like gmail
 set uncollapse_jump                        # don't collapse on an unread message
 set sort_re                                # thread based on regex
 set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
-set folder_format = "%2C %t %N %8s %f"
+set folder_format = "%2C %t %5n %8s %f"
 
 # Pager View Options ---------------------------------
 set pager_index_lines = 10 # number of index lines to show
@@ -131,14 +131,14 @@ macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 
 # Quickly change mailboxes
 macro index c "<change-folder>?<toggle-mailboxes>"  "change folder"
-macro index \' "<change-folder>+INBOX<enter>"   "go to INBOX"
-#macro index \" "<change-folder>+archive<enter>" "go to archive"
 macro index gi "<change-folder>=INBOX<enter>" "Go to INBOX"
-macro index ,g "<change-folder>=git_me<enter>" "Go to git_me"
-macro index ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
-macro index gs "<change-folder>=[Gmail]/Starred<enter>" "Go to starred messages"
+macro index gm "<change-folder>=git_me<enter>" "Go to git_me"
 macro index gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"
 macro index gt "<change-folder>=[Gmail]/Trash<enter>" "Go to trash"
+#macro index \' "<change-folder>+INBOX<enter>"   "go to INBOX"
+#macro index \" "<change-folder>+archive<enter>" "go to archive"
+#macro index ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
+#macro index gs "<change-folder>=[Gmail]/Starred<enter>" "Go to starred messages"
 
 # Unlimit (show [a]ll)
 macro index a "<limit>all\n" "show all messages (undo limit)"
