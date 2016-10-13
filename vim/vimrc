@@ -13,6 +13,11 @@
 " This must be first, because it changes other options as a side effect
 set nocompatible
 
+" Load plugins if Vundle exists
+if !empty(glob("$HOME/.vim/bundle/Vundle.vim"))
+  source $HOME/.vim/plugins.vim
+endif
+
 syntax on                 " Turns syntax on
 set history=1000          " Increase :cmdline history
 set showcmd               " Display incomplete commands
@@ -24,7 +29,8 @@ set mouse=a               " Enable the mouse in Terminal
 set wildmenu              " Allow Tab completion of commands
 set scrolloff=3           " Scroll 3 lines prior to horizontal border
 "set clipboard=unnamed    " Use the OS clipboard by default
-"let mapleader=","        " Change <Leader>, default is '\'
+let mapleader=","         " Change <Leader>, default is '\'
+set timeoutlen=2000       " 2 sec timeout for <Leader> commands
 
 " -------------------------------------
 "               Movement
@@ -110,7 +116,7 @@ set statusline+=%{FileFormat()}   " File Encoding/Format
 set statusline+=%r                " Read only flag
 set statusline+=%m                " Modified flag
 set statusline+=%=                " left/right separator
-set statusline+=%c,               " Cursor column
+set statusline+=%c%V,             " Cursor column
 set statusline+=%l/%L             " Cursor line/total lines
 set statusline+=\ %P              " Percent through file
 
@@ -191,15 +197,32 @@ vmap <c-s> <Esc>:update<CR>gv
 nnoremap <F2> :exe getline(".")<CR>
 vnoremap <F2> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 
+" Remove all trailing whitespace by pressing F5
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+nnoremap <leader>m :call ToggleMouse()<CR>
+function! ToggleMouse()
+  " check if mouse is enabled
+  if &mouse == 'a'
+    " disable mouse
+    set mouse=
+  else
+    " enable mouse everywhere
+    set mouse=a
+  endif
+endfunc
+
+nnoremap <leader>sp :set spell!<CR>
+
 " edit vimrc and load vimrc bindings
-" nnoremap <leader>ev :vsp $MYVIMRC<CR>
-" nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Convert word to all caps
 " gUiwgi
 
 " highlight last inserted text
-" nnoremap gV `[v`]
+nnoremap gV `[v`]
 
 " set virtualedit+=block
 
