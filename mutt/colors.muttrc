@@ -1,0 +1,134 @@
+# vim: filetype=muttrc
+# Mutt Colorscheme based on the Solarized Dark 256 theme
+
+# Maybe increment 234 to 235 and 235 to 236?
+# Dark Color Palette
+set my_base03   = color234    # brightblack
+set my_base02   = color235    # black
+set my_base01   = color240    # brightgreen
+set my_base00   = color241    # brightyellow
+set my_base0    = color244    # brightblue
+set my_base1    = color245    # brightcyan
+set my_base2    = color254    # white
+set my_base3    = color230    # brightwhite
+set my_yellow   = color136    # yellow
+set my_orange   = color166    # brightred
+set my_red      = color160    # red
+set my_magenta  = color125    # magenta
+set my_violet   = color61     # brightmagenta
+set my_blue     = color33     # blue
+set my_cyan     = color37     # cyan
+set my_green    = color64     # green
+set my_bg       = color234    # default
+set my_fg       = color244    # default
+set my_statusfg = color241    # brightyellow
+set my_statusbg = color235    # black
+
+# custom body highlights -----------------------------------------------
+# highlight my name and other personally relevant strings
+color body        $my_yellow    $my_bg    "(brandon|williams)"
+
+# basic colors ---------------------------------------------------------
+color normal      $my_base00    $my_bg
+color error       $my_red       $my_bg
+color tilde       $my_base02    $my_bg
+color message     $my_cyan      $my_bg
+color markers     $my_red       $my_base2
+color attachment  $my_base2     $my_bg
+color search      $my_violet    $my_bg
+color status      $my_base00    $my_statusbg
+color indicator   $my_base03    $my_yellow
+color tree        $my_yellow    $my_bg
+color sidebar_new $my_blue      $my_bg
+
+# index ----------------------------------------------------------------
+
+color index       $my_red       $my_bg          "~A"            # all messages
+color index       $my_orange    $my_bg          "~E"            # expired messages
+color index       $my_blue      $my_bg          "~N"            # new messages
+color index       $my_blue      $my_bg          "~O"            # old messages
+color index       $my_violet    $my_bg          "~Q"            # messages that have been replied to
+color index       $my_base01    $my_bg          "~R"            # read messages
+color index       $my_blue      $my_bg          "~U"            # unread messages
+color index       $my_blue      $my_bg          "~U~$"          # unread, unreferenced messages
+color index       $my_base00    $my_bg          "~v"            # messages part of a collapsed thread
+color index       $my_base00    $my_bg          "~P"            # messages from me
+color index       $my_cyan      $my_bg          "~p!~F"         # messages to me
+color index       $my_cyan      $my_bg          "~N~p!~F"       # new messages to me
+color index       $my_cyan      $my_bg          "~U~p!~F"       # unread messages to me
+color index       $my_base01    $my_bg          "~R~p!~F"       # messages to me
+color index       $my_red       $my_bg          "~F"            # flagged messages
+color index       $my_red       $my_bg          "~F~p"          # flagged messages to me
+color index       $my_red       $my_bg          "~N~F"          # new flagged messages
+color index       $my_red       $my_bg          "~N~F~p"        # new flagged messages to me
+color index       $my_red       $my_bg          "~U~F~p"        # new flagged messages to me
+color index       $my_base02    $my_red         "~D"            # deleted messages
+color index       $my_base1     $my_statusbg    "~v~(!~N)"      # collapsed thread with no unread
+color index       $my_blue      $my_statusbg    "~v~(~N)"       # collapsed thread with some unread
+color index       $my_cyan      $my_statusbg    "~v~(~N~p)"     # collapsed thread with some unread to me
+#color index       $my_green     $my_statusbg    "~N~v~(~N)"     # collapsed thread with unread parent
+color index       $my_red       $my_statusbg    "~v~(~F)!~N"    # collapsed thread with flagged, no unread
+color index       $my_yellow    $my_statusbg    "~v~(~F~N)"     # collapsed thread with some unread & flagged
+color index       $my_green     $my_statusbg    "~N~v~(~F~N)"   # collapsed thread with unread parent & flagged
+color index       $my_green     $my_statusbg    "~N~v~(~F)"     # collapsed thread with unread parent, no unread inside, but some flagged
+color index       $my_yellow    $my_red         "~v~(~D)"       # thread with deleted (doesn't differentiate between all or partial)
+color index       $my_yellow    $my_bg          "~T"            # tagged messages
+color index       $my_yellow    $my_statusbg    "~v~(~T)"       # collapsed thread with tagged messages
+
+# message headers ------------------------------------------------------
+
+color hdrdefault  $my_base01    $my_bg
+color header      $my_base00    $my_bg    "^(From)"
+color header      $my_blue      $my_bg    "^(Subject)"
+
+# body -----------------------------------------------------------------
+
+color quoted      $my_blue      $my_bg
+color quoted1     $my_cyan      $my_bg
+color quoted2     $my_yellow    $my_bg
+color quoted3     $my_red       $my_bg
+color quoted4     $my_orange    $my_bg
+
+color signature   $my_base01    $my_bg
+color bold        $my_base02    $my_bg
+color underline   $my_base02    $my_bg
+color normal      $my_fg        $my_bg
+
+# Various smilies and emoticons
+color body        $my_base1     $my_bg    "[;:][-o][)/(|]"      # emoticons
+color body        $my_base1     $my_bg    "[;:][)(|]"           # emoticons
+color body        $my_base3     $my_bg    "<[Gg]>"              # <g>
+color body        $my_base3     $my_bg    "<[Bb][Gg]>"          # <bg>
+color body        $my_yellow    $my_bg    " [;:]-*[})>{(<|]"    # :-) etc...
+color body        $my_base1     $my_bg    "[ ][*][^*]*[*][ ]?"  # more emoticon?
+color body        $my_base1     $my_bg    "[ ]?[*][^*]*[*][ ]"  # more emoticon?
+color body        $my_base1     $my_bg    "[*]?((N)?ACK|CU|LOL|SCNR|BRB|BTW|CWYL|\
+                                           |FWIW|vbg|GD&R|HTH|HTHBE|IMHO|IMNSHO|\
+                                           |IRL|RTFM|ROTFL|ROFL|YMMV)[*]?"
+
+# *bold*
+color body        $my_blue      $my_bg    "(^|[[:space:][:punct:]])\\*[^*]+\\*([[:space:][:punct:]]|$)"
+# _underline_
+color body        $my_blue      $my_bg    "(^|[[:space:][:punct:]])_[^_]+_([[:space:][:punct:]]|$)"
+# /italic/  (Sometimes gets directory names)
+color body        $my_blue      $my_bg    "(^|[[:space:][:punct:]])/[^/]+/([[:space:][:punct:]]|$)"
+# Border lines.
+color body        $my_blue      $my_bg    "( *[-+=#*~_]){6,}"
+
+# Patch syntax highlighting
+#color   normal    white         $my_bg
+#color   body      brightwhite   $my_bg   "^[[:space:]].*"
+color   body      brightwhite   $my_bg    "^(diff).*"
+color   body      green         $my_bg    "^[\+].*"
+color   body      red           $my_bg    "^[\-].*"
+color   body      white         $my_bg    "^---.*"
+color   body      white         $my_bg    "^[\+][\+][\+].*"
+color   body      brightblue    $my_bg    "^[@@].*[@@]"
+#color   body      brightwhite   $my_bg   "^(\s).*"
+#color   body      brightwhite   $my_bg   "^(Signed-off-by).*"
+#color   body      brightwhite   $my_bg   "^(Cc)"
+
+# yes, an insance URL regex
+color body        $my_red       $my_bg    "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+# and a heavy handed email regex
+color body        $my_magenta   $my_bg    "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
