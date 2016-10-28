@@ -11,8 +11,8 @@
 # List of files or directories to be linked
 # must specify the relative path from ./ to each file
 #
-files="vim bash/bashrc bash/bash_profile bash/bash_prompt bash/aliases
-       git/gitignore mutt tmux/tmux.conf"
+files=(vim bash/bashrc bash/bash_profile bash/bash_prompt bash/aliases
+       git/gitignore mutt tmux/tmux.conf)
 
 curdir=`pwd`
 backupdir=~/dotfiles_bkup
@@ -61,7 +61,7 @@ link_file() {
 install_dotfiles() {
   info "Installing Dotfiles"
 
-  for file in $files
+  for file in "${files[@]}"
   do
     link_file $file
   done
@@ -93,7 +93,7 @@ then
   do
     # Check if the file the user wants to install is part
     # of the group of files that get installed by default
-    if [[ $files =~ (^| )$input($| ) ]]
+    if [[ "${files[@]}" =~ (^| )$input($| ) ]]
     then
       #echo $input
       link_file $input
