@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ `uname` == 'Linux' ]]; then
+  load_average="$(cut -d' ' -f 1-3 /proc/loadavg)"
+else
+  load_average="$(uptime | cut -d',' -f4 | cut -d' ' -f 4-)"
+fi
+
+echo -n "$load_average"
