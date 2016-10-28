@@ -12,7 +12,7 @@
 # must specify the relative path from ./ to each file
 #
 files="vim bash/bashrc bash/bash_profile bash/bash_prompt bash/aliases
-       git/gitignore mutt"
+       git/gitignore mutt tmux/tmux.conf"
 
 curdir=`pwd`
 backupdir=~/dotfiles_bkup
