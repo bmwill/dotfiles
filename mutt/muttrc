@@ -157,6 +157,10 @@ bind pager j  next-line
 bind pager gg top
 bind pager G  bottom
 
+# Allow mouse wheel to scroll through messages
+bind pager <up>   previous-line
+bind pager <down> next-line
+
 bind pager R  group-reply
 bind pager N  search-opposite
 
