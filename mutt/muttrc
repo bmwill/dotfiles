@@ -47,10 +47,10 @@ set editor = "vim"        # Use terminal Vim to compose email
 bind editor <space> noop  # allow IMAP folders with spaces in their names
 
 # Sidebar --------------------------------------------
-set sidebar_divider_char = '│'
+#set sidebar_divider_char = '│'
 #set sidebar_visible = yes
-set sidebar_width   = 25
-set sidebar_format = "%B %> %N"
+#set sidebar_width   = 25
+#set sidebar_format = "%B %> %N"
 
 #bind index,pager <down>   sidebar-next
 #bind index,pager <up>     sidebar-prev

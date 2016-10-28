@@ -38,7 +38,7 @@ color search      $my_violet    $my_bg
 color status      $my_base00    $my_statusbg
 color indicator   $my_base03    $my_yellow
 color tree        $my_yellow    $my_bg
-color sidebar_new $my_blue      $my_bg
+#color sidebar_new $my_blue      $my_bg
 
 # index ----------------------------------------------------------------
 
