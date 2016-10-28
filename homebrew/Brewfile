@@ -14,6 +14,7 @@
 brew 'coreutils'
 brew 'git'
 brew 'bash-completion'
+#brew 'shpotify' # spotify from the cmdline
 #install id3lib
 #install archey
 #install imagemagick
