@@ -30,7 +30,7 @@ set wildmenu              " Allow Tab completion of commands
 set scrolloff=3           " Scroll 3 lines prior to horizontal border
 "set clipboard=unnamed    " Use the OS clipboard by default
 let mapleader=","         " Change <Leader>, default is '\'
-set timeoutlen=2000       " 2 sec timeout for <Leader> commands
+"set timeoutlen=2000       " 2 sec timeout for <Leader> commands
 
 " -------------------------------------
 "               Movement
