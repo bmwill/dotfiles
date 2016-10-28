@@ -5,6 +5,8 @@
 	excludesfile = ~/.gitignore
 	editor = vim
 [alias]
+	# list all aliases
+	la = "!git config -l | grep '^alias' | cut -c 7-"
 	unstage = reset HEAD --
 	last = log -1 HEAD
-  discard = checkout --
+	discard = checkout --
