@@ -254,6 +254,16 @@ function! SetupGitEnv()
   setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab
 endfunction
 
+" Line Return
+" Make sure Vim returns to the same line when you reopen a file.
+augroup line_return
+  autocmd!
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \     execute 'normal! g`"zvzz' |
+    \ endif
+augroup END
+
 " ---------
 " Backups
 " ---------
