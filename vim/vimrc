@@ -253,3 +253,23 @@ function! SetupGitEnv()
   "let l:path = expand('%:p')
   setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab
 endfunction
+
+" ---------
+" Backups
+" ---------
+
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+set viminfo+=n~/.vim/.viminfo     " viminfo location
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
