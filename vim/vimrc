@@ -229,7 +229,12 @@ nnoremap gV `[v`]
 " set virtualedit+=block
 
 " What is the current syntax highlighting group?
-map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#") . " BG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"bg#")<CR>
+map <F3> :echo
+  \   "hi<" . synIDattr(synID(line("."),col("."),1),"name") . ">"
+  \ . " trans<" . synIDattr(synID(line("."),col("."),0),"name") . ">"
+  \ . " lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
+  \ . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")
+  \ . " BG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"bg#")<CR>
 
 " Highlights characters that exceed the 80 char/line maximum
 highlight OverLength ctermbg=52 guibg=#592929
