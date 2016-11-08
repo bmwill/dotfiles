@@ -1,6 +1,7 @@
 vim/bundle/
 vim/.netrwhist
 vim/.viminfo
+*.spl
 vim/tmp/
 mutt/tmp/
 *.swp

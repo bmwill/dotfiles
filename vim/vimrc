@@ -214,7 +214,9 @@ function! ToggleMouse()
   endif
 endfunc
 
-nnoremap <leader>sp :set spell!<CR>
+nnoremap <leader>sp :setlocal spell!<CR>
+set spelllang=en_us
+set spellfile=~/.vim/spell/dictionary.utf-8.add
 
 " edit vimrc and load vimrc bindings
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
