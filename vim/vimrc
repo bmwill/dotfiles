@@ -27,6 +27,7 @@ set ruler                 " Status line shows cursor position
 set cursorline            " Highlight the line containing the cursor
 set mouse=a               " Enable the mouse in Terminal
 set wildmenu              " Allow Tab completion of commands
+set wildmode=list:longest " complete till longest common string
 set wildignore+=*.o       " ignore compiled object files
 set scrolloff=3           " Scroll 3 lines prior to horizontal border
 "set clipboard=unnamed    " Use the OS clipboard by default
