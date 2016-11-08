@@ -34,7 +34,7 @@ color tilde       $my_base02    $my_bg
 color message     $my_cyan      $my_bg
 color markers     $my_red       $my_base2
 color attachment  $my_base2     $my_bg
-color search      $my_violet    $my_bg
+color search      $my_base03    $my_yellow
 color status      $my_base00    $my_statusbg
 color indicator   $my_base03    $my_yellow
 color tree        $my_yellow    $my_bg
@@ -122,7 +122,7 @@ color   body      green         $my_bg    "^[\+].*"
 color   body      red           $my_bg    "^[\-].*"
 color   body      white         $my_bg    "^---.*"
 color   body      white         $my_bg    "^[\+][\+][\+].*"
-color   body      brightblue    $my_bg    "^[@@].*[@@]"
+color   body      $my_cyan      $my_bg    "^[@@].*[@@]"
 #color   body      brightwhite   $my_bg   "^(\s).*"
 #color   body      brightwhite   $my_bg   "^(Signed-off-by).*"
 #color   body      brightwhite   $my_bg   "^(Cc)"
