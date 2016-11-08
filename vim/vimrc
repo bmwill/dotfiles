@@ -33,7 +33,6 @@ set scrolloff=3           " Scroll 3 lines prior to horizontal border
 let mapleader=","         " Change <Leader>, default is '\'
 "set timeoutlen=2000       " 2 sec timeout for <Leader> commands
 
-
 " -------------------------------------
 "               Movement
 " -------------------------------------
@@ -62,6 +61,34 @@ silent! colorscheme molokai
 if &term =~ '256color'
   set t_ut=
 endif
+
+" -----------
+"   Backups
+" -----------
+
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+set viminfo+=n~/.vim/.viminfo     " viminfo location
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
+" ------------
+"   Spelling
+" ------------
+
+nnoremap <leader>sp :setlocal spell!<CR>
+set spelllang=en_us
+set spellfile=~/.vim/spell/dictionary.utf-8.add
 
 " -------------------------------------
 "               Search
@@ -188,12 +215,24 @@ endif
 "  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "endif
 
-"set relativenumber!
+" -----------------
+"   Quick Editing
+" -----------------
 
-" Key Remaps
-noremap <c-s> :update<CR>
+" edit vimrc and load vimrc bindings
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" --------------------
+"   General Mappings
+" --------------------
+
+nnoremap <leader>nr :setlocal relativenumber!
+
+" Save with <C-s>
+nnoremap <c-s> :update<CR>
 inoremap <c-s> <Esc>:update<CR>
-vmap <c-s> <Esc>:update<CR>gv
+vnoremap <c-s> <Esc>:update<CR>gv
 
 " Execute current line or current selection as Vim EX commands.
 nnoremap <F2> :exe getline(".")<CR>
@@ -213,14 +252,6 @@ function! ToggleMouse()
     set mouse=a
   endif
 endfunc
-
-nnoremap <leader>sp :setlocal spell!<CR>
-set spelllang=en_us
-set spellfile=~/.vim/spell/dictionary.utf-8.add
-
-" edit vimrc and load vimrc bindings
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Convert word to all caps
 " gUiwgi
@@ -251,7 +282,7 @@ highlight OverLength ctermbg=52 guibg=#592929
 " -------------------------------------
 
 autocmd BufNewFile,BufRead *.cc,*.cpp,*.h set syntax=cpp11
-autocmd BufNewFile,BufRead *.md set syntax=markdown
+"autocmd BufNewFile,BufRead *.md set syntax=markdown
 autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\%>80v.\+/
 
 " Git Dev Settings
@@ -270,23 +301,3 @@ augroup line_return
     \     execute 'normal! g`"zvzz' |
     \ endif
 augroup END
-
-" ---------
-" Backups
-" ---------
-
-set undodir=~/.vim/tmp/undo//     " undo files
-set backupdir=~/.vim/tmp/backup// " backups
-set directory=~/.vim/tmp/swap//   " swap files
-set viminfo+=n~/.vim/.viminfo     " viminfo location
-
-" Make those folders automatically if they don't already exist.
-if !isdirectory(expand(&undodir))
-    call mkdir(expand(&undodir), "p")
-endif
-if !isdirectory(expand(&backupdir))
-    call mkdir(expand(&backupdir), "p")
-endif
-if !isdirectory(expand(&directory))
-    call mkdir(expand(&directory), "p")
-endif
