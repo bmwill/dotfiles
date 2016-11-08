@@ -113,6 +113,7 @@ bind index gg       first-entry
 bind index G        last-entry
 
 bind index R        group-reply
+bind index \cr      group-reply
 bind index <tab>    sync-mailbox
 bind index p        recall-message
 bind index <space>  collapse-thread
@@ -161,8 +162,9 @@ bind pager G  bottom
 bind pager <up>   previous-line
 bind pager <down> next-line
 
-bind pager R  group-reply
-bind pager N  search-opposite
+bind pager R    group-reply
+bind pager \cr  group-reply
+bind pager N    search-opposite
 
 #macro pager \Cu "|urlview<enter>" "call urlview to open links"
 macro pager s "<pipe-message>cat > ~/Downloads/"  "save message as"
