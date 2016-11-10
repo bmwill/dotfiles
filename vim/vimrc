@@ -122,6 +122,8 @@ filetype plugin indent on
 " Show 'invisible' whitespace characters
 set listchars=tab:▸-,trail:·,eol:¬,nbsp:_
 "set list
+" Toggle [i]nvisible characters
+" nnoremap <leader>i :set list!<cr>
 
 " -------------------------------------
 "               Folding
@@ -256,6 +258,14 @@ endfunc
 
 " Convert word to all caps
 " gUiwgi
+
+" Wrap
+" nnoremap <leader>W :set wrap!<cr>
+
+noremap <leader>p "*p
+
+" Yank to end of line
+nnoremap Y y$
 
 " highlight last inserted text
 nnoremap gV `[v`]
