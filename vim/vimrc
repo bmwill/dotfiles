@@ -22,6 +22,8 @@ syntax on                 " Turns syntax on
 set history=1000          " Increase :cmdline history
 set showcmd               " Display incomplete commands
 set showmode              " Display current mode
+set autoread              " read file when it is modified outside of vim
+set autowrite             " write file when running some buffer motion commands
 set number                " Turns on line numbering
 set ruler                 " Status line shows cursor position
 set cursorline            " Highlight the line containing the cursor
@@ -33,6 +35,7 @@ set scrolloff=3           " Scroll 3 lines prior to horizontal border
 "set clipboard=unnamed    " Use the OS clipboard by default
 let mapleader=","         " Change <Leader>, default is '\'
 "set timeoutlen=2000       " 2 sec timeout for <Leader> commands
+"set cpoptions+=J         " use two spaces to denote a sentence
 
 " -------------------------------------
 "               Movement
@@ -62,6 +65,9 @@ silent! colorscheme molokai
 if &term =~ '256color'
   set t_ut=
 endif
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " -----------
 "   Backups
@@ -136,6 +142,9 @@ set nofoldenable        " Don't fold by Default
 " Space to toggle folds
 nnoremap <Space> za
 vnoremap <Space> za
+
+" Make zO recursively open whatever fold we're in, even if it's partially open.
+nnoremap zO zczO
 
 " -------------------------------------
 "             Status Line
@@ -241,8 +250,9 @@ vnoremap <c-s> <Esc>:update<CR>gv
 nnoremap <F2> :exe getline(".")<CR>
 vnoremap <F2> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 
-" Remove all trailing whitespace by pressing F5
-nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+" Remove all trailing whitespace by pressing F5 (maybe <leader>ww)
+" uses mark 'z'
+nnoremap <F5> mz:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>`z
 
 nnoremap <leader>m :call ToggleMouse()<CR>
 function! ToggleMouse()
@@ -289,7 +299,7 @@ highlight OverLength ctermbg=52 guibg=#592929
 "autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\t/
 
 " -------------------------------------
-"         File Specific Settings
+"       Filetype Specific Settings
 " -------------------------------------
 
 autocmd BufNewFile,BufRead *.cc,*.cpp,*.h set syntax=cpp11
@@ -311,4 +321,11 @@ augroup line_return
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \     execute 'normal! g`"zvzz' |
     \ endif
+augroup END
+
+" Standard In
+augroup ft_stdin
+  autocmd!
+  " Treat buffers from stdin (e.g.: echo foo | vim -) as scratch.
+  autocmd StdinReadPost * :set buftype=nofile
 augroup END
