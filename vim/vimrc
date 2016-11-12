@@ -288,6 +288,10 @@ endfunc
 " current word, then gi to enter insert mode at the end of the word.
 inoremap <C-u> <esc>gUiwgi
 
+" Formatting
+nnoremap Q gqip
+vnoremap Q gq
+
 " Wrap
 " nnoremap <leader>W :set wrap!<cr>
 
@@ -300,6 +304,9 @@ nnoremap Y y$
 nnoremap gV `[v`]
 
 " set virtualedit+=block
+
+" Diffoff
+nnoremap <leader>D :diffoff!<cr>
 
 " What is the current syntax highlighting group?
 map <F3> :echo
