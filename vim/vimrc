@@ -266,8 +266,27 @@ function! ToggleMouse()
   endif
 endfunc
 
-" Convert word to all caps
-" gUiwgi
+" "Uppercase word" mapping
+"
+" This mapping allows you to press <c-u> in insert mode to convert the current
+" word to uppercase.  It's handy when you're writing names of constants and
+" don't want to use Capslock.
+"
+" To use it you type the name of the constant in lowercase.  While your
+" cursor is at the end of the word, press <c-u> to uppercase it, and then
+" continue happily on your way:
+"
+"                            cursor
+"                            v
+"     max_connections_allowed|
+"     <c-u>
+"     MAX_CONNECTIONS_ALLOWED|
+"                            ^
+"                            cursor
+"
+" It works by exiting out of insert mode using gUiw to uppercase inside the
+" current word, then gi to enter insert mode at the end of the word.
+inoremap <C-u> <esc>gUiwgi
 
 " Wrap
 " nnoremap <leader>W :set wrap!<cr>
