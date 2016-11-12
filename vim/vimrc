@@ -34,8 +34,13 @@ set wildignore+=*.o       " ignore compiled object files
 set scrolloff=3           " Scroll 3 lines prior to horizontal border
 "set clipboard=unnamed    " Use the OS clipboard by default
 let mapleader=","         " Change <Leader>, default is '\'
-"set timeoutlen=2000       " 2 sec timeout for <Leader> commands
 "set cpoptions+=J         " use two spaces to denote a sentence
+
+" Time out on key codes but not mappings.
+" Basically this makes terminal Vim work sanely.
+"set notimeout
+"set ttimeout
+"set ttimeoutlen=10
 
 " -------------------------------------
 "               Movement
