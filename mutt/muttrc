@@ -1,6 +1,6 @@
 # ==========================================================
 # muttrc
-# Configuration file for the mutt mail client 
+# Configuration file for the mutt mail client
 #
 # Refer to www.mutt.org/doc/manual/ for any questions
 # ==========================================================
@@ -161,7 +161,7 @@ macro index a "<limit>all\n" "show all messages (undo limit)"
 #macro index .so "l ^a^k^O\n                 # show old messages only
 #macro index .sn "l ^a^k~N\n"                # show unread/new only
 #macro index .sf "l ~F\n"                        # show flagged messages only
-#macro index .si "l (~n5-100|~N)\n"  # show higher scoring messages 
+#macro index .si "l (~n5-100|~N)\n"  # show higher scoring messages
 #macro index .hl "l ^a^k!~l\n"           # hide list messages
 #macro index .sa "l ^a^kall\n"           # show all messages
 #macro index .to "T ~d>7d\n" # "tag old" -- messages older than 7 days
