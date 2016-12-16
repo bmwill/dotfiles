@@ -121,6 +121,20 @@ bind index N        search-opposite
 bind index ~        toggle-new
 macro index s "<pipe-message>cat > ~/Downloads/"  "save message as"
 
+macro index <f2> "\
+<enter-command>set my_wait_key=$wait_key<enter>\
+<enter-command>unset wait_key<enter>\
+<enter-command>set my_pipe_split=$pipe_split<enter>\
+<enter-command>set pipe_split<enter>\
+<tag-prefix-cond><pipe-entry>fetch save<enter>\
+<shell-escape>echo<enter>\
+<shell-escape>fetch apply<enter>\
+<shell-escape>fetch clean<enter>\
+<enter-command>set wait_key=$my_wait_key<enter>\
+<enter-command>set pipe_split=$my_pipe_split<enter>\
+<untag-pattern>~T<enter>\
+" "output patches"
+
 #bind index G imap-fetch-mail
 
 # Ctrl-R to mark all as read
