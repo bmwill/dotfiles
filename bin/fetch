@@ -1,0 +1,117 @@
+#!/usr/bin/env ruby
+
+@tmpdir = "/tmp/patches"
+@gitdir = "#{Dir.home}/work/git"
+
+def createPatchName(subject)
+  filename = ""
+  prefix = nil
+  version = nil
+  patch_num = nil
+
+  /\[.*\]/.match(subject) { |a| if a then prefix = a.to_s; subject = subject[a.end(0)..-1] end }
+  /v\d+/.match(prefix) { |a| if a then version = a.to_s end }
+  /\d+\/\d+/.match(prefix) { |a| if a then patch_num = a[0].split('/').first end }
+
+  filename += "#{version}-" if version
+  filename += "#{patch_num.rjust(4, '0')}-" if patch_num
+
+  subject.each_char do |c|
+    if /[[:alnum:]._-]/.match(c)
+      filename += c
+    elsif filename != "" and filename[-1] != '-'
+      filename += '-'
+    end
+  end
+
+  return filename[0..70] + ".patch"
+end
+
+def savePatch()
+  filename = nil
+  patch_contents = Array.new
+
+  # Determine the name of the patch
+  STDIN.each_line do |line|
+    patch_contents.push line
+
+    if line.start_with? "Subject:"
+      filename = createPatchName line.strip
+    end
+
+    break if filename
+  end
+
+  # Error if no filename
+  abort "error no Subject" if !filename
+
+  # Write contents of the patch
+  Dir.mkdir(@tmpdir) unless File.exist?(@tmpdir)
+  File.open("#{@tmpdir}/#{filename}", 'w') do |file|
+    patch_contents.each { |line| file.write line }
+    STDIN.each_line { |line| file.write line }
+  end
+end
+
+def getInput(msg)
+  print msg
+
+  input = STDIN.gets.chomp.strip
+  abort "Input can't be empty" if input.empty?
+
+  return input
+end
+
+def applyPatches()
+  patches = %x[ls #{@tmpdir}].split("\n") if File.exist?(@tmpdir)
+
+  if !patches || patches.empty?
+    abort "No patches to apply"
+  end
+
+  # Fail if rebasing or merging or if there are uncommitted files
+  if File.exists?("#{@gitdir}/.git/rebase-merge") ||
+     !%x[git -C #{@gitdir} status -s].empty?
+    abort "Error: Can't apply patches"
+  end
+
+  puts "The following patches are ready to be applied:"
+  puts patches
+  branch = getInput "Branch to apply patches to: "
+
+  # Check out branch to apply patches to
+  if system("git -C #{@gitdir} rev-parse --verify -q #{branch} >/dev/null")
+    if !system("git -C #{@gitdir} checkout #{branch}")
+      abort "Checkout Failed"
+    end
+  else
+    base = getInput "Base branch to use: "
+    if !system("git -C #{@gitdir} checkout -b #{branch} #{base}")
+      abort "Checkout Failed"
+    end
+  end
+
+  patches.map! { |a| @tmpdir + "/" + a }
+  if !system("git -C #{@gitdir} am #{patches.join(" ")}")
+    abort "Apply mail failed"
+  end
+end
+
+def clean()
+  if !system("rm -v #{@tmpdir}/*")
+    abort "Error cleaning #{@tmpdir}"
+  end
+end
+
+# Option parsing
+case ARGV[0]
+when "save"
+  savePatch
+when "apply"
+  applyPatches
+when "clean"
+  clean
+else
+  puts "Incorrect option"
+  # Print Usage?
+end
