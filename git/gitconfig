@@ -10,3 +10,6 @@
 	unstage = reset HEAD --
 	last = log -1 HEAD
 	discard = checkout --
+	amend = commit -v --amend
+	reword = commit -v --amend --only
+	extend = commit -v --amend --no-edit
