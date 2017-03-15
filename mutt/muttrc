@@ -121,7 +121,7 @@ bind index N        search-opposite
 bind index ~        toggle-new
 macro index s "<pipe-message>cat > ~/Downloads/"  "save message as"
 
-macro index <f2> "\
+macro index ,am "\
 <enter-command>set my_wait_key=$wait_key<enter>\
 <enter-command>unset wait_key<enter>\
 <enter-command>set my_pipe_split=$pipe_split<enter>\
