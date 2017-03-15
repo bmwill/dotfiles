@@ -261,6 +261,7 @@ vnoremap <F2> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
 " Remove all trailing whitespace by pressing F5 (maybe <leader>ww)
 " uses mark 'z'
 nnoremap <F5> mz:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>`z
+nnoremap <leader>ww mz:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>`z
 
 nnoremap <leader>m :call ToggleMouse()<CR>
 function! ToggleMouse()
