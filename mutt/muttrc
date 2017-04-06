@@ -36,6 +36,7 @@ set beep_new            # bell on new mails
 set pipe_decode         # strip headers and eval mimes when piping
 set thorough_search     # strip headers and eval mimes before searching
 set use_from = yes      # respect the From: address the editor sends back
+set imap_keepalive = 300 # Keep mutt alive when talking to gmail
 
 # Color Scheme
 source ~/.mutt/colors.muttrc
