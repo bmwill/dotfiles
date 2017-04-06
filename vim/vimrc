@@ -102,6 +102,7 @@ endif
 " ------------
 
 nnoremap <leader>sp :setlocal spell!<CR>
+nnoremap <leader>sP :mkspell! ~/.vim/spell/dictionary.utf-8.add<CR>
 set spelllang=en_us
 set spellfile=~/.vim/spell/dictionary.utf-8.add
 
