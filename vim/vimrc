@@ -297,6 +297,8 @@ endfunc
 " It works by exiting out of insert mode using gUiw to uppercase inside the
 " current word, then gi to enter insert mode at the end of the word.
 inoremap <C-u> <esc>gUiwgi
+" because completion breaks <C-u>
+inoremap <C-g><C-u> <esc>gUiwgi
 
 " Formatting
 nnoremap Q gqip
