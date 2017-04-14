@@ -396,3 +396,6 @@ function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
 endfunction
 
 autocmd! BufNewFile,BufReadPost $HOME/work/git/t/*.sh call TextEnableCodeSnip('sh', "/'$/", "/^'/", 'SpecialComment')
+
+" Load Git Functions
+source $HOME/.vim/git.vim
