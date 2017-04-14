@@ -1,0 +1,26 @@
+#!/bin/bash
+
+for f in "$@"; do
+  # Skip the cover letter
+  if [[ "$f" == *cover-letter.patch ]]
+  then
+    continue
+  fi
+
+  # Remove Change-Id from patch
+  sed -i "/Change-Id:/d" "$f"
+
+  # Check for a missing sign-off
+  name="$(git config user.name)"
+  email="<$(git config user.email)>"
+  if ! grep "Signed-off-by: $name $email" "$f" &>/dev/null
+  then
+    echo "Missing sign-off: $f"
+  fi
+
+  # Check for a trailing whitespace
+  #if grep "[[:blank:]]$" "$f" &>/dev/null
+  #then
+    #echo "Trailing whitespace: $f"
+  #fi
+done
