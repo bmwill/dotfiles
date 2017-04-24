@@ -3,16 +3,44 @@
 format='%C(auto)%h %s%d'
 default_upstream=master
 max_commits=50
-
-# Set up the revision ranges for all local branches
 revs=
-for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/); do
-  upstream=$(git rev-parse --abbrev-ref --symbolic-full-name $branch@{u} 2>/dev/null)
-  range="${upstream:-$default_upstream}...$branch"
 
-  if [[ $(git log --oneline "$range" | wc -l) -le $max_commits ]]; then
+add_to_revs()
+{
+  local branch=$1
+  local upstream=$(git rev-parse --abbrev-ref --symbolic-full-name $branch@{u} 2>/dev/null)
+  local range="${upstream:-$default_upstream}...$branch"
+
+  if [[ $(git rev-list "$range" | wc -l) -le $max_commits ]]; then
     revs+="$range "
   fi
-done
+}
 
-git log --oneline --graph --decorate --boundary --pretty="$format" $revs
+print_graph()
+{
+  if [[ $(git rev-list $revs | wc -l) -eq 0 ]]; then
+    git log --oneline --graph --decorate --pretty="$format" -1 HEAD
+  else
+    git log --oneline --graph --decorate --boundary --pretty="$format" $revs
+  fi
+}
+
+if [ $# -ne 0 ]
+then
+  case "$1" in
+    --head)
+      add_to_revs HEAD
+      ;;
+    *)
+      echo "Not Valid Option"
+      exit
+      ;;
+  esac
+else
+  # Set up the revision ranges for all local branches
+  for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/); do
+    add_to_revs $branch
+  done
+fi
+
+print_graph
