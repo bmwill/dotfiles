@@ -5,6 +5,10 @@ HEART='♥ '
 NUM_HEARTS=4
 
 if [[ `uname` == 'Linux' ]]; then
+  if [ ! -d "/proc/acpi/battery" ]; then
+    # Machine doesn't have a battery
+    exit
+  fi
   current_charge=$(cat /proc/acpi/battery/BAT1/state | grep 'remaining capacity' | awk '{print $3}')
   total_charge=$(cat /proc/acpi/battery/BAT1/info | grep 'last full capacity' | awk '{print $4}')
 else
