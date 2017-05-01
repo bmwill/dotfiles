@@ -248,7 +248,18 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 "   General Mappings
 " --------------------
 
-nnoremap <leader>nr :setlocal relativenumber!
+function! NumberToggle()
+  if(&relativenumber == 1 && &number == 1)
+    setlocal nonumber
+    setlocal norelativenumber
+  elseif (&number == 1)
+    setlocal relativenumber
+  else
+    setlocal number
+  endif
+endfunc
+
+nnoremap <leader>n :call NumberToggle()<CR>
 
 " Save with <C-s>
 nnoremap <c-s> :update<CR>
