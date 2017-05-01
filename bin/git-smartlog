@@ -1,46 +1,55 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 
-format='%C(auto)%h %s%d'
-default_upstream=master
-max_commits=50
-revs=
+@format = "%C(auto)%h %s%d"
+@max_commits = 50
+@revs = ""
 
-add_to_revs()
-{
-  local branch=$1
-  local upstream=$(git rev-parse --abbrev-ref --symbolic-full-name $branch@{u} 2>/dev/null)
-  local range="${upstream:-$default_upstream}...$branch"
+# Get all local branches
+def localBranches()
+  return `git for-each-ref --format='%(refname:short)' refs/heads/`.split
+end
 
-  if [[ $(git rev-list "$range" | wc -l) -le $max_commits ]]; then
-    revs+="$range "
-  fi
-}
+def add_to_revs(branch)
+  upstream = `git rev-parse --abbrev-ref --symbolic-full-name \
+              #{branch}@{u} 2>/dev/null`.strip
+  upstream = "master" if !$?.success?
 
-print_graph()
-{
-  if [[ $(git rev-list $revs | wc -l) -eq 0 ]]; then
-    git log --oneline --graph --decorate --pretty="$format" -1 HEAD
+  range = "#{upstream}...#{branch}"
+  if `git rev-list #{range} | wc -l`.to_i <= @max_commits
+    @revs += "#{range} "
+  end
+end
+
+def printGraph()
+  if `git rev-list #{@revs} | wc -l`.to_i == 0
+    system("git log --oneline --graph --decorate --pretty='#{@format}' -1 HEAD")
   else
-    git log --oneline --graph --decorate --boundary --pretty="$format" $revs
-  fi
-}
+    system("git log --oneline --graph --decorate --boundary --pretty='#{@format}' #{@revs}")
+  end
+end
 
-if [ $# -ne 0 ]
-then
-  case "$1" in
-    --head)
-      add_to_revs HEAD
-      ;;
-    *)
-      echo "Not Valid Option"
-      exit
-      ;;
-  esac
+# Check if inside gitdir
+def inGitDir()
+  if !system("git rev-parse --is-inside-gitdir &>/dev/null")
+    abort "Not in gitdir"
+  end
+end
+
+# Program start
+inGitDir
+
+# Option parsing
+if ARGV.length > 0
+  case ARGV[0]
+  when "head", "--head"
+    add_to_revs "HEAD"
+  else
+    abort "Incorrect option"
+  end
 else
-  # Set up the revision ranges for all local branches
-  for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/); do
-    add_to_revs $branch
-  done
-fi
+  localBranches.each do |branch|
+    add_to_revs branch
+  end
+end
 
-print_graph
+printGraph
