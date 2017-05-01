@@ -1,30 +1,45 @@
 #!/usr/bin/env ruby
 
 @format = "%C(auto)%h %s%d"
-@max_commits = 50
-@revs = ""
+@max_commits = 25
+@heads = ["HEAD"]
+@upstreams = []
 
 # Get all local branches
 def localBranches()
   return `git for-each-ref --format='%(refname:short)' refs/heads/`.split
 end
 
-def add_to_revs(branch)
+def tooManyCommits(branch, upstream)
+  return `git rev-list #{upstream}...#{branch} | wc -l`.to_i > @max_commits
+end
+
+def addUpstream(branch)
   upstream = `git rev-parse --abbrev-ref --symbolic-full-name \
               #{branch}@{u} 2>/dev/null`.strip
   upstream = "master" if !$?.success?
 
-  range = "#{upstream}...#{branch}"
-  if `git rev-list #{range} | wc -l`.to_i <= @max_commits
-    @revs += "#{range} "
+  if tooManyCommits(branch, upstream) && !branch.match("HEAD")
+    @heads.delete(branch)
+  else
+    @upstreams.push upstream
   end
 end
 
+def genRevs
+  return "#{@heads.join(' ')} --not #{@upstreams.join(' ')}"
+end
+
 def printGraph()
-  if `git rev-list #{@revs} | wc -l`.to_i == 0
+
+  @upstreams.uniq!
+  @upstreams -= @heads
+
+  if `git rev-list #{genRevs} | wc -l`.to_i == 0
     system("git log --oneline --graph --decorate --pretty='#{@format}' -1 HEAD")
   else
-    system("git log --oneline --graph --decorate --boundary --pretty='#{@format}' #{@revs}")
+    system("git log --oneline --graph --decorate --boundary --pretty='#{@format}' \
+           #{genRevs}")
   end
 end
 
@@ -42,13 +57,14 @@ inGitDir
 if ARGV.length > 0
   case ARGV[0]
   when "head", "--head"
-    add_to_revs "HEAD"
+    addUpstream "HEAD"
   else
     abort "Incorrect option"
   end
 else
-  localBranches.each do |branch|
-    add_to_revs branch
+  @heads += localBranches
+  @heads.dup.each do |branch|
+    addUpstream branch
   end
 end
 
