@@ -58,14 +58,16 @@ if ARGV.length > 0
   case ARGV[0]
   when "head", "--head"
     addUpstream "HEAD"
+  when "all", "--all"
+    @heads += localBranches
+    @heads.dup.each do |branch|
+      addUpstream branch
+  end
   else
     abort "Incorrect option"
   end
 else
-  @heads += localBranches
-  @heads.dup.each do |branch|
-    addUpstream branch
-  end
+  addUpstream "HEAD"
 end
 
 printGraph
