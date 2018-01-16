@@ -1,5 +1,6 @@
 #!/bin/bash
 
+error=
 for f in "$@"; do
   # Skip the cover letter
   if [[ "$f" == *cover-letter.patch ]]
@@ -15,7 +16,8 @@ for f in "$@"; do
   email="<$(git config user.email)>"
   if ! grep "Signed-off-by: $name $email" "$f" &>/dev/null
   then
-    echo "Missing sign-off: $f"
+    echo "Missing sign-off: $(basename $f)"
+    error=1
   fi
 
   # Check for a trailing whitespace
@@ -24,3 +26,8 @@ for f in "$@"; do
     #echo "Trailing whitespace: $f"
   #fi
 done
+
+if [[ ! -z "$error" ]]
+then
+  exit 128
+fi
