@@ -64,7 +64,9 @@ if ARGV.length > 0
       addUpstream branch
   end
   else
-    abort "Incorrect option"
+    @heads = [ARGV[0]]
+    addUpstream ARGV[0]
+    #abort "Incorrect option"
   end
 else
   addUpstream "HEAD"
