@@ -13,3 +13,13 @@
 	amend = commit -v --amend
 	reword = commit -v --amend --only
 	extend = commit -v --amend --no-edit
+  # maybe make a different name for this one
+  gcs = show --date=short -s --pretty='format:%h (%s, %ad)'
+	sl = smartlog
+[merge]
+	conflictstyle = diff3
+	tool = vimdiffnice
+[rerere]
+	enabled = true
+[merge "vimdiffnice"]
+	cmd = vimdiff -c \"wincmd J\" -c \"0\" -c \"/<<<<<<< \" \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
