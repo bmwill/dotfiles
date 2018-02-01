@@ -18,11 +18,13 @@ Plugin 'VundleVim/Vundle.vim'
 " Once installed perform the following to compile with semantic support
 "   cd ~/.vim/bundle/YouCompleteMe
 "   ./install.py --clang-completer
+"   ./install.py --racer-completer
 Plugin 'Valloric/YouCompleteMe'
 set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_extra_conf_globlist = ['~/work/*']
+let g:ycm_rust_src_path = '~/.vim/bundle/rust/src'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
