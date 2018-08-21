@@ -9,7 +9,8 @@ for f in "$@"; do
   fi
 
   # Remove Change-Id from patch
-  sed -i "/Change-Id:/d" "$f"
+  sed -i.bak "/Change-Id:/d" "$f"
+  rm "$f.bak"
 
   # Check for a missing sign-off
   name="$(git config user.name)"
