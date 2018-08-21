@@ -26,6 +26,8 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_extra_conf_globlist = ['~/work/*']
 let g:ycm_rust_src_path = '~/.vim/bundle/rust/src'
 
+Plugin 'rust-lang/rust.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required

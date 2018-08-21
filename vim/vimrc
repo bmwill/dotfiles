@@ -160,7 +160,7 @@ nnoremap zO zczO
 " -------------------------------------
 
 set laststatus=2                  " Always displays the status line
-set statusline=%t\                " Tail of the filename
+set statusline=%f\                " Tail of the filename
 set statusline+=%y                " Filetype
 set statusline+=%{FileFormat()}   " File Encoding/Format
 set statusline+=%r                " Read only flag
@@ -260,6 +260,8 @@ function! NumberToggle()
 endfunc
 
 nnoremap <leader>n :call NumberToggle()<CR>
+
+nnoremap <leader>b :ls<cr>:b<space>
 
 " Save with <C-s>
 nnoremap <c-s> :update<CR>
