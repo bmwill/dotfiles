@@ -321,6 +321,7 @@ vnoremap Q gq
 " nnoremap <leader>W :set wrap!<cr>
 
 noremap <leader>p "*p
+noremap <leader>y :silent call system("remote-pbcopy", @0)<CR>
 
 " Yank to end of line
 nnoremap Y y$
