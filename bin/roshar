@@ -1,0 +1,9 @@
+#!/bin/bash
+
+devserver=
+
+if [ "$1" = "new" ]; then
+  ssh "$devserver"
+else
+  ssh "$devserver" -t '(tmux attach)'
+fi
