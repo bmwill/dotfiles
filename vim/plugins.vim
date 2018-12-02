@@ -24,9 +24,12 @@ set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_extra_conf_globlist = ['~/work/*']
-let g:ycm_rust_src_path = '~/.vim/bundle/rust/src'
+let g:ycm_rust_src_path = system('printf $(rustc --print sysroot)/lib/rustlib/src/rust/src')
 
 Plugin 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+Plugin 'racer-rust/vim-racer'
+let g:racer_experimental_completer = 1
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

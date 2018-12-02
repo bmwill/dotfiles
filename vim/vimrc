@@ -365,6 +365,20 @@ function! SetupGitEnv()
   setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab
 endfunction
 
+" Rust Dev Settings
+autocmd! FileType rust call SetupRustEnv()
+function! SetupRustEnv()
+  "nnoremap <C-]> <Plug>(rust-def)
+  "nnoremap <C-\> <Plug>(rust-def-vertical)
+  nmap <C-]> <Plug>(rust-def)
+  nmap <C-\> <Plug>(rust-def-vertical)
+endfunction
+
+"au FileType rust nmap gd <Plug>(rust-def)
+"au FileType rust nmap gs <Plug>(rust-def-split)
+"au FileType rust nmap gx <Plug>(rust-def-vertical)
+"au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
 " Line Return
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
