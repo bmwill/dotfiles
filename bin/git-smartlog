@@ -35,11 +35,11 @@ def printGraph()
   @upstreams.uniq!
   @upstreams -= @heads
 
-  if `git rev-list #{genRevs} | wc -l`.to_i == 0
+  if `git rev-list #{genRevs} -- | wc -l`.to_i == 0
     system("git log --oneline --graph --decorate --pretty='#{@format}' -1 HEAD")
   else
     system("git log --oneline --graph --decorate --boundary --pretty='#{@format}' \
-           #{genRevs}")
+           #{genRevs} --")
   end
 end
 
