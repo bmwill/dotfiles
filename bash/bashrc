@@ -16,7 +16,7 @@ unset file;
 
 # Setup PATH
 # Add personal Scripts to PATH
-PATH=$PATH:$HOME/dotfiles/bin
+PATH="$HOME/dotfiles/bin:$PATH"
 
 # Ctrl+X Ctrl+E to enter editor to edit a command
 export EDITOR=vim
