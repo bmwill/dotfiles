@@ -4,18 +4,26 @@
 [core]
 	excludesfile = ~/.gitignore
 	editor = vim
+[commit]
+	verbose = true
+[pull]
+	ff = only
 [alias]
 	# list all aliases
 	la = "!git config -l | grep '^alias' | cut -c 7-"
+	pr = "!git checkout pull/upstream/\"$1\"/head #"
 	unstage = reset HEAD --
 	last = log -1 HEAD
 	discard = checkout --
 	amend = commit -v --amend
 	reword = commit -v --amend --only
 	extend = commit -v --amend --no-edit
-  # maybe make a different name for this one
-  gcs = show --date=short -s --pretty='format:%h (%s, %ad)'
+	# maybe make a different name for this one
+	gcs = show --date=short -s --pretty='format:%h (%s, %ad)'
 	sl = smartlog
+	hl = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all --max-count=15
+[diff]
+	tool = vimdiff
 [merge]
 	conflictstyle = diff3
 	tool = vimdiffnice
