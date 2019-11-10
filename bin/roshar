@@ -1,9 +1,16 @@
 #!/bin/bash
 
-devserver=
+if [ -z "$DEVSERVER" ]; then
+	echo "DEVSERVER env var is not set"
+	exit 1
+fi
 
 if [ "$1" = "new" ]; then
-  ssh "$devserver"
+	ssh "$DEVSERVER"
+elif [ "$1" = "ping" ]; then
+	ping "$DEVSERVER"
+elif [ "$1" = "sftp" ]; then
+	sftp "$DEVSERVER"
 else
-  ssh "$devserver" -t '(tmux attach)'
+	ssh "$DEVSERVER" -t '(tmux attach)'
 fi
