@@ -31,6 +31,12 @@ let g:rustfmt_autosave = 1
 Plugin 'racer-rust/vim-racer'
 let g:racer_experimental_completer = 1
 
+if executable('brew')
+    exe 'set rtp+=' . system('printf $(brew --prefix)/opt/fzf')
+else
+    Plugin 'junegunn/fzf'
+endif
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required

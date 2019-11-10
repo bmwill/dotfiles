@@ -352,6 +352,8 @@ highlight OverLength ctermbg=52 guibg=#592929
 " Show Tabs
 "autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\t/
 
+nnoremap <leader>f :FZF<CR>
+
 " -------------------------------------
 "       Filetype Specific Settings
 " -------------------------------------
