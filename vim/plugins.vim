@@ -24,7 +24,7 @@ set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_extra_conf_globlist = ['~/work/*']
-let g:ycm_rust_src_path = system('printf $(rustc --print sysroot)/lib/rustlib/src/rust/src')
+autocmd! FileType rust let g:ycm_rust_src_path = system('printf $(rustc --print sysroot)/lib/rustlib/src/rust/src')
 
 Plugin 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
