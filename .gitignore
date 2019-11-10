@@ -3,5 +3,6 @@ vim/.netrwhist
 vim/.viminfo
 *.spl
 vim/tmp/
+vim/view/
 mutt/tmp/
 *.swp
