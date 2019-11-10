@@ -42,13 +42,19 @@ export HISTFILESIZE="${HISTSIZE}"
 export HISTCONTROL='ignoredups:ignorespace'
 
 # Add tab completion for many Bash commands
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  source $(brew --prefix)/etc/bash_completion
-fi
+if brew >/dev/null 2>&1; then
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+        source $(brew --prefix)/etc/bash_completion
+    fi
 
-# Autocomplete git commands
-if [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]; then
-  source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+    # Autocomplete git commands
+    if [ -f $(brew --prefix)/etc/bash_completion.d/git-completion.bash ]; then
+        source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+    fi
+else
+    if [ -f "$HOME/tools/git/contrib/completion/git-completion.bash" ]; then
+        source "$HOME/tools/git/contrib/completion/git-completion.bash"
+    fi
 fi
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
