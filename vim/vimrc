@@ -264,9 +264,9 @@ nnoremap <leader>n :call NumberToggle()<CR>
 nnoremap <leader>b :ls<cr>:b<space>
 
 " Save with <C-s>
-nnoremap <c-s> :update<CR>
-inoremap <c-s> <Esc>:update<CR>
-vnoremap <c-s> <Esc>:update<CR>gv
+nnoremap <c-s> :silent update<CR>
+inoremap <c-s> <Esc>:silent update<CR>
+vnoremap <c-s> <Esc>:silent update<CR>gv
 
 " Execute current line or current selection as Vim EX commands.
 nnoremap <F2> :exe getline(".")<CR>
