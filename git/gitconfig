@@ -8,10 +8,14 @@
 	verbose = true
 [pull]
 	ff = only
+[fetch]
+	prune = true
 [alias]
 	# list all aliases
 	la = "!git config -l | grep '^alias' | cut -c 7-"
-	pr = "!git checkout pull/upstream/\"$1\"/head #"
+	pr = "!echo \"Checking out PR #$1\" && \
+		git fetch -q $(git config pr.remote) refs/pull/\"$1\"/head && \
+		git checkout FETCH_HEAD #"
 	unstage = reset HEAD --
 	last = log -1 HEAD
 	discard = checkout --
