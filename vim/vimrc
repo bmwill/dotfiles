@@ -329,6 +329,8 @@ nnoremap Y y$
 " highlight last inserted text
 nnoremap gV `[v`]
 
+autocmd! TextYankPost * call system("remote-pbcopy", @0)
+
 " set virtualedit+=block
 
 " Diffoff
