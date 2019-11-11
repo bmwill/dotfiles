@@ -10,6 +10,11 @@
 	ff = only
 [fetch]
 	prune = true
+[blame]
+	#date = format-local:%a %b %d %T %Y
+	date = short-local
+[log]
+	date = format-local:%a %b %-d %r %Y
 [alias]
 	# list all aliases
 	la = "!git config -l | grep '^alias' | cut -c 7-"
