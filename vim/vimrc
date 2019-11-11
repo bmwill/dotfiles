@@ -262,8 +262,6 @@ endfunc
 
 nnoremap <leader>n :call NumberToggle()<CR>
 
-nnoremap <leader>b :ls<cr>:b<space>
-
 " Save with <C-s>
 nnoremap <c-s> :silent update<CR>
 inoremap <c-s> <Esc>:silent update<CR>
@@ -354,6 +352,26 @@ highlight OverLength ctermbg=52 guibg=#592929
 "autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\t/
 
 nnoremap <leader>f :FZF<CR>
+
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+
+"nnoremap <leader>b :ls<cr>:b<space> " non-fzf version
+nnoremap <silent> <Leader>b :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
 
 " ----------------
 "   Git Settings
