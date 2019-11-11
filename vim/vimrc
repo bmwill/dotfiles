@@ -355,6 +355,41 @@ highlight OverLength ctermbg=52 guibg=#592929
 
 nnoremap <leader>f :FZF<CR>
 
+" ----------------
+"   Git Settings
+" ----------------
+
+" git grep
+nnoremap <leader>gg :!git grep "<c-r>=expand("<cword>")<CR>"<CR>
+
+" Maybe add a mapping for :Gblame --reverse
+nnoremap <leader>gb :call Blame()<CR>
+function! Blame() abort
+    if &filetype ==# 'fugitiveblame'
+        " close the blame layer
+        normal gq
+    else
+        execute "Gblame"
+    endif
+endfunction
+
+nnoremap <leader>gc :call ShowCommit()<CR>
+function! ShowCommit() abort
+    " Quick return if the blame layer isn't open
+    if &filetype !=# 'fugitiveblame'
+        echo "Not in fugitiveblame buffer"
+    else
+        let commit = matchstr(getline('.'), '\x\{,8}\x')
+        execute "!git --no-pager log -1 " . commit
+    endif
+endfunction
+
+augroup fugitive_autocmds
+  autocmd!
+  autocmd BufReadPost fugitive://* set bufhidden=wipe
+augroup END
+
+
 " -------------------------------------
 "       Filetype Specific Settings
 " -------------------------------------
@@ -429,6 +464,3 @@ function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
 endfunction
 
 autocmd! BufNewFile,BufReadPost $HOME/work/git/t/*.sh call TextEnableCodeSnip('sh', "/'$/", "/^'/", 'SpecialComment')
-
-" Load Git Functions
-source $HOME/.vim/git.vim

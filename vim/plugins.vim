@@ -14,6 +14,8 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'tpope/vim-fugitive'
+
 " YCM
 " Once installed perform the following to compile with semantic support
 "   cd ~/.vim/bundle/YouCompleteMe
