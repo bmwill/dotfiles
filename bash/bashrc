@@ -42,7 +42,7 @@ export HISTFILESIZE="${HISTSIZE}"
 export HISTCONTROL='ignoredups:ignorespace'
 
 # Add tab completion for many Bash commands
-if brew >/dev/null 2>&1; then
+if brew --version >/dev/null 2>&1; then
     if [ -f $(brew --prefix)/etc/bash_completion ]; then
         source $(brew --prefix)/etc/bash_completion
     fi
