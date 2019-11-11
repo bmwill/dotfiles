@@ -147,10 +147,11 @@ set listchars=tab:▸-,trail:·,eol:¬,nbsp:_
 set foldmethod=indent   " Fold based on indent level
 set foldnestmax=3       " Deepest fold is 3 levels
 set nofoldenable        " Don't fold by Default
+"set diffopt+=context:99999 " start vimdiff with no folds
 
 " Space to toggle folds
-nnoremap <Space> za
-vnoremap <Space> za
+"nnoremap <Space> za
+"vnoremap <Space> za
 
 " Make zO recursively open whatever fold we're in, even if it's partially open.
 nnoremap zO zczO
