@@ -2,11 +2,12 @@
 #
 # Install Homebrew
 
-# Check for Homebrew
-if test ! $(which brew)
-then
-  echo "  Installing Homebrew for you."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-fi
+if ! type brew >/dev/null 2>&1; then
+	git clone https://github.com/Homebrew/brew "$HOME/homebrew/Homebrew"
+	mkdir "$HOME/homebrew/bin"
+	ln -s "$HOME/homebrew/Homebrew/bin/brew" "$HOME/homebrew/bin"
+	eval $("$HOME/homebrew/bin/brew" shellenv)
 
-exit 0
+	echo "Add the following to '.path'"
+	"$HOME/homebrew/bin/brew" shellenv
+fi

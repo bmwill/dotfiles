@@ -6,30 +6,21 @@
 # 'brew cleanup -ns' to list items that will be removed
 # 'brew cleanup -s' to actually remove them
 
-#
-# Install Brews - Command-Line Applications
-#
+# Common packanges to install
+brew "git"
+brew "tmux"
+brew "fzf"
+brew "fd"
+brew "ripgrep"
 
-#install wget
-brew 'coreutils'
-brew 'git'
-brew 'bash-completion'
-#brew 'shpotify' # spotify from the cmdline
-#install id3lib
-#install archey
-#install imagemagick
+# Platform dependent packages
+if OS.mac?
+    brew "macvim"
+    brew "coreutils"
 
-#
-# Install Casks - GUI Applications
-#
-
-# Set directory where Casks will be installed
-cask_args appdir: '/Applications'
-tap 'caskroom/cask'
-
-#
-#cask install alfred
-#cask 'caffeine'
-#cask install flux
-#
-#cask install virtualbo
+    cask "rectangle"
+    cask "flux"
+    cask "caffeine"
+else
+    brew "vim"
+end
