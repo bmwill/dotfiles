@@ -21,7 +21,7 @@ Plugin 'tpope/vim-fugitive'
 "   cd ~/.vim/bundle/YouCompleteMe
 "   ./install.py --clang-completer
 "   ./install.py --racer-completer
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'ycm-core/YouCompleteMe'
 set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
