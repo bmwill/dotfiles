@@ -30,6 +30,7 @@ autocmd! FileType rust let g:ycm_rust_src_path = system('printf $(rustc --print 
 
 Plugin 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
+let g:rustfmt_options = '--edition 2018'
 Plugin 'racer-rust/vim-racer'
 let g:racer_experimental_completer = 1
 
