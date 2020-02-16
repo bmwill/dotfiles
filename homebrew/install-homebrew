@@ -10,6 +10,7 @@ if ! type brew >/dev/null 2>&1; then
 	git clone https://github.com/Homebrew/brew "$HOME/homebrew/Homebrew"
 	mkdir "$HOME/homebrew/bin"
 	ln -s "$HOME/homebrew/Homebrew/bin/brew" "$HOME/homebrew/bin"
+	ln -s "$HOME/homebrew/Homebrew/manpages/brew.1" "$HOME/homebrew/share/man/man1"
 	eval $("$HOME/homebrew/bin/brew" shellenv)
 
 	"$HOME/homebrew/bin/brew" shellenv >>"$HOME/.path"
