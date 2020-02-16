@@ -1,0 +1,36 @@
+# ===== Zsh Configuration =====
+# http://zsh.sourceforge.net/Doc/Release/index.html
+# http://zsh.sourceforge.net/Guide/zshguide.html
+
+# Use '~/.path' file for machine dependent path modifications
+[ -f ~/.path ] && source ~/.path
+
+# Add personal Scripts to PATH
+PATH="$HOME/bin:$HOME/dotfiles/bin:$PATH"
+
+# Load all config files in .zsh
+for file in ${ZDOTDIR}/*.zsh; do
+    source $file
+done
+unset file
+
+# ===== Miscellaneous Extra Configuration =====
+
+# Require use of exit of logout to exit
+setopt IGNORE_EOF
+
+# Stop ctrl-s and ctrl-q from sending START/STOP signals
+unsetopt FLOW_CONTROL
+stty -ixon -ixoff
+
+setopt LONG_LIST_JOBS
+setopt INTERACTIVE_COMMENTS # Allow comments in interactive shells
+setopt MULTIOS
+
+export EDITOR=vim
+# ignore case, exit if it fits on one screen, allow colors for ls and grep
+export LESS="-iFXR"
+export PAGER=less
+
+# Enable FZF completion
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
