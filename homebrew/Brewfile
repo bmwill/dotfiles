@@ -17,10 +17,10 @@ brew "ripgrep"
 if OS.mac?
     brew "macvim"
     brew "coreutils"
+    brew "gnu-sed"
 
     cask "rectangle"
     cask "flux"
-    cask "caffeine"
 else
     brew "vim"
 end

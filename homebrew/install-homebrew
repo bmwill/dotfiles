@@ -2,12 +2,20 @@
 #
 # Install Homebrew
 
+BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
+
 if ! type brew >/dev/null 2>&1; then
+	echo "Installing Homebrew!"
+
 	git clone https://github.com/Homebrew/brew "$HOME/homebrew/Homebrew"
 	mkdir "$HOME/homebrew/bin"
 	ln -s "$HOME/homebrew/Homebrew/bin/brew" "$HOME/homebrew/bin"
 	eval $("$HOME/homebrew/bin/brew" shellenv)
 
-	echo "Add the following to '.path'"
-	"$HOME/homebrew/bin/brew" shellenv
+	"$HOME/homebrew/bin/brew" shellenv >>"$HOME/.path"
+
+	brew bundle -v --file="$BASE_DIR/Brewfile"
+else
+	echo "Homebrew already installed"
 fi
+
