@@ -11,6 +11,7 @@ brew "git"
 brew "tmux"
 brew "fzf"
 brew "fd"
+brew "bat"
 brew "ripgrep"
 
 # Platform dependent packages
