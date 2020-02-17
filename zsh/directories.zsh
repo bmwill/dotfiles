@@ -23,8 +23,7 @@ alias 7='cd -7'
 alias 8='cd -8'
 alias 9='cd -9'
 
-alias md='mkdir -p'
-alias rd=rmdir
+alias mkdir='mkdir -p'
 
 function d () {
   if [[ -n $1 ]]; then
