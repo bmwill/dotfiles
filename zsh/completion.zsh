@@ -28,9 +28,12 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 zstyle ':completion:*:*:cd:*:directory-stack' force-list always
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
-# Use default coloring for list completion
-# LS_COLORS will be used instead if available (setup in directories.zsh)
-zstyle ':completion:*' list-colors ''
+# Use LS_COLORS for path completions
+function _set-list-colors() {
+	zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+	unfunction _set-list-colors
+}
+sched 0 _set-list-colors  # deferred since LC_COLORS might not be available yet
 
 # Prettier completion for processes
 zstyle ':completion:*:*:*:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
