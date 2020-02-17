@@ -35,6 +35,17 @@ function d () {
 }
 compdef _dirs d
 
+function gd () {
+    local directory="$(git rev-parse --show-toplevel 2>/dev/null)"
+
+    if git rev-parse --show-toplevel >/dev/null 2>&1; then
+        cd $(git rev-parse --show-toplevel 2>/dev/null)
+    else
+        echo "Not in a git repo" 1>&2
+        return 1
+    fi
+}
+
 #=======================================#
 #           Configure `ls`              #
 #=======================================#
