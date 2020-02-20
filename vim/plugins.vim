@@ -40,6 +40,12 @@ else
     Plugin 'junegunn/fzf'
 endif
 
+" Color Schemes
+" Plugin 'tomasr/molokai' " Molokai theme (currently pre-installed)
+Plugin 'morhetz/gruvbox' " Gruvbox theme
+" Plugin 'connorholyday/vim-snazzy' " Snazzy - Requires 24-bit color
+" Plugin 'arcticicestudio/nord-vim' " Nord - Requires 24-bit color
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
