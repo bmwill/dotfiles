@@ -40,3 +40,7 @@
 	enabled = true
 [merge "vimdiffnice"]
 	cmd = vimdiff -c \"wincmd J\" -c \"0\" -c \"/<<<<<<< \" \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+
+# Default remote to use for the 'git pr' alias
+[pr]
+	remote = upstream
