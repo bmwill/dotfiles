@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copy the plist file "pbcopy.plist" to "~/Library/LaunchAgents/pbcopy.plist"
+# Copy the plist file "../macos/pbcopy.plist" to "~/Library/LaunchAgents/pbcopy.plist"
 # Run:
 #   launchctl load ~/Library/LaunchAgents/pbcopy.plist
 # Put in ~/.ssh/config to enable port forwarding
@@ -8,4 +8,10 @@
 
 # This will copy what it is sent and send it to the pbcopy service setup on the mac
 
-cat | nc -w1 localhost 2224
+[ -n "$SSH_CLIENT" ] && SESSION_TYPE="remote"
+
+if [[ $SESSION_TYPE == "remote" ]]; then
+	cat | nc -w1 localhost 2224
+else
+	cat | pbcopy
+fi
