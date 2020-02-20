@@ -267,6 +267,7 @@ nnoremap <c-s> :silent update<CR>
 inoremap <c-s> <Esc>:silent update<CR>
 vnoremap <c-s> <Esc>:silent update<CR>gv
 
+
 " Execute current line or current selection as Vim EX commands.
 nnoremap <F2> :exe getline(".")<CR>
 vnoremap <F2> :<C-w>exe join(getline("'<","'>"),'<Bar>')<CR>
@@ -287,6 +288,21 @@ function! ToggleMouse()
     set mouse=a
   endif
 endfunc
+
+" Auto toggle Paste when inserting text with CMD-C
+" when inside of a tmux session
+if exists('$TMUX')
+    let &t_SI .= "\<Esc>[?2004h"
+    let &t_EI .= "\<Esc>[?2004l"
+
+    function! XTermPasteBegin()
+        set pastetoggle=<Esc>[201~
+        set paste
+        return ""
+    endfunction
+
+    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+endif
 
 " "Uppercase word" mapping
 "
