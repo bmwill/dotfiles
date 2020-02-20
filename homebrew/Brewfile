@@ -10,6 +10,7 @@
 brew "git"
 brew "tmux"
 brew "fzf"
+brew "tree"
 brew "fd"
 brew "bat"
 brew "ripgrep"
@@ -22,6 +23,7 @@ if OS.mac?
 
     cask "rectangle"
     cask "flux"
+    cask "caffeine"
 else
     brew "vim"
 end
