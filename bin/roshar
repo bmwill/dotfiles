@@ -12,5 +12,5 @@ elif [ "$1" = "ping" ]; then
 elif [ "$1" = "sftp" ]; then
 	sftp "$DEVSERVER"
 else
-	ssh "$DEVSERVER" -t '(tmux attach)'
+	ssh "$DEVSERVER" -t '(tmux attach || tmux new)'
 fi
