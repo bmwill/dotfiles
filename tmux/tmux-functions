@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# Utility functions for tmux for use in .tmux.conf
+
+# exit the script if any statement returns a non-true return value
+set -e
+
+# Toggle the mouse
+_toggle_mouse() {
+	old=$(tmux show -gv mouse)
+	new=""
+
+	if [ "$old" = "on" ]; then
+		new="off"
+	else
+		new="on"
+	fi
+
+	tmux set -g mouse $new \; \
+		display "mouse: $new"
+}
+
+# Print uptime as '↑ y d h m'
+_uptime() {
+	case "$OSTYPE" in
+	*darwin*)
+		boot="$(sysctl -q -n kern.boottime | awk -F'[ ,:]+' '{ print $4 }')"
+		now="$(date +%s)"
+		;;
+	*linux*)
+		boot=0
+		now="$(cut -d' ' -f1 </proc/uptime)"
+		;;
+	*openbsd*)
+		boot="$(sysctl -n kern.boottime)"
+		now="$(date +%s)"
+		;;
+	esac
+
+	awk -v boot="$boot" -v now="$now" '
+	BEGIN {
+		uptime = now - boot
+		y = int(uptime / 31536000)
+		dy = int(uptime / 86400) % 365
+		#d = int(uptime / 86400)
+		h = int(uptime / 3600) % 24
+		m = int(uptime / 60) % 60
+		#s = int(uptime) % 60
+
+		printf "↑"
+		if (y) { printf " "y"y" }
+		if (dy) { printf " "dy"d" }
+		if (h) { printf " "h"h" }
+		if (m) { printf " "m"m" }
+	}'
+}
+
+# Print load average over the last 1-, 5-, and 15-minue periods
+_loadavg() {
+	case "$OSTYPE" in
+	*darwin*)
+		load="$(sysctl -q -n vm.loadavg | cut -d' ' -f 2-4)"
+		;;
+	*linux*)
+		load="$(cut -d' ' -f 1-3 </proc/loadavg)"
+		;;
+	*openbsd*)
+		load="$(sysctl -q -n vm.loadavg | cut -d' ' -f 1-3)"
+		;;
+	esac
+	printf "Ω $load"
+}
+
+"$@"
