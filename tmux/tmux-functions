@@ -246,6 +246,8 @@ _battery_bar() {
 		fi
 
 		battery_bar="${full_bars}${empty_bars}"
+		# Set color for %
+		eval battery_bar="$battery_bar#[fg=colour\${$((full == 0 ? 1 : full))}]"
 	elif echo "$battery_bar_palette" | grep -q -E '^(([#a-z0-9]{7,9}|none),?){3}$'; then
 		{ set -f; IFS=,; set -- $battery_bar_palette; unset IFS; set +f; }
 		battery_full_fg=$1
@@ -284,12 +286,9 @@ _battery_vbar() {
 	battery_bar="#[fg=${battery_vbar_fg?}]${battery_vbar_symbol?}"
 }
 
-battery_percentage_palette="gradient"
+# Color of the battery percentage is determined by the bar type used
 _battery_percentage() {
-	battery_percentage_fg=$(_battery_color "$battery_percentage_palette" "$charge")
-	battery_percentage_num="$(awk "BEGIN { printf \"%.0f%%\", ($charge) * 100 }")"
-
-	battery_percentage="#[fg=$battery_percentage_fg]$battery_percentage_num"
+	battery_percentage="$(awk "BEGIN { printf \"%.0f%%\", ($charge) * 100 }")"
 }
 
 _battery() {
