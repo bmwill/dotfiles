@@ -171,14 +171,11 @@ _battery_info() {
 	[ "$count" -ne 0 ] && charge=$(awk -v charge="$charge" -v count="$count" 'BEGIN { print charge / count }')
 }
 
-tmux_conf_battery_status_charging='↑'       # U+2191
-tmux_conf_battery_status_discharging='↓'    # U+2193
-
 # Sets `$battery_status` with a symbol based on the battery's status
 # Requires that _battery_info has already been called
 _battery_status() {
-	battery_status_charging=${tmux_conf_battery_status_charging:-'↑'}	# U+2191
-	battery_status_discharging=${tmux_conf_battery_status_discharging:-'↓'}	# U+2193
+	battery_status_charging=${tmux_battery_status_charging:-'↑'}		# U+2191
+	battery_status_discharging=${tmux_battery_status_discharging:-'↓'}	# U+2193
 
 	if [ x"$discharging" = x"true" ]; then
 		battery_status="$battery_status_discharging"
@@ -209,12 +206,12 @@ _battery_color() {
 	printf "$prefix$color_fg"
 }
 
-battery_bar_length=auto
-battery_bar_palette=gradient
-battery_bar_symbol_full='◼'
-battery_bar_symbol_empty='◻'
-battery_bar_length='auto'
 _battery_bar() {
+	battery_bar_length=${tmux_battery_bar_length:-auto}
+	battery_bar_palette=${tmux_battery_bar_palette:-gradient}
+	battery_bar_symbol_full=${tmux_battery_bar_symbol_full:-'◼'}
+	battery_bar_symbol_empty=${tmux_battery_bar_symbol_empty:-'◻'}
+
 	# Figure out how long the battery bar needs to be
 	if [ x"$battery_bar_length" = x"auto" ]; then
 		columns=$(tmux -q display -p '#{client_width}' 2>/dev/null || echo 80)
@@ -268,8 +265,8 @@ _battery_bar() {
 	fi
 }
 
-battery_hbar_palette="heat"
 _battery_hbar() {
+	battery_hbar_palette=${tmux_battery_bar_palette:-heat}
 	battery_hbar_fg="$(_battery_color "$battery_hbar_palette" "$charge")"
 
 	eval set -- "▏ ▎ ▍ ▌ ▋ ▊ ▉ █"
@@ -277,8 +274,8 @@ _battery_hbar() {
 	battery_bar="#[fg=${battery_hbar_fg?}]${battery_hbar_symbol?}"
 }
 
-battery_vbar_palette="gradient"
 _battery_vbar() {
+	battery_vbar_palette=${tmux_battery_bar_palette:-gradient}
 	battery_vbar_fg="$(_battery_color "$battery_vbar_palette" "$charge")"
 
 	eval set -- "▁ ▂ ▃ ▄ ▅ ▆ ▇ █"
@@ -301,7 +298,9 @@ _battery() {
 
 	_battery_status
 	_battery_percentage
-	case "$1" in
+
+	battery_bar_style=${tmux_battery_bar_style:-bar}
+	case "$battery_bar_style" in
 	bar)
 		_battery_bar
 		;;
