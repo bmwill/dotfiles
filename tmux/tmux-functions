@@ -24,6 +24,11 @@ _toggle_mouse() {
 		display "mouse: $new"
 }
 
+# Maximizes the current pane to a new window, allowing you to further split a
+# maximized pane. This provides more flexibility by allowing you to maximize a
+# pane, change windows, then go back and the pane is still in a maximized
+# state. The maximized pan can be minimized either from the source window or
+# the maximized window.
 _maximize_pane() {
 	current_session="${1:-"$(tmux display -p '#{session_name}')"}"
 	current_pane="${2:-"$(tmux display -p '#{pane_id}')"}"
@@ -106,7 +111,7 @@ _loadavg() {
 		load="$(sysctl -q -n vm.loadavg | cut -d' ' -f 1-3)"
 		;;
 	esac
-	printf "Ω $load"
+	printf "$load"
 }
 
 # Calculate basic battery info, setting the `$charge` and `$discharging` variables
