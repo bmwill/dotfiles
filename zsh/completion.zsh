@@ -7,6 +7,14 @@ unsetopt AUTO_MENU       # do not autoselect from menu on successive tab press
 setopt COMPLETE_IN_WORD
 setopt ALWAYS_TO_END
 
+# Use completion cache
+zstyle ':completion:*:complete:*' use-cache true
+
+# Enable:
+#   * Hyphen insensitive matching
+#   * Case insensitive matching for lowercase letters
+zstyle ':completion:*' matcher-list 'm:{a-z-_}={A-Z_-}'
+
 # Fuzzy match mistyped completions.
 zstyle ':completion:*' completer _complete _match _correct _approximate
 
@@ -35,7 +43,8 @@ zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
 zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
 
-#zstyle ':completion:*:*:*:*:*' menu select=5 # Highlight selection in menu
+# If we drop into menu completion, highlight the current selection
+zstyle ':completion:*' menu select
 
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
@@ -48,17 +57,29 @@ zstyle ':completion:*' insert-tab false
 # Complete '..' special directories
 zstyle ':completion:*' special-dirs '..'
 
-# disable named-directories autocompletion
+# disable named-directories autocompletion (use 'cd ~<name>' instead)
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
 
 # Always use menu selection for `cd -`
 zstyle ':completion:*:*:cd:*:directory-stack' force-list always
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
+# Make named-directories appear first for completing 'cd ~'
+zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
+
+# Treat 'foo//bar' as 'foo/bar' instead of as if there was a '*' between the slashes
+zstyle ':completion:*' squeeze-slashes true
+
 # complete manuals by their section
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals.*' insert-sections true
 #zstyle ':completion:*:man:*' menu yes select
+
+# Better completion for history
+zstyle ':completion:*:history-words' list false
+zstyle ':completion:*:history-words' menu yes select
+zstyle ':completion:*:history-words' remove-all-dups yes
+zstyle ':completion:*:history-words' stop yes
 
 # Use LS_COLORS for path completions
 function _set-list-colors() {
@@ -73,13 +94,8 @@ zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w 
 # Provide more processes in completion of programs like killall
 zstyle ':completion:*:processes-names' command 'ps c -u ${USER} -o command | uniq'
 
-# Use completion cache
-zstyle ':completion:*:complete:*' use-cache true
-
-# Enable:
-#   * Hyphen insensitive matching
-#   * Case insensitive matching for lowercase letters
-zstyle ':completion:*' matcher-list 'm:{a-z-_}={A-Z_-}'
+# Don't complete users except for myself
+zstyle ':completion:*:*:*:users' ignored-patterns "*~($USER|root)"
 
 # ----- Custom Completion Scripts -----
 COMPLETIONS_DIR="$ZDOTDIR/.completions"
