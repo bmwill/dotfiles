@@ -10,6 +10,7 @@ setopt APPEND_HISTORY         # append to HISTFILE, rather than overwriting it
 setopt INC_APPEND_HISTORY     # append incrementally instead of waiting until the shell exits
 setopt HIST_EXPIRE_DUPS_FIRST # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt HIST_IGNORE_DUPS       # ignore duplicated commands history list
+setopt HIST_IGNORE_ALL_DUPS   # remove old commands from history if a new one is a duplicate
 setopt HIST_IGNORE_SPACE      # ignore commands that start with space
 setopt HIST_FIND_NO_DUPS      # ignore duplicates when searching
 setopt HIST_REDUCE_BLANKS     # remove blank lines from history
@@ -38,7 +39,7 @@ function __history {
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS=${HIST_STAMPS:-"mm/dd/yyyy"}
 
 # Timestamp format
 case ${HIST_STAMPS-} in
