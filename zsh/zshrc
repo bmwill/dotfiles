@@ -1,36 +1,44 @@
 # ===== Zsh Configuration =====
-# http://zsh.sourceforge.net/Doc/Release/index.html
-# http://zsh.sourceforge.net/Guide/zshguide.html
 
-# Use '~/.path' file for machine dependent path modifications
-[ -f ~/.path ] && source ~/.path
+# ---- zsh profiling --------------------------------------------------
 
-# Add personal Scripts to PATH
-PATH="$HOME/bin:$HOME/dotfiles/bin:$PATH"
+# execute 'ZSH_PROFILE_RC=1 zsh' or 'profile' and run 'zprof' for details
+if [[ $ZSH_PROFILE_RC -gt 0 ]] ; then
+    zmodload zsh/zprof
+fi
 
-# Load all config files in .zsh
-for file in ${ZDOTDIR}/*.zsh; do
-    source $file
-done
-unset file
+function profile () {
+    ZSH_PROFILE_RC=1 zsh "$@"
+}
 
-# ===== Miscellaneous Extra Configuration =====
+# ---- general configuration ------------------------------------------
 
-# Require use of exit of logout to exit
-setopt IGNORE_EOF
-
-# Stop ctrl-s and ctrl-q from sending START/STOP signals
-unsetopt FLOW_CONTROL
-stty -ixon -ixoff
-
-setopt LONG_LIST_JOBS
-setopt INTERACTIVE_COMMENTS # Allow comments in interactive shells
+setopt LONG_LIST_JOBS # display PID when suspending processes
 setopt MULTIOS
 
+# report about cpu-/system-/user-time of command if running longer than
+# 5 seconds
+REPORTTIME=5
+
 export EDITOR=vim
+export VISUAL=vim
 # ignore case, exit if it fits on one screen, allow colors for ls and grep
 export LESS="-iFXR"
 export PAGER=less
 
+# Add personal Scripts to PATH
+path=( $HOME/bin $HOME/dotfiles/bin $path)
+
+# Load all config files in .zsh
+local file
+for file in ${ZDOTDIR}/*.zsh; do
+    source $file
+done
+
 # Enable FZF completion
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# ---- local overrides ------------------------------------------------
+
+# Use '~/.zshrc.local' file for machine dependent modifications
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
