@@ -31,12 +31,13 @@ fi
 # Most terminals send "ESC x" when Meta-x is pressed,
 # meaning ESC and META are equivalent for most cases.
 #
-# Control - '^' or \C-'
-# Escape - '\e'
-# Meta - '\e'
-# Meta + Control - '\e^'
-# Backspace - '^?'
-# Tab - '^I'
+# Control           '^' or '\C-'
+# Escape            '\e'
+# Meta              '\e'
+# Meta + Control    '\e^'
+# Backspace         '^?'
+# Tab               '^I'
+# Enter             '^M'
 typeset -A key
 key=(
     'F1'            "$terminfo[kf1]"
@@ -121,21 +122,16 @@ abbreviations=(
     'T'     '| tail'
     'V'     '|& vim -'
 
-
- # "Im"    "| more"
- # "Ia"    "| awk"
- # "Ig"    "| grep"
- # "Ieg"   "| egrep"
- # "Iag"   "| agrep"
- # "Igr"   "| groff -s -p -t -e -Tlatin1 -mandoc"
- # "Ip"    "| $PAGER"
- # "Ih"    "| head"
- # "Ik"    "| keep"
- # "It"    "| tail"
- # "Is"    "| sort"
- # "Iv"    "| ${VISUAL:-${EDITOR}}"
- # "Iw"    "| wc"
- # "Ix"    "| xargs"
+    "Im"    "| more"
+    "Ia"    "| awk"
+    "Ig"    "| grep"
+    "Ip"    "| $PAGER"
+    "Ih"    "| head"
+    "It"    "| tail"
+    "Is"    "| sort"
+    "Iv"    "| ${VISUAL:-${EDITOR}}"
+    "Iw"    "| wc"
+    "Ix"    "| xargs"
 )
 
 # [Ctrl-X .] Perform abbreviation expansion
