@@ -42,6 +42,7 @@ endif
 
 " Color Schemes
 " Plugin 'tomasr/molokai' " Molokai theme (currently pre-installed)
+let g:gruvbox_italic=1
 Plugin 'morhetz/gruvbox' " Gruvbox theme
 " Plugin 'connorholyday/vim-snazzy' " Snazzy - Requires 24-bit color
 " Plugin 'arcticicestudio/nord-vim' " Nord - Requires 24-bit color
