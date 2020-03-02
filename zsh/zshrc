@@ -36,6 +36,10 @@ for file in ${ZDOTDIR}/*.zsh; do
 done
 
 # Enable FZF completion
+# [Ctrl-T] paste the selected file path(s) into the command line
+# [Alt-C]  cd into the selected directory
+# [Ctrl-R] paste the selected command from history into the command line
+# [**] fzf completion trigger, e.g. 'ls **<Tab>'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ---- local overrides ------------------------------------------------
