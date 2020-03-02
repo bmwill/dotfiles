@@ -36,6 +36,7 @@ fi
 # Meta - '\e'
 # Meta + Control - '\e^'
 # Backspace - '^?'
+# Tab - '^I'
 typeset -A key
 key=(
     'F1'            "$terminfo[kf1]"
@@ -100,7 +101,7 @@ bindkey '^xi' insert-unicode-char
 # Vim like abbreviation expansion (iabbrev).
 # less risky than the global aliases but powerful as well
 # just type the abbreviation keys and afterwards [Ctrl-x .] to expand it
-declare -A abbreviations
+typeset -A abbreviations
 abbreviations=(
     # key   # value                 # (additional doc string)
     '...'   '../..'
@@ -138,7 +139,7 @@ abbreviations=(
 )
 
 # [Ctrl-X .] Perform abbreviation expansion
-# [Ctrl-I Space] Perform abbreviation expansion
+# [Ctrl-O Space] Perform abbreviation expansion
 function zle-abbreviations {
     emulate -L zsh
     setopt extendedglob
@@ -149,7 +150,7 @@ function zle-abbreviations {
 }
 zle -N zle-abbreviations
 bindkey '^x.' zle-abbreviations
-bindkey '^i ' zle-abbreviations
+bindkey '^o ' zle-abbreviations
 
 # [Ctrl-X b] Display list of abbreviations that would expand
 function help-abbreviations {
