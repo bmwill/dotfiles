@@ -3,6 +3,7 @@ function vman() {
     man $1 | col -b | \
         view \
         -c 'map q :q<CR>' \
+        -c 'set nonumber' \
         -c 'hi StatusLine ctermbg=green| set ft=man nomod nolist' -
 }
 
