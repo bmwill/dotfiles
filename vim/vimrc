@@ -42,6 +42,9 @@ let mapleader=","         " Change <Leader>, default is '\'
 "set ttimeout
 "set ttimeoutlen=10
 
+" Don't go into command-line window, instead use <C-f> in command mode
+nnoremap q: <Nop>
+
 " -------------------------------------
 "               Movement
 " -------------------------------------
