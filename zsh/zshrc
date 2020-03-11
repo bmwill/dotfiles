@@ -20,6 +20,10 @@ setopt MULTIOS
 # 5 seconds
 REPORTTIME=5
 
+if [[ "$OSTYPE" == darwin* ]]; then
+    export BROWSER='open'
+fi
+
 export EDITOR=vim
 export VISUAL=vim
 # ignore case, exit if it fits on one screen, allow colors for ls and grep
