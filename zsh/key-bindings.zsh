@@ -53,6 +53,7 @@ key=(
     'F11'           "$terminfo[kf11]"
     'F12'           "$terminfo[kf12]"
     'Insert'        "$terminfo[kich1]"
+    'Delete'        "$terminfo[kdch1]"
     'Home'          "$terminfo[khome]"
     'PageUp'        "$terminfo[kpp]"
     'End'           "$terminfo[kend]"
@@ -64,6 +65,9 @@ key=(
     'BackTab'       "$terminfo[kcbt]"
 )
 
+# Unbind Ctrl-S so that we can use that as a leader key
+bindkey -r '^s'
+
 # Basic movement
 bindkey "${key[Down]}" down-line-or-history
 bindkey "${key[Up]}" up-line-or-history
@@ -72,25 +76,31 @@ bindkey "${key[Right]}" forward-char
 bindkey "${key[Home]}" beginning-of-line
 bindkey "${key[End]}" end-of-line
 
-# [PageUp] or [Ctrl+X p] search history backward for entry beginning with typed text
-# [PageDown] or [Ctrl+X P] search history forward for entry beginning with typed text
+bindkey "${key[Delete]}" delete-char
+
+bindkey '^j' down-line-or-history
+bindkey '^k' up-line-or-history
+
+# [PageUp] or [Ctrl-S p] search history backward for entry beginning with typed text
+# [PageDown] or [Ctrl-S P] search history forward for entry beginning with typed text
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end  history-search-end
 bindkey "${key[PageUp]}" history-beginning-search-bakward-end
-bindkey "^xp" history-beginning-search-bakward-end
+bindkey "^sp" history-beginning-search-bakward-end
 bindkey "${key[PageDown]}" history-beginning-search-forward-end
-bindkey "^xP" history-beginning-search-forward-end
+bindkey "^sP" history-beginning-search-forward-end
 
 # [Space] history expansion (things like '!!', '!$', etc)
 bindkey ' ' magic-space
 
-# [Ctrl+X f] Insert files and test globbing
+# [Ctrl-S f] Insert files and test globbing
 autoload -U insert-files && zle -N insert-files
-bindkey '^xf' insert-files
+bindkey '^sf' insert-files
 
-# [Ctrl+X Ctrl+E] edit the current command line in $VISUAL or $EDITOR
+# [Ctrl-S Ctrl-E] edit the current command line in $VISUAL or $EDITOR
 autoload -U edit-command-line && zle -N edit-command-line
+bindkey '^s^e' edit-command-line
 bindkey '^x^e' edit-command-line
 
 # [Ctrl-X i] Insert Unicode character
@@ -101,41 +111,28 @@ bindkey '^xi' insert-unicode-char
 
 # Vim like abbreviation expansion (iabbrev).
 # less risky than the global aliases but powerful as well
-# just type the abbreviation keys and afterwards [Ctrl-x .] to expand it
+# just type the abbreviation keys and afterwards [Ctrl-Space] to expand it
 typeset -A abbreviations
 abbreviations=(
     # key   # value                 # (additional doc string)
-    '...'   '../..'
-    '....'  '../../..'
     'BG'    '& exit'
     'C'     '| wc -l'
     'G'     '|& rg'
-    'H'     '| head'
     'Hl'    ' --help |& less -r'    # (Display help in pager)
+    'H'     '| head'
     'L'     '| less'
     'LL'    '|& less -r'
     'M'     '| most'
+    'T'     '| tail'
     'N'     '&>/dev/null'           # (No Output)
     'R'     '| tr A-z N-za-m'       # (ROT13)
     'SL'    '| sort | less'
     'S'     '| sort -u'
-    'T'     '| tail'
     'V'     '|& vim -'
-
-    "Im"    "| more"
-    "Ia"    "| awk"
-    "Ig"    "| grep"
-    "Ip"    "| $PAGER"
-    "Ih"    "| head"
-    "It"    "| tail"
-    "Is"    "| sort"
-    "Iv"    "| ${VISUAL:-${EDITOR}}"
-    "Iw"    "| wc"
-    "Ix"    "| xargs"
 )
 
-# [Ctrl-X .] Perform abbreviation expansion
-# [Ctrl-O Space] Perform abbreviation expansion
+# [Ctrl-Space] Perform abbreviation expansion
+# [Ctrl-S Space] Perform abbreviation expansion
 function zle-abbreviations {
     emulate -L zsh
     setopt extendedglob
@@ -145,19 +142,20 @@ function zle-abbreviations {
     LBUFFER+=${abbreviations[$MATCH]:-$MATCH}
 }
 zle -N zle-abbreviations
-bindkey '^x.' zle-abbreviations
-bindkey '^o ' zle-abbreviations
+bindkey '^ ' zle-abbreviations
+bindkey '^s ' zle-abbreviations
 
-# [Ctrl-X b] Display list of abbreviations that would expand
+# [Ctrl-S b] Display list of abbreviations that would expand
 function help-abbreviations {
     print "Available abbreviations for expansion:"
+
     print -a -C 2 ${(kv)abbreviations}
 }
 function zle-help-abbreviations {
     zle -M "$(help-abbreviations)"
 }
 zle -N zle-help-abbreviations
-bindkey '^xb' zle-help-abbreviations
+bindkey '^sb' zle-help-abbreviations
 
 # [Ctrl-Z] Smart shortcut for typing 'fg<Enter>'
 function smart-fg {
@@ -173,14 +171,14 @@ function smart-fg {
 zle -N smart-fg
 bindkey '^z' smart-fg
 
-# [Ctrl-X d] Insert the actual date in the form yyyy-mm-dd
+# [Ctrl-S d] Insert the actual date in the form yyyy-mm-dd
 function insert-datestamp {
     LBUFFER+=${(%):-'%D{%Y-%m-%d}'}
 }
 zle -N insert-datestamp
-bindkey '^xd' insert-datestamp
+bindkey '^sd' insert-datestamp
 
-# [Ctrl-X 1] jump to after the first word on the cmdline, useful to add options.
+# [Ctrl-S 1] jump to after the first word on the cmdline, useful to add options.
 function jump-after-first-word {
     local words
     words=(${(z)BUFFER})
@@ -192,7 +190,7 @@ function jump-after-first-word {
     fi
 }
 zle -N jump-after-first-word
-bindkey '^x1' jump-after-first-word
+bindkey '^s1' jump-after-first-word
 
 # [Ctrl-O s] prepend command line with 'sudo '
 function prepend-sudo {
@@ -203,12 +201,12 @@ function prepend-sudo {
     fi
 }
 zle -N prepend-sudo
-bindkey '^os' prepend-sudo
+bindkey '^ss' prepend-sudo
 
-# [Ctrl-X M] Create directory under cursor or the selected area
+# [Ctrl-S M] Create directory under cursor or the selected area
 # To select an area press ctrl-@ or ctrl-space and use the cursor.
 # Use case: you type "mv abc ~/testa/testb/testc/" and remember that the
-# directory does not exist yet -> press [Ctrl-X M] and problem solved!
+# directory does not exist yet -> press [Ctrl-S M] and problem solved!
 function inplace-mkdir {
     local PATHTOMKDIR
     if ((REGION_ACTIVE==1)); then
@@ -237,7 +235,7 @@ function inplace-mkdir {
     fi
 }
 zle -N inplace-mkdir
-bindkey '^xM' inplace-mkdir
+bindkey '^sM' inplace-mkdir
 
 # [Ctrl-X Ctrl-X] complete word from history
 zle -C hist-complete complete-word _generic
@@ -249,7 +247,7 @@ bindkey '\em' copy-prev-shell-word
 # [Esc-w] Kill from the cursor to the mark
 bindkey '\ew' kill-region
 # [Esc-l] run command: ls
-bindkey -s '\el' 'ls\n'
+bindkey -s '\el' 'ls^M'
 # [Ctrl-r] Search backward incrementally for a specified string.
 # The string may begin with ^ to anchor the search to the beginning of the line.
 bindkey '^r' history-incremental-search-backward
@@ -258,6 +256,8 @@ bindkey '^r' history-incremental-search-backward
 
 # [Esc-i] or [Meta-i] trigger menu completion
 bindkey '\ei' menu-complete
+# [Ctrl-S Ctrl-I] trigger menu completion
+bindkey '^s^i' menu-complete
 
 # [Shift-Tab] menu selection:  move through the completion menu backwards
 bindkey -M menuselect "${key[BackTab]}" reverse-menu-complete
@@ -288,8 +288,8 @@ function _help_zle_parse_keybindings() {
 
     # choose files that help-zle will parse for keybindings
     local keybinding_files=(
-        ${ZDOTDIR}/zshrc
         ${ZDOTDIR}/*.zsh
+        ${ZDOTDIR}/zshrc
         ~/.zshrc.local
     )
 
@@ -406,5 +406,5 @@ function zle-help-zle() {
     zle -M "${(F)_help_zle_lines[sln,_help_zle_sln-1]}"
 }
 zle -N zle-help-zle
-# [Ctrl-X z] display help for keybindings and ZLE
-bindkey '^xz' zle-help-zle
+# [Ctrl-S h] display help for keybindings and ZLE
+bindkey '^sh' zle-help-zle
