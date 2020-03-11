@@ -30,6 +30,9 @@ export VISUAL=vim
 export LESS="-iFXR"
 export PAGER=less
 
+# Remove duplicate entries from PATH
+typeset -aU path
+
 # Add personal Scripts to PATH
 path=( $HOME/bin $HOME/dotfiles/bin $path)
 
