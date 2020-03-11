@@ -47,6 +47,10 @@ done
 # [Alt-C]  cd into the selected directory
 # [Ctrl-R] paste the selected command from history into the command line
 # [**] fzf completion trigger, e.g. 'ls **<Tab>'
+# - $FZF_TMUX               (default: 0)
+# - $FZF_TMUX_HEIGHT        (default: '40%')
+# - $FZF_COMPLETION_TRIGGER (default: '**')
+# - $FZF_COMPLETION_OPTS    (default: empty)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ---- local overrides ------------------------------------------------
