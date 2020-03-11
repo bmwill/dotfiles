@@ -75,10 +75,25 @@ else # OS X `ls`
 fi
 
 # Some convenient `ls` aliases
-alias la="ls -A"
-alias ll="ls -AlhF"
-alias l="ls -lhF"
-alias lsd="ls -lhd -- */"
 
-# Show me the size (sorted) of only the folders in this directory
+# List all files
+alias la="ls -A"
+# List files in long format
+alias l="ls -lhF"
+# List all files in long format
+alias ll="ls -AlhF"
+# List only directories
+alias lsd="ls -d -- *(/)"
+# List entire directory sorted by filesize
+alias dir='ls -lSrAh'
+# List only dot-directories and dot-files
+alias lad='ls -Ad -- .*'
+# List only symlinks
+alias lsl='ls -l -- *(@)'
+# List only executables
+alias lsx='ls -l -- *(*)'
+# List only empty directories
+alias lse='ls -d -- *(/^F)'
+
+# Show the size (sorted) of only the folders in this directory
 alias folders="find . -maxdepth 1 -type d -print | xargs du -shk | sort -rn"
