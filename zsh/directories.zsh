@@ -7,6 +7,12 @@ setopt PUSHD_IGNORE_DUPS
 setopt PUSHDMINUS
 DIRSTACKSIZE=10
 
+# 'hash' some often used directories
+# used for `cd ~<named-dir>`
+hash -d dotfiles=~/dotfiles
+hash -d vim=~/.vim
+hash -d zsh=~/.zsh
+
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
