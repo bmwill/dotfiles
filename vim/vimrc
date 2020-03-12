@@ -13,10 +13,8 @@
 " This must be first, because it changes other options as a side effect
 set nocompatible
 
-" Load plugins if Vundle exists
-if !empty(glob("$HOME/.vim/bundle/Vundle.vim"))
-  source $HOME/.vim/plugins.vim
-endif
+" Load plugins
+source $HOME/.vim/plugins.vim
 
 syntax on                 " Turns syntax on
 set history=1000          " Increase :cmdline history
