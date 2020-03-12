@@ -65,7 +65,7 @@ alias badge="tput bel"
 alias map="xargs -n1"
 
 # Reload the shell (i.e. invoke as a login shell)
-alias reload="exec $SHELL -l"
+alias reload='(( ! ${#jobstates} )) && exec $SHELL -l || echo "zsh: you have suspended jobs"'
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
