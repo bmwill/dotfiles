@@ -1,5 +1,15 @@
 # ===== Zsh Configuration =====
 
+# zsh help documentation:
+#   These configuration files contain comments of the form: #<letter>#
+#   These special markers are used to automatically generate help lines
+#   for various things directly from the configuration files themselves.
+#
+# List of tags used:
+#   #a#     Alias that should be included in 'help-aliases'
+#   #f#     Function that should be included in 'help-functions'
+#   #k#     Keybinding that should be included in 'help-zle'
+
 # ---- zsh profiling --------------------------------------------------
 
 # execute 'ZSH_PROFILE_RC=1 zsh' or 'profile' and run 'zprof' for details
