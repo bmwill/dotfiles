@@ -1,21 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
-#####################################################################
-#   install                                                         #
-#   This script creates symlinks from the home directory to         #
-#   dotfiles included in dotfiles/                                  #
-#                                                                   #
-#   Author: Brandon Williams                                        #
-#####################################################################
+# Install symlinks from the dotfile directory to the user's homedir
 
-# List of files or directories to be linked
-# must specify the relative path from ./ to each file
-#
-files=(vim bash/bashrc bash/bash_profile bash/bash_prompt bash/aliases
-       git/gitignore git/gitconfig mutt tmux/tmux.conf)
-
-curdir=`pwd`
-backupdir=~/dotfiles_bkup
+dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
 info() {
   printf "\r  [ \033[00;34m..\033[0m ] $1\n"
@@ -29,88 +16,57 @@ success() {
   printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
 }
 
-fail () {
+fail() {
   printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
-  echo ''
-  exit
 }
 
-link_file() {
-  local filebasename=$(basename $1)
-  local src=$curdir/$1
-  local dst=~/.$filebasename
+link() {
+	local src="$1"
+	local dst="$2"
 
-  # check if the file or directory exists
-  #
-  if [ -d $dst ] || [ -f $dst ]
-  then
-    # Create a backup directory if it doesn't exists
-    #
-    if [ ! -d $backupdir ]
-    then
-        mkdir -p $backupdir
-    fi
-
-    # Move the file into the backup directory
-    #
-    mv $dst $backupdir/$filebasename
-    success "Backed up $dst to $backupdir/$filebasename"
-  fi
-
-  # Link the file
-  #
-  ln -s $src $dst
-
-  success "Link from $dst to $src created"
+	# check if the file or directory exists
+	if [ -d "$dst" ] || [ -f "$dst" ]; then
+		# Skip linking
+		fail "$dst already exists; skipping..."
+	else
+		# Link the file/directory
+		ln -s "$src" "$dst" && success "Link from $src to $dst created"
+	fi
 }
 
-install_dotfiles() {
-  info "Installing Dotfiles"
+info "Installing Dotfiles"
 
-  for file in "${files[@]}"
-  do
-    link_file $file
-  done
-}
+# ---- zsh ------------------------------------------------------------
+link "$dir/zsh/.zshenv" ~/.zshenv
+link "$dir/zsh" ~/.zsh
+touch ~/.zshrc.local
 
-setup_gitconfig() {
-  info 'setup gitconfig'
+# ---- vim ------------------------------------------------------------
+link "$dir/vim" ~/.vim
 
-  user ' - What is your github author name?'
-  read -e git_authorname
-  user ' - What is your github author email?'
-  read -e git_authoremail
+# ---- tmux -----------------------------------------------------------
+link "$dir/tmux/tmux.conf" ~/.tmux.conf
 
-  sed -e "s/AUTHORNAME/$git_authorname/g"     \
-      -e "s/AUTHOREMAIL/$git_authoremail/g"   \
-      git/gitconfig.local > ~/.gitconfig.local
+# ---- mutt -----------------------------------------------------------
+link "$dir/mutt" ~/.mutt
 
-  # link base gitconfig file
-  #
-  link_file "git/gitconfig"
+# ---- git ------------------------------------------------------------
+info 'setting up git'
+link "$dir/git/gitignore" ~/.gitignore
+link "$dir/git/gitconfig" ~/.gitconfig
+if [ ! -f ~/.gitconfig.local ]; then
+	user ' - What is your github author name?'
+	read -e git_authorname
+	user ' - What is your github author email?'
+	read -e git_authoremail
 
-  success 'gitconfig'
-}
+	sed -e "s/AUTHORNAME/$git_authorname/g" \
+		-e "s/AUTHOREMAIL/$git_authoremail/g" \
+		"$dir/git/gitconfig.local" >~/.gitconfig.local
 
-# If the user specifies a file to install then install that file and exit
-if [ $# -ne 0 ]
-then
-  for input in "$@"
-  do
-    # Check if the file the user wants to install is part
-    # of the group of files that get installed by default
-    if [[ "${files[@]}" =~ (^| )$input($| ) ]]
-    then
-      #echo $input
-      link_file $input
-    fi
-  done
-
-  exit
 fi
 
-# If there were no arguments are given then perform a default install
-setup_gitconfig
-install_dotfiles
+# ---- homebrew -------------------------------------------------------
+"$dir/homebrew/install-homebrew"
 
 echo "  Finished!"

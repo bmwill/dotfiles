@@ -1,5 +1,5 @@
 #!/bin/sh
-#
+
 # Install Homebrew
 
 BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
@@ -13,10 +13,9 @@ if ! type brew >/dev/null 2>&1; then
 	ln -s "$HOME/homebrew/Homebrew/manpages/brew.1" "$HOME/homebrew/share/man/man1"
 	eval $("$HOME/homebrew/bin/brew" shellenv)
 
-	"$HOME/homebrew/bin/brew" shellenv >>"$HOME/.path"
+	"$HOME/homebrew/bin/brew" shellenv >>"$HOME/.zshrc.local"
 
 	brew bundle -v --file="$BASE_DIR/Brewfile"
 else
 	echo "Homebrew already installed"
 fi
-
