@@ -53,10 +53,10 @@ done
 unset file
 
 # Enable FZF completion
-# [Ctrl-T] paste the selected file path(s) into the command line
-# [Alt-C]  cd into the selected directory
-# [Ctrl-R] paste the selected command from history into the command line
-# [**] fzf completion trigger, e.g. 'ls **<Tab>'
+#k# [Ctrl-T] paste the selected file path(s) into the command line
+#k# [Alt-C]  cd into the selected directory
+#k# [Ctrl-R] paste the selected command from history into the command line
+#k# [**] fzf completion trigger, e.g. 'ls **<Tab>'
 # - $FZF_TMUX               (default: 0)
 # - $FZF_TMUX_HEIGHT        (default: '40%')
 # - $FZF_COMPLETION_TRIGGER (default: '**')
