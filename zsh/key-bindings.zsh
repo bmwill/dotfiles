@@ -81,8 +81,8 @@ bindkey "${key[Delete]}" delete-char
 bindkey '^j' down-line-or-history
 bindkey '^k' up-line-or-history
 
-# [PageUp] or [Ctrl-S p] search history backward for entry beginning with typed text
-# [PageDown] or [Ctrl-S P] search history forward for entry beginning with typed text
+#k# [PageUp] or [Ctrl-S p] search history backward for entry beginning with typed text
+#k# [PageDown] or [Ctrl-S P] search history forward for entry beginning with typed text
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end  history-search-end
@@ -91,19 +91,19 @@ bindkey "^sp" history-beginning-search-bakward-end
 bindkey "${key[PageDown]}" history-beginning-search-forward-end
 bindkey "^sP" history-beginning-search-forward-end
 
-# [Space] history expansion (things like '!!', '!$', etc)
+#k# [Space] history expansion (things like '!!', '!$', etc)
 bindkey ' ' magic-space
 
-# [Ctrl-S f] Insert files and test globbing
+#k# [Ctrl-S f] Insert files and test globbing
 autoload -U insert-files && zle -N insert-files
 bindkey '^sf' insert-files
 
-# [Ctrl-S Ctrl-E] edit the current command line in $VISUAL or $EDITOR
+#k# [Ctrl-S Ctrl-E] edit the current command line in $VISUAL or $EDITOR
 autoload -U edit-command-line && zle -N edit-command-line
 bindkey '^s^e' edit-command-line
 bindkey '^x^e' edit-command-line
 
-# [Ctrl-X i] Insert Unicode character
+#k# [Ctrl-X i] Insert Unicode character
 # usage example: 'ctrl-x i' 00A7 'ctrl-x i' will give you an §
 # See for example http://unicode.org/charts/ for unicode characters code
 autoload -U insert-unicode-char && zle -N insert-unicode-char
@@ -129,10 +129,11 @@ abbreviations=(
     'SL'    '| sort | less'
     'S'     '| sort -u'
     'V'     '|& vim -'
+    'gc'    'git commit -m "'
 )
 
-# [Ctrl-Space] Perform abbreviation expansion
-# [Ctrl-S Space] Perform abbreviation expansion
+#k# [Ctrl-Space] Perform abbreviation expansion
+#k# [Ctrl-S Space] Perform abbreviation expansion
 function zle-abbreviations {
     emulate -L zsh
     setopt extendedglob
@@ -145,7 +146,7 @@ zle -N zle-abbreviations
 bindkey '^ ' zle-abbreviations
 bindkey '^s ' zle-abbreviations
 
-# [Ctrl-S b] Display list of abbreviations that would expand
+#k# [Ctrl-S b] Display list of abbreviations that would expand
 function help-abbreviations {
     print "Available abbreviations for expansion:"
 
@@ -157,7 +158,7 @@ function zle-help-abbreviations {
 zle -N zle-help-abbreviations
 bindkey '^sb' zle-help-abbreviations
 
-# [Ctrl-Z] Smart shortcut for typing 'fg<Enter>'
+#k# [Ctrl-Z] Smart shortcut for typing 'fg<Enter>'
 function smart-fg {
   if (( ${#jobstates} )); then
     zle .push-input
@@ -171,14 +172,14 @@ function smart-fg {
 zle -N smart-fg
 bindkey '^z' smart-fg
 
-# [Ctrl-S d] Insert the actual date in the form yyyy-mm-dd
+#k# [Ctrl-S d] Insert the actual date in the form yyyy-mm-dd
 function insert-datestamp {
     LBUFFER+=${(%):-'%D{%Y-%m-%d}'}
 }
 zle -N insert-datestamp
 bindkey '^sd' insert-datestamp
 
-# [Ctrl-S 1] jump to after the first word on the cmdline, useful to add options.
+#k# [Ctrl-S 1] jump to after the first word on the cmdline, useful to add options.
 function jump-after-first-word {
     local words
     words=(${(z)BUFFER})
@@ -192,7 +193,7 @@ function jump-after-first-word {
 zle -N jump-after-first-word
 bindkey '^s1' jump-after-first-word
 
-# [Ctrl-O s] prepend command line with 'sudo '
+#k# [Ctrl-O s] prepend command line with 'sudo '
 function prepend-sudo {
     [[ -z $BUFFER ]] && zle up-history
     if [[ $BUFFER != sudo\ * ]]; then
@@ -203,7 +204,7 @@ function prepend-sudo {
 zle -N prepend-sudo
 bindkey '^ss' prepend-sudo
 
-# [Ctrl-S M] Create directory under cursor or the selected area
+#k# [Ctrl-S M] Create directory under cursor or the selected area
 # To select an area press ctrl-@ or ctrl-space and use the cursor.
 # Use case: you type "mv abc ~/testa/testb/testc/" and remember that the
 # directory does not exist yet -> press [Ctrl-S M] and problem solved!
@@ -237,45 +238,45 @@ function inplace-mkdir {
 zle -N inplace-mkdir
 bindkey '^sM' inplace-mkdir
 
-# [Ctrl-X Ctrl-X] complete word from history
+#k# [Ctrl-X Ctrl-X] complete word from history
 zle -C hist-complete complete-word _generic
 zstyle ':completion:hist-complete:*' completer _history
 bindkey '^x^x' hist-complete
 
-# [Esc-m] insert last typed word
+#k# [Esc-m] insert last typed word
 bindkey '\em' copy-prev-shell-word
-# [Esc-w] Kill from the cursor to the mark
+#k# [Esc-w] Kill from the cursor to the mark
 bindkey '\ew' kill-region
-# [Esc-l] run command: ls
+#k# [Esc-l] run command: ls
 bindkey -s '\el' 'ls^M'
-# [Ctrl-r] Search backward incrementally for a specified string.
+#k# [Ctrl-r] Search backward incrementally for a specified string.
 # The string may begin with ^ to anchor the search to the beginning of the line.
 bindkey '^r' history-incremental-search-backward
 
 # ---- menu completion ------------------------------------------------
 
-# [Esc-i] or [Meta-i] trigger menu completion
+#k# [Esc-i] or [Meta-i] trigger menu completion
 bindkey '\ei' menu-complete
-# [Ctrl-S Ctrl-I] trigger menu completion
+#k# [Ctrl-S Ctrl-I] trigger menu completion
 bindkey '^s^i' menu-complete
 
-# [Shift-Tab] menu selection:  move through the completion menu backwards
+#k# [Shift-Tab] menu selection:  move through the completion menu backwards
 bindkey -M menuselect "${key[BackTab]}" reverse-menu-complete
-# [Ctrl-K] menu selection: cycle through the completion menu backwards
+#k# [Ctrl-K] menu selection: cycle through the completion menu backwards
 bindkey -M menuselect '^k' reverse-menu-complete
-# [Ctrl-J] menu selection: cycle through the completion menu Forwards
+#k# [Ctrl-J] menu selection: cycle through the completion menu Forwards
 bindkey -M menuselect '^j' menu-complete
 
-# [+] menu selection: pick item but stay in the menu
+#k# [+] menu selection: pick item but stay in the menu
 bindkey -M menuselect '+' accept-and-menu-complete
-# [Ctrl-O] menu selection: accept a completion and try to complete again
+#k# [Ctrl-O] menu selection: accept a completion and try to complete again
 # Very useful with completing directories, with 'undo' you have a simple file browser
 bindkey -M menuselect '^o' accept-and-infer-next-history
 
 # ---- zle & keybinding help ------------------------------------------
 
 # The 'help-zle' function searches through sourced files looking for comments
-# which describe key bindings, lines of the form "# [<key>] <desc>", and
+# which describe key bindings, lines of the form "#k# [<key>] <desc>", and
 # compiles them into an easy to read list of keybindings.
 
 # set location of help-zle cache file
@@ -344,8 +345,8 @@ function _help_zle_parse_keybindings() {
         [[ -r "$f" ]] || continue   # skip if not readable
         contents="$(<$f)"
         for cline in "${(f)contents}"; do
-            # zsh pattern: match lines like: # [<keys>] <description>
-            if [[ "$cline" == (#s)(#b)[[:space:]]#\#[[:space:]]#(\[*\])[[:space:]]#(*)[[:space:]]#(#e) ]]; then
+            # zsh pattern: match lines like: #k# [<keys>] <description>
+            if [[ "$cline" == (#s)[[:space:]]#\#k\#[[:space:]]##(#b)(\[*\])[[:space:]]#(*)[[:space:]]#(#e) ]]; then
                 k="${match[1]}"
                 desc="${match[2]}"
 
@@ -363,6 +364,8 @@ function _help_zle_parse_keybindings() {
     # calculate length of keybinding column
     local kstrlen=0
     for k (${(k)help_zle_keybindings[@]}) ((kstrlen < ${#k})) && kstrlen=${#k}
+    kstrlen=$(( kstrlen + 5 ))
+
     # convert the assoc array into preformated lines, which we are able to sort
     for k v in ${(kv)help_zle_keybindings[@]}; do
         # pad keybinding-string to kstrlen chars
@@ -406,5 +409,5 @@ function zle-help-zle() {
     zle -M "${(F)_help_zle_lines[sln,_help_zle_sln-1]}"
 }
 zle -N zle-help-zle
-# [Ctrl-S h] display help for keybindings and ZLE
+#k# [Ctrl-S h] display help for keybindings and ZLE
 bindkey '^sh' zle-help-zle
