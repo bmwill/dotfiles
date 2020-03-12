@@ -1,4 +1,4 @@
-# Use 'view' to read manpages, if u want colors, regex - search.
+# Use 'view' to read manpages, in order to enable colors, regex - search, etc.
 function vman() {
     man $1 | col -b | \
         view \
