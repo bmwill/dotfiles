@@ -47,10 +47,10 @@ typeset -aU path
 path=( $HOME/bin $HOME/dotfiles/bin $path)
 
 # Load all config files in .zsh
-local file
 for file in ${ZDOTDIR}/*.zsh; do
     source $file
 done
+unset file
 
 # Enable FZF completion
 # [Ctrl-T] paste the selected file path(s) into the command line
