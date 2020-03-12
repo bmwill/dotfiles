@@ -1,4 +1,4 @@
-# Use 'view' to read manpages, in order to enable colors, regex - search, etc.
+#f# Use 'view' to read manpages, in order to enable colors, regex - search, etc.
 function vman() {
     man $1 | col -b | \
         view \
@@ -7,7 +7,7 @@ function vman() {
         -c 'hi StatusLine ctermbg=green| set ft=man nomod nolist' -
 }
 
-# grep for running process, like: 'any vim'
+#f# grep for running process, like: 'any vim'
 function any() {
     emulate -L zsh
     unsetopt KSH_ARRAYS
@@ -19,7 +19,7 @@ function any() {
     fi
 }
 
-# Provide useful information on zsh globbing
+#f# Provide useful information on zsh globbing
 # See zshexpn(1) for more info
 function help-zshglob() {
     cat <<EOF
@@ -59,4 +59,81 @@ function help-zshglob() {
     print **/*(g:users:)  # Recursively match all files that are owned by group 'users'
     echo /proc/*/cwd(:h:t:s/self//) # Analogous to >ps ax | awk '{print \$1}'<
 EOF
+}
+
+# Helper function used to create help pages from configuration files
+# $1 - description pattern (e.g. 'a' for alias or 'f' for function)
+# $2 - key pattern used to match the name of help item
+function _help() {
+    emulate -L zsh
+    setopt extendedglob
+    unsetopt ksharrays  #indexing starts at 1
+
+    # choose files to parse for help info
+    local files=(
+        ${ZDOTDIR}/*.zsh
+        ${ZDOTDIR}/zshrc
+        ~/.zshrc.local
+    )
+
+    local -A help_items
+
+    local k v cline contents
+    local last_desc             # last description starting with #"$1"#
+    local num_lines_elapsed=0   # number of lines between last description and help item
+
+    # search config files in the order they a called,
+    # this also dictates the order which things are overwritten
+    local f
+    for f in $files; do
+        [[ -r "$f" ]] || continue   # skip if not readable
+        contents="$(<$f)"
+        for cline in "${(f)contents}"; do
+            # zsh pattern: match lines like: #"$1"# <description>
+            if [[ "$cline" == (#s)[[:space:]]#\#${~1}\#[[:space:]]##(#b)(*)[[:space:]]#(#e) ]]; then
+                last_desc="$match[*]"
+                num_lines_elapsed=0
+            # zsh pattern: match lines indicated by $2 for aliases or functions
+            #              ignores lines that are commentend out
+            elif [[ "$cline" == (#s)[[:space:]]#[^#]#(#b)${~2}*(#e) ]]; then
+                k=$match[1]
+
+                # keys and description found? (and description isn't too far away)
+                if [[ -n $last_desc && $num_lines_elapsed -lt 2 && -n $match[1] ]]; then
+                    # Put the help item into the assoc array,
+                    # possibly overwriting things found in previous files
+                    help_items[${k}]=$last_desc
+                fi
+                last_desc=""
+            else
+              ((num_lines_elapsed++))
+            fi
+        done
+    done
+    unset contents
+
+    # calculate length of keybinding column
+    local kstrlen=0
+    for k (${(k)help_items[@]}) ((kstrlen < ${#k})) && kstrlen=${#k}
+    kstrlen=$(( kstrlen + 5 ))
+
+    # convert the assoc array into preformated lines, which we are able to sort
+    local -a help_lines
+    for k v in ${(kv)help_items[@]}; do
+        # pad keybinding-string to kstrlen chars
+        help_lines+=("${(r:kstrlen:)k}${v}")
+    done
+    # sort lines alphabetically and print them
+    help_lines=("${(i)help_lines[@]}")
+    echo "${(F)help_lines[@]}"
+}
+
+#f# list configured aliases
+function help-aliases() {
+    _help "a" "alias[[:space:]]##(*)="
+}
+
+#f# list configured functions
+function help-functions() {
+    _help "f" "function[[:space:]]##(*)[[:space:]]#\(\)"
 }

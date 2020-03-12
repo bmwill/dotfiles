@@ -1,6 +1,7 @@
 # ===== Aliases =====
 
 alias b='${(z)BROWSER}'
+#a# open default editor
 alias e='${(z)VISUAL:-${(z)EDITOR}}'
 alias v='${(z)VISUAL:-${(z)EDITOR}}'
 alias p='${(z)PAGER}'

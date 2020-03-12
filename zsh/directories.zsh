@@ -31,6 +31,7 @@ alias 9='cd -9'
 
 alias mkdir='mkdir -p'
 
+#f# list the directory stack
 function d () {
   if [[ -n $1 ]]; then
     dirs "$@"
@@ -40,6 +41,7 @@ function d () {
 }
 compdef _dirs d
 
+#f# cd to the root of a git repository
 function gd () {
     local directory="$(git rev-parse --show-toplevel 2>/dev/null)"
 
