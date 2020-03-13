@@ -27,6 +27,7 @@ Plug 'racer-rust/vim-racer'
 Plug 'tpope/vim-fugitive'
 
 let g:rustfmt_autosave = 1
+let g:rustfmt_options = '--config merge_imports=true'
 Plug 'rust-lang/rust.vim'
 
 if executable('brew')
