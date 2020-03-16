@@ -72,7 +72,7 @@ silent! colorscheme molokai
 " disable Background Color Erase (BCE) so that color schemes
 " render properly when inside 256-color tmux and GNU screen.
 if &term =~ '256color'
-  set t_ut=
+    set t_ut=
 endif
 
 " Highlight VCS conflict markers
@@ -175,16 +175,16 @@ set statusline+=\ %P              " Percent through file
 " Returns a string '[Encoding,Format]' for the statusline
 " if the encoding isn't 'utf-8' or the format isn't 'unix'
 function! FileFormat()
-  let l:fmt = ''
-  if &fenc != 'utf-8'
-    let l:fmt = strlen(&fenc) ? &fenc : 'none'
-  endif
+    let l:fmt = ''
+    if &fenc != 'utf-8'
+        let l:fmt = strlen(&fenc) ? &fenc : 'none'
+    endif
 
-  if &ff != 'unix'
-    let l:fmt = strlen(l:fmt) ? l:fmt . ',' . &ff : &ff
-  endif
+    if &ff != 'unix'
+        let l:fmt = strlen(l:fmt) ? l:fmt . ',' . &ff : &ff
+    endif
 
-  return strlen(l:fmt) ? '[' . l:fmt . ']' : ''
+    return strlen(l:fmt) ? '[' . l:fmt . ']' : ''
 endfunction
 
 " -------------------------------------
@@ -193,32 +193,6 @@ endfunction
 
 set splitbelow  " Open new splits to the bottom
 set splitright  " Open new splits to the right
-
-"nnoremap <silent> <Right> :call IntelligentVerticalResize('right')<CR>
-"nnoremap <silent> <Left> :call IntelligentVerticalResize('left')<CR>
-"" Only map up and down arrows to resize if the GUI is running
-"" This is because the CLI interprets mouse scrolling as arrow events
-"if has('gui_running')
-"  nnoremap <silent> <Up> :resize +1<CR>
-"  nnoremap <silent> <Down> :resize -1<CR>
-"end
-
-" Be aware of whether you are right or left vertical split
-" so you can use arrow keys more naturally to rezie windows
-function! g:IntelligentVerticalResize(direction) abort
-  let l:window_resize_count = 5
-  let l:current_window_is_last_window = (winnr() == winnr('$'))
-
-  if (a:direction ==# 'left')
-    let [l:modifier_1, l:modifier_2] = ['+', '-']
-  else
-    let [l:modifier_1, l:modifier_2] = ['-', '+']
-  endif
-
-  let l:modifier = l:current_window_is_last_window ? l:modifier_1 : l:modifier_2
-  let l:command = 'vertical resize ' . l:modifier . l:window_resize_count . '<CR>'
-  execute l:command
-endfunction
 
 " -------------------------------------
 "             Gui Options
@@ -251,14 +225,14 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 " --------------------
 
 function! NumberToggle()
-  if(&relativenumber == 1 && &number == 1)
-    setlocal nonumber
-    setlocal norelativenumber
-  elseif (&number == 1)
-    setlocal relativenumber
-  else
-    setlocal number
-  endif
+    if(&relativenumber == 1 && &number == 1)
+        setlocal nonumber
+        setlocal norelativenumber
+    elseif (&number == 1)
+        setlocal relativenumber
+    else
+        setlocal number
+    endif
 endfunc
 
 nnoremap <leader>n :call NumberToggle()<CR>
@@ -267,7 +241,6 @@ nnoremap <leader>n :call NumberToggle()<CR>
 nnoremap <c-s> :silent update<CR>
 inoremap <c-s> <Esc>:silent update<CR>
 vnoremap <c-s> <Esc>:silent update<CR>gv
-
 
 " Execute current line or current selection as Vim EX commands.
 nnoremap <F2> :exe getline(".")<CR>
@@ -362,45 +335,44 @@ nnoremap <leader>D :diffoff!<cr>
 
 " What is the current syntax highlighting group?
 map <F3> :echo
-  \   "hi<" . synIDattr(synID(line("."),col("."),1),"name") . ">"
-  \ . " trans<" . synIDattr(synID(line("."),col("."),0),"name") . ">"
-  \ . " lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
-  \ . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")
-  \ . " BG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"bg#")<CR>
+    \   "hi<" . synIDattr(synID(line("."),col("."),1),"name") . ">"
+    \ . " trans<" . synIDattr(synID(line("."),col("."),0),"name") . ">"
+    \ . " lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
+    \ . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")
+    \ . " BG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"bg#")<CR>
 
-" Highlights characters that exceed the 80 char/line maximum
-highlight OverLength ctermbg=52 guibg=#592929
-"match OverLength /\%>80v.\+/
-" Show trailing whitespace
-"autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\s\+$/
-" Show Tabs
-"autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\t/
+" ----------------------------
+"     Plugin Configuration
+" ----------------------------
 
-nnoremap <leader>f :FZF<CR>
+" ---- fzf ------------------------------------------------------------
+" https://github.com/junegunn/fzf/blob/master/README-VIM.md
+
+nnoremap <leader>f :call fzf#run(fzf#wrap({
+    \   'source': 'fd --type f'
+    \ }))<CR>
 
 function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
+    redir => ls
+    silent ls
+    redir END
+    return split(ls, '\n')
 endfunction
 
 function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+    execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
-
 
 "nnoremap <leader>b :ls<cr>:b<space> " non-fzf version
 nnoremap <silent> <Leader>b :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
+    \   'source':  reverse(<sid>buflist()),
+    \   'sink':    function('<sid>bufopen'),
+    \   'options': '+m',
+    \   'down':    len(<sid>buflist()) + 2
+    \ })<CR>
 
-" ----------------
-"   Git Settings
-" ----------------
+" ---- fugitive & git -------------------------------------------------
+" https://github.com/tpope/vim-fugitive
 
 " git grep
 nnoremap <leader>gg :!git grep "<c-r>=expand("<cword>")<CR>"<CR>
@@ -428,82 +400,84 @@ function! ShowCommit() abort
 endfunction
 
 augroup fugitive_autocmds
-  autocmd!
-  autocmd BufReadPost fugitive://* set bufhidden=wipe
+    autocmd!
+    autocmd BufReadPost fugitive://* set bufhidden=wipe
 augroup END
 
+" ------------------------------------------
+"     Filetype/Project Specific Settings
+" ------------------------------------------
 
-" -------------------------------------
-"       Filetype Specific Settings
-" -------------------------------------
+" ---- general --------------------------------------------------------
+
+" Line Return
+" Make sure Vim returns to the same line when you reopen a file.
+augroup line_return
+    autocmd!
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
+" Standard In
+" Treat buffers from stdin (e.g.: echo foo | vim -) as scratch.
+augroup ft_stdin
+    autocmd!
+    autocmd StdinReadPost * :set buftype=nofile
+augroup END
+
+" ---- rust -----------------------------------------------------------
+
+autocmd! FileType rust call SetupRustEnv()
+function! SetupRustEnv()
+    nnoremap <buffer> <leader>rf :RustFmt<CR>
+    nnoremap <buffer> <leader>rt :RustTest<CR>
+    nnoremap <buffer> <leader>rr :Cruntarget<CR>
+endfunction
+
+" ---- git ------------------------------------------------------------
+
+" Highlights characters that exceed the 80 char/line maximum
+highlight OverLength ctermbg=52 guibg=#592929
+" Show trailing whitespace
+"autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\s\+$/
+" Show Tabs
+"autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\t/
 
 autocmd BufNewFile,BufRead *.cc,*.cpp,*.h set syntax=cpp11
-"autocmd BufNewFile,BufRead *.md set syntax=markdown
 autocmd BufNewFile,BufRead *.c,*.cc,*.cpp,*.h match OverLength /\%>80v.\+/
 
 " Git Dev Settings
 autocmd! BufNewFile,BufReadPost $HOME/work/git/* call SetupGitEnv()
 function! SetupGitEnv()
-  "let l:path = expand('%:p')
-  setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab
+    setlocal tabstop=8 shiftwidth=8 softtabstop=8 noexpandtab
+    call TextEnableCodeSnip('sh', "/'$/", "/^'/", 'SpecialComment')
 endfunction
-
-" Rust Dev Settings
-autocmd! FileType rust call SetupRustEnv()
-function! SetupRustEnv()
-  "nnoremap <C-]> <Plug>(rust-def)
-  "nnoremap <C-\> <Plug>(rust-def-vertical)
-  nmap <C-]> <Plug>(rust-def)
-  nmap <C-\> <Plug>(rust-def-vertical)
-endfunction
-
-"au FileType rust nmap gd <Plug>(rust-def)
-"au FileType rust nmap gs <Plug>(rust-def-split)
-"au FileType rust nmap gx <Plug>(rust-def-vertical)
-"au FileType rust nmap <leader>gd <Plug>(rust-doc)
-
-" Line Return
-" Make sure Vim returns to the same line when you reopen a file.
-augroup line_return
-  autocmd!
-  autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \     execute 'normal! g`"zvzz' |
-    \ endif
-augroup END
-
-" Standard In
-augroup ft_stdin
-  autocmd!
-  " Treat buffers from stdin (e.g.: echo foo | vim -) as scratch.
-  autocmd StdinReadPost * :set buftype=nofile
-augroup END
 
 " Function to enable syntax highlighting in code snippets
 function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
-  let ft=toupper(a:filetype)
-  let group='textGroup'.ft
-  if exists('b:current_syntax')
-    let s:current_syntax=b:current_syntax
-    " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
-    " do nothing if b:current_syntax is defined.
-    unlet b:current_syntax
-  endif
-  execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
-  try
-    execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
-  catch
-  endtry
-  if exists('s:current_syntax')
-    let b:current_syntax=s:current_syntax
-  else
-    unlet b:current_syntax
-  endif
-  let cmd='syntax region textSnip'.ft.'
-    \ matchgroup='.a:textSnipHl.'
-    \ start='.a:start.' end='.a:end.'
-    \ contains=@'.group
-  execute cmd
+    let ft=toupper(a:filetype)
+    let group='textGroup'.ft
+    if exists('b:current_syntax')
+        let s:current_syntax=b:current_syntax
+        " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
+        " do nothing if b:current_syntax is defined.
+        unlet b:current_syntax
+    endif
+    execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+    try
+        execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+    catch
+    endtry
+    if exists('s:current_syntax')
+        let b:current_syntax=s:current_syntax
+    else
+        unlet b:current_syntax
+    endif
+    let cmd='syntax region textSnip'.ft.'
+        \ matchgroup='.a:textSnipHl.'
+        \ start='.a:start.' end='.a:end.'
+        \ contains=@'.group
+    execute cmd
 endfunction
-
-autocmd! BufNewFile,BufReadPost $HOME/work/git/t/*.sh call TextEnableCodeSnip('sh', "/'$/", "/^'/", 'SpecialComment')

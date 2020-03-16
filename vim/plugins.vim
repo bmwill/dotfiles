@@ -1,10 +1,11 @@
 " plugin config file
 
 " Install vim-plug
+" https://github.com/junegunn/vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/bundle')
@@ -35,6 +36,9 @@ if executable('brew')
 else
     Plug 'junegunn/fzf'
 endif
+
+"Plug 'junegunn/vim-peekaboo'
+"Plug 'tpope/vim-surround'
 
 " Color Schemes
 " Plugin 'tomasr/molokai' " Molokai theme (currently pre-installed)
