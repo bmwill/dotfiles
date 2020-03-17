@@ -31,7 +31,8 @@ else
     Plug 'junegunn/fzf'
 endif
 
-"Plug 'junegunn/vim-peekaboo'
+" Peak at contents of registers with ", @, and <C-R>
+Plug 'junegunn/vim-peekaboo'
 
 " Color Schemes
 " Plugin 'tomasr/molokai' " Molokai theme (currently pre-installed)
