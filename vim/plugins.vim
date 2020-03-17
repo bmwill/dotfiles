@@ -26,6 +26,8 @@ let g:racer_experimental_completer = 1
 Plug 'racer-rust/vim-racer'
 
 Plug 'tpope/vim-fugitive'
+" gc - toggle comments
+Plug 'tpope/vim-commentary'
 
 let g:rustfmt_autosave = 1
 let g:rustfmt_options = '--config merge_imports=true'
