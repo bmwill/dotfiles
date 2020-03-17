@@ -375,7 +375,8 @@ nnoremap <silent> <Leader>b :call fzf#run({
 " https://github.com/tpope/vim-fugitive
 
 " git grep
-nnoremap <leader>gg :!git grep "<c-r>=expand("<cword>")<CR>"<CR>
+nnoremap <leader>gg :botright terminal ++rows=20
+    \ git --no-pager grep "<c-r>=expand("<cword>")<CR>"<CR>
 
 " Maybe add a mapping for :Gblame --reverse
 nnoremap <leader>gb :call Blame()<CR>
@@ -395,7 +396,8 @@ function! ShowCommit() abort
         echo "Not in fugitiveblame buffer"
     else
         let commit = matchstr(getline('.'), '\x\{,8}\x')
-        execute "!git --no-pager log -1 " . commit
+        execute "botright terminal ++rows=20 git --no-pager log -1 " . commit
+        normal gg
     endif
 endfunction
 
