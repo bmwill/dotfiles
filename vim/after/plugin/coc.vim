@@ -27,13 +27,52 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 set tagfunc=CocTagFunc
 
 " gd - go to definition of word under cursor
-nmap <silent> gd <Plug>(coc-definition)
-" gd - go to definition of the type of the variable under cursor
-nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gd :call <SID>jumpWrapper('jumpDefinition')<CR>
+" gy - go to definition of the type of the variable under cursor
+"nmap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gy :call <SID>jumpWrapper('jumpTypeDefinition')<CR>
 " gi - go to implementation
-nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gi :call <SID>jumpWrapper('jumpImplementation')<CR>
 " gr - find references of an identifier
-nmap <silent> gr <Plug>(coc-references)
+"nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> gr :call <SID>jumpWrapper('jumpReferences')<CR>
+
+" Wrapper for using CoC jump actions which pushes tags onto the tag stack
+" allowing the use of <C-t> for popping tags off the stack.
+function! s:jumpWrapper(action) abort
+    " Early return if the action isn't a jump
+    if ! (a:action ==# "jumpDefinition" ||
+    \     a:action ==# "jumpDeclaration" ||
+    \     a:action ==# "jumpImplementation" ||
+    \     a:action ==# "jumpTypeDefinition" ||
+    \     a:action ==# "jumpReferences"
+    \)
+        return v:false
+    endif
+
+    let l:current_tag = expand('<cWORD>')
+
+    let l:current_position    = getcurpos()
+    let l:current_position[0] = bufnr()
+
+    let l:current_tag_stack = gettagstack()
+    let l:current_tag_index = l:current_tag_stack['curidx']
+    let l:current_tag_items = l:current_tag_stack['items']
+
+    if CocAction(a:action)
+        let l:new_tag_index = l:current_tag_index + 1
+        let l:new_tag_item = [#{tagname: l:current_tag, from: l:current_position}]
+        let l:new_tag_items = l:current_tag_items[:]
+        if l:current_tag_index <= len(l:current_tag_items)
+            call remove(l:new_tag_items, l:current_tag_index - 1, -1)
+        endif
+        let l:new_tag_items += l:new_tag_item
+
+        call settagstack(winnr(), #{curidx: l:new_tag_index, items: l:new_tag_items}, 'r')
+    endif
+endfunction
 
 " gh - get hint on whatever's under the cursor
 command! -nargs=? CocHover :call CocAction('doHover', <f-args>)
