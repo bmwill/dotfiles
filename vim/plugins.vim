@@ -16,6 +16,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 " gc - toggle comments
 Plug 'tpope/vim-commentary'
+" ds - delete surrounding
+" cs - change surrounding
+" ys - add surrounding
+Plug 'tpope/vim-surround'
 
 let g:rustfmt_autosave = 1
 let g:rustfmt_options = '--config merge_imports=true'
@@ -28,7 +32,6 @@ else
 endif
 
 "Plug 'junegunn/vim-peekaboo'
-"Plug 'tpope/vim-surround'
 
 " Color Schemes
 " Plugin 'tomasr/molokai' " Molokai theme (currently pre-installed)
