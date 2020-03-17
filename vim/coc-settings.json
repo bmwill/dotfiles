@@ -1,9 +1,13 @@
 {
     "list.maxHeight": 15,
     "list.insertMappings": {
-        "<C-c>": "do:exit" // Use CTRL-C to exit
+        "<C-c>": "do:exit", // Use CTRL-C to exit
+        "<C-t>": "action:tabe",
+        "<C-v>": "action:vsplit"
     },
     "list.normalMappings": {
-        "<C-c>": "do:exit" // Use CTRL-C to exit
+        "<C-c>": "do:exit", // Use CTRL-C to exit
+        "t": "action:tabe",
+        "v": "action:vsplit"
     }
 }
