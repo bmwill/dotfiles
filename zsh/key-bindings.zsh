@@ -179,19 +179,42 @@ function insert-datestamp {
 zle -N insert-datestamp
 bindkey '^sd' insert-datestamp
 
-#k# [Ctrl-S 1] jump to after the first word on the cmdline, useful to add options.
-function jump-after-first-word {
+function _jump-after-nth-word {
+    [[ -z $1 ]] && return
+
     local words
     words=(${(z)BUFFER})
 
-    if (( ${#words} <= 1 )) ; then
+    if (( ${#words} <= $1 )) ; then
         CURSOR=${#BUFFER}
     else
-        CURSOR=${#${words[1]}}
+        local i count
+        count=0
+        for ((i = 1; i <= $1; i++)); do
+            # Account for spaces after first word
+            if (( i > 1 )); then
+                count=$(( count + 1))
+            fi
+            count=$(( count + ${#${words[$i]}} ))
+        done
+
+        CURSOR=$count
     fi
+}
+
+#k# [Ctrl-S 1] jump to after the first word on the cmdline, useful to add options.
+function jump-after-first-word {
+    _jump-after-nth-word 1
 }
 zle -N jump-after-first-word
 bindkey '^s1' jump-after-first-word
+
+#k# [Ctrl-S 2] jump to after the second word on the cmdline, useful to add options.
+function jump-after-second-word {
+    _jump-after-nth-word 2
+}
+zle -N jump-after-second-word
+bindkey '^s2' jump-after-second-word
 
 #k# [Ctrl-O s] prepend command line with 'sudo '
 function prepend-sudo {
