@@ -1,0 +1,9 @@
+{
+    "list.maxHeight": 15,
+    "list.insertMappings": {
+        "<C-c>": "do:exit" // Use CTRL-C to exit
+    },
+    "list.normalMappings": {
+        "<C-c>": "do:exit" // Use CTRL-C to exit
+    }
+}

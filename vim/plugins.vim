@@ -10,20 +10,8 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-" YCM
-" Once installed perform the following to compile with semantic support
-"   cd ~/.vim/bundle/YouCompleteMe
-"   ./install.py --clang-completer
-"   ./install.py --racer-completer
-Plug 'ycm-core/YouCompleteMe'
-set completeopt-=preview
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_extra_conf_globlist = ['~/work/*']
-autocmd! FileType rust let g:ycm_rust_src_path = system('printf $(rustc --print sysroot)/lib/rustlib/src/rust/src')
-
-let g:racer_experimental_completer = 1
-Plug 'racer-rust/vim-racer'
+" Configuration for coc.nvim located in: ~/.vim/after/plugin/coc.vim
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'tpope/vim-fugitive'
 " gc - toggle comments

@@ -431,6 +431,8 @@ augroup END
 
 autocmd! FileType rust call SetupRustEnv()
 function! SetupRustEnv()
+    " K - show hint
+    setlocal keywordprg=:CocHover
     nnoremap <buffer> <leader>rf :RustFmt<CR>
     nnoremap <buffer> <leader>rt :RustTest<CR>
     nnoremap <buffer> <leader>rr :Cruntarget<CR>
