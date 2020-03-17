@@ -19,6 +19,18 @@ function any() {
     fi
 }
 
+#f# show activity of top cpu or mem processes
+function activity() {
+    emulate -L zsh
+    local n mem cpu sort
+    zparseopts -E n:=n -mem=mem -cpu=cpu
+
+    n=${n[-1]:-5}
+    sort=${${${cpu:+cpu}:-${mem:+mem}}:-cpu}
+
+    top -l 2 -o $sort -n $n -stats pid,command,cpu,mem | tail -$(( $n + 1 ))
+}
+
 #f# Provide useful information on zsh globbing
 # See zshexpn(1) for more info
 function help-zshglob() {
