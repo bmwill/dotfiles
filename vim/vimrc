@@ -441,6 +441,10 @@ function! SetupRustEnv()
     nnoremap <buffer> <leader>rr :Cruntarget<CR>
 endfunction
 
+" Don't add files from the stdlib and third-party crates to the buffer list
+autocmd! BufReadPost ~/.cargo/registry/* setlocal nobuflisted
+autocmd! BufReadPost ~/.rustup/* setlocal nobuflisted
+
 " ---- git ------------------------------------------------------------
 
 " Highlights characters that exceed the 80 char/line maximum
