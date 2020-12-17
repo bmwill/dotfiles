@@ -2,18 +2,14 @@
 
 # Install Homebrew
 
+# Prevent Chef from overriding /user/local ownership
+# sudo touch /Library/CPE/tags/homebrew
+
 BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
 
 if ! type brew >/dev/null 2>&1; then
 	echo "Installing Homebrew!"
-
-	git clone https://github.com/Homebrew/brew "$HOME/homebrew/Homebrew"
-	mkdir "$HOME/homebrew/bin"
-	ln -s "$HOME/homebrew/Homebrew/bin/brew" "$HOME/homebrew/bin"
-	ln -s "$HOME/homebrew/Homebrew/manpages/brew.1" "$HOME/homebrew/share/man/man1"
-	eval $("$HOME/homebrew/bin/brew" shellenv)
-
-	"$HOME/homebrew/bin/brew" shellenv >>"$HOME/.zshrc.local"
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 	brew bundle -v --file="$BASE_DIR/Brewfile"
 else
