@@ -2,3 +2,4 @@
 .zcompdump
 .zsh_history
 .completions
+.zsh_sessions
