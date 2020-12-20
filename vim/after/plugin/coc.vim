@@ -89,7 +89,7 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 nmap <leader>cr  <Plug>(coc-rename)
 
 " Run code actions
-nmap <leader>ca  <Plug>(coc-codeaction)
+nmap <leader>ca  v<Plug>(coc-codeaction-selected)
 
 " Run code formatting
 nmap <leader>cf  <Plug>(coc-format)
