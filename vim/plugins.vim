@@ -20,6 +20,13 @@ Plug 'tpope/vim-commentary'
 " cs - change surrounding
 " ys - add surrounding
 Plug 'tpope/vim-surround'
+" Coercion of words
+" https://github.com/tpope/vim-abolish
+Plug 'tpope/vim-abolish'
+
+" Easily move to places in a buffer
+" using <leader><leader><motion>
+Plug 'easymotion/vim-easymotion'
 
 let g:rustfmt_autosave = 1
 let g:rustfmt_options = '--config merge_imports=true'
