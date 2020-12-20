@@ -76,7 +76,7 @@ if &term =~ '256color'
 endif
 
 " Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+match ErrorMsg '^\(<\|=\|>\||\)\{7\}\(.\+\)\?$'
 
 " -----------
 "   Backups
