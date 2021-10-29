@@ -14,6 +14,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'neoclide/coc.nvim', {'tag': 'v0.0.80'}
 
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 " gc - toggle comments
 Plug 'tpope/vim-commentary'
 " ds - delete surrounding
@@ -47,6 +48,8 @@ let g:gruvbox_italic=1
 Plug 'morhetz/gruvbox' " Gruvbox theme
 " Plugin 'connorholyday/vim-snazzy' " Snazzy - Requires 24-bit color
 " Plugin 'arcticicestudio/nord-vim' " Nord - Requires 24-bit color
+
+Plug 'cespare/vim-toml'
 
 call plug#end()
 
