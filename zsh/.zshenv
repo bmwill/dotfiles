@@ -1,2 +1,5 @@
 ZDOTDIR="$HOME/.zsh"
-stty -ixon -ixoff
+
+if [[ -o interactive ]]; then
+    stty -ixon -ixoff
+fi

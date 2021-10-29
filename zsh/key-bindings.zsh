@@ -2,7 +2,9 @@
 
 # Stop ctrl-s and ctrl-q from sending START/STOP signals
 unsetopt FLOW_CONTROL
-stty -ixon -ixoff
+if [[ -o interactive ]]; then
+    stty -ixon -ixoff
+fi
 # Allow comments in interactive shells
 setopt INTERACTIVE_COMMENTS
 # Require use of exit of logout to exit
