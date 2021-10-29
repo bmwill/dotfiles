@@ -11,7 +11,7 @@ endif
 call plug#begin('~/.vim/bundle')
 
 " Configuration for coc.nvim located in: ~/.vim/after/plugin/coc.vim
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'tag': 'v0.0.80'}
 
 Plug 'tpope/vim-fugitive'
 " gc - toggle comments
