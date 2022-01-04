@@ -85,7 +85,11 @@ match ErrorMsg '^\(<\|=\|>\||\)\{7\}\(.\+\)\?$'
 set undodir=~/.vim/tmp/undo//     " undo files
 set backupdir=~/.vim/tmp/backup// " backups
 set directory=~/.vim/tmp/swap//   " swap files
-set viminfo+=n~/.vim/.viminfo     " viminfo location
+
+" viminfo location
+if !has('nvim')
+    set viminfo+=n~/.vim/.viminfo
+endif
 
 " Make those folders automatically if they don't already exist.
 if !isdirectory(expand(&undodir))
@@ -341,6 +345,19 @@ map <F3> :echo
     \ . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")
     \ . " BG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"bg#")<CR>
 
+" Temporary workaround till https://github.com/vim/vim/issues/4738 is fixed
+if has('macunix')
+    function! OpenURLUnderCursor()
+        let s:uri = matchstr(getline('.'), '[a-z]*:\/\/[^ >,;()]*')
+        let s:uri = shellescape(s:uri, 1)
+        if s:uri != ''
+            silent exec "!open '".s:uri."'"
+            :redraw!
+        endif
+    endfunction
+    nnoremap gx :call OpenURLUnderCursor()<CR>
+endif
+
 " ----------------------------
 "     Plugin Configuration
 " ----------------------------
@@ -348,8 +365,18 @@ map <F3> :echo
 " ---- fzf ------------------------------------------------------------
 " https://github.com/junegunn/fzf/blob/master/README-VIM.md
 
+" This is the default extra key bindings
+" let g:fzf_action = {
+"   \ 'ctrl-t': 'tab split',
+"   \ 'ctrl-x': 'split',
+"   \ 'ctrl-v': 'vsplit' }
+
 nnoremap <leader>f :call fzf#run(fzf#wrap({
     \   'source': 'fd --type f'
+    \ }))<CR>
+
+nnoremap <leader>F :call fzf#run(fzf#wrap({
+    \   'source': 'fd --type f -- . "$(git rev-parse --show-toplevel)"'
     \ }))<CR>
 
 function! s:buflist()
@@ -396,7 +423,15 @@ function! ShowCommit() abort
         echo "Not in fugitiveblame buffer"
     else
         let commit = matchstr(getline('.'), '\x\{,8}\x')
-        execute "botright terminal ++rows=20 git --no-pager log -1 " . commit
+
+        if has('nvim')
+            execute "botright split"
+            execute "resize 20"
+            execute "terminal git --no-pager log -1 " . commit
+        else
+            execute "botright terminal ++rows=20 git --no-pager log -1 " . commit
+        endif
+
         normal gg
     endif
 endfunction
