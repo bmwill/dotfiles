@@ -44,7 +44,7 @@ return packer.startup(function(use)
     -- My plugins here
     use "wbthomason/packer.nvim" -- Have packer manage itself
     use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-    use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
+    use "nvim-lua/plenary.nvim" -- Useful lua functions used by lots of plugins
 
     use 'tpope/vim-fugitive'
     use 'tpope/vim-rhubarb'
@@ -100,6 +100,9 @@ return packer.startup(function(use)
     use "neovim/nvim-lspconfig" -- enable LSP
     use "williamboman/nvim-lsp-installer" -- simple to use language server installer
     use { "simrat39/rust-tools.nvim", commit = "7b4d155dd47e211ee661cbb4c7969b245f768edb" }
+
+    -- Git
+    use "lewis6991/gitsigns.nvim"
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

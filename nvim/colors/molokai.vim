@@ -271,6 +271,11 @@ if &t_Co > 255
    endif
 end
 
+" Support for GitSigns
+hi GitSignsAdd ctermfg=154 ctermbg=235
+hi GitSignsChange ctermfg=81 ctermbg=235
+hi GitSignsDelete ctermfg=162 ctermbg=235
+
 " Must be at the end, because of ctermbg=234 bug.
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
 set background=dark

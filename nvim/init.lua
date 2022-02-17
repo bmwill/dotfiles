@@ -4,6 +4,7 @@ require "user.plugins"
 require "user.colorscheme"
 require "user.completion"
 require "user.lsp"
+require "user.gitsigns"
 
 -- Line Return
 -- Make sure Vim returns to the same line when you reopen a file.
