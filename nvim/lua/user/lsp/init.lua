@@ -50,6 +50,13 @@ local function setup()
     },
   }
 
+  -- Show diagnostic popup on cursor hold
+  vim.cmd [[
+  augroup diagnostics_hover
+    autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+  augroup END
+  ]]
+
   vim.diagnostic.config(config)
 
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -68,8 +75,7 @@ setup()
 local function lsp_highlight_document(client)
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec(
-      [[
+    vim.cmd [[
       hi def link LspReferenceText CursorColumn
       hi def link LspReferenceRead LspReferenceText
       hi def link LspReferenceWrite LspReferenceText
@@ -78,13 +84,11 @@ local function lsp_highlight_document(client)
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
       augroup END
-    ]],
-      false
-    )
+    ]]
   end
 end
 
-local function lsp_keymaps(bufnr)
+local function lsp_keymaps(client, bufnr)
   -- Use Coc and LSP for tag functions <C-]> and <C-\> (go to definition)
   vim.cmd [[setlocal tagfunc=v:lua.vim.lsp.tagfunc]]
 
@@ -99,10 +103,13 @@ local function lsp_keymaps(bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  -- Symbol renaming
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>cr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  -- Use `[d` and `]d` to navigate diagnostics
   vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
   vim.api.nvim_buf_set_keymap(
     bufnr,
     "n",
@@ -110,27 +117,26 @@ local function lsp_keymaps(bufnr)
     '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
     opts
   )
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ql", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+
+  --  Apply AutoFix to problem on the current line.
+  vim.cmd [[ command! AutoFix execute 'lua require("user.lsp.autofix").autofix()' ]]
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>qf", "<cmd>AutoFix<CR>", opts)
+
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 
+  vim.cmd [[
+  augroup lsp_format_on_save
+      autocmd! * <buffer>
+      autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
+  augroup END
+  ]]
 
---   " Use `[g` and `]g` to navigate diagnostics
--- nmap <silent> [g <Plug>(coc-diagnostic-prev)
--- nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
--- " Apply AutoFix to problem on the current line.
--- nmap <leader>qf  <Plug>(coc-fix-current)
-
--- " Symbol renaming
--- nmap <leader>cr  <Plug>(coc-rename)
-
--- " Run code actions
--- nmap <leader>ca v<Plug>(coc-codeaction-selected)
-
--- " Run code formatting
--- nmap <leader>cf  <Plug>(coc-format)
+  if client.name == "rust_analyzer" then
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", '<cmd>RustToggleInlayHints<CR>', opts)
+  end
 
 -- " Mappings using CoCList:
 -- " Show all diagnostics.
@@ -145,15 +151,10 @@ local function lsp_keymaps(bufnr)
 -- nnoremap <silent> <leader>cx  :<C-u>CocList extensions<cr>
 -- " Resume latest coc list
 -- nnoremap <silent> <leader>cl  :<C-u>CocListResume<CR>
-
--- " restart CoC
--- nnoremap <silent> <leader>cR  :<C-u>CocRestart<CR>
-
-
 end
 
 local function on_attach(client, bufnr)
-  lsp_keymaps(bufnr)
+  lsp_keymaps(client, bufnr)
   lsp_highlight_document(client)
 end
 
@@ -164,6 +165,10 @@ lsp_installer.on_server_ready(function(server)
     local opts = {
         on_attach = on_attach,
         capabilities = capabilities,
+        flags = {
+            -- This will be the default in neovim 0.7+
+            debounce_text_changes = 150,
+        },
     }
 
     if server.name == "rust_analyzer" then
@@ -188,8 +193,8 @@ lsp_installer.on_server_ready(function(server)
                     ["rust-analyzer"] = {
                         completion = {
                             postfix = {
-                                enable = false
-                            }
+                                enable = true,
+                            },
                         },
                         -- enable clippy on save
                         checkOnSave = {
@@ -200,6 +205,9 @@ lsp_installer.on_server_ready(function(server)
                         },
                         procMacro = {
                             enable = true,
+                        },
+                        rustfmt = {
+                            extraArgs = { '--config', 'merge_imports=true' },
                         },
                     }
                 },

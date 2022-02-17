@@ -62,8 +62,6 @@ return packer.startup(function(use)
     -- using <leader><leader><motion>
     use 'easymotion/vim-easymotion'
 
-    vim.g.rustfmt_autosave = 1
-    vim.g.rustfmt_options = '--config merge_imports=true'
     use 'rust-lang/rust.vim'
 
     vim.cmd [[
