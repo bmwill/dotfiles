@@ -1,6 +1,6 @@
 local status_ok, _ = pcall(require, "lspconfig")
 if not status_ok then
-    return
+  return
 end
 
 local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -10,12 +10,12 @@ end
 
 local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
 if not status_ok then
-    return
+  return
 end
 
 local status_ok, rust_tools = pcall(require, "rust-tools")
 if not status_ok then
-    return
+  return
 end
 
 local function setup()
@@ -110,13 +110,7 @@ local function lsp_keymaps(client, bufnr)
   -- Use `[d` and `]d` to navigate diagnostics
   vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-  vim.api.nvim_buf_set_keymap(
-    bufnr,
-    "n",
-    "gl",
-    '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
-    opts
-  )
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gl", '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ql", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 
   --  Apply AutoFix to problem on the current line.
@@ -126,31 +120,30 @@ local function lsp_keymaps(client, bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-
   vim.cmd [[
-  augroup lsp_format_on_save
+    augroup lsp_format_on_save
       autocmd! * <buffer>
       autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
-  augroup END
+    augroup END
   ]]
 
   if client.name == "rust_analyzer" then
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", '<cmd>RustToggleInlayHints<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<cmd>RustToggleInlayHints<CR>", opts)
   end
 
--- " Mappings using CoCList:
--- " Show all diagnostics.
--- nnoremap <silent> <leader>cd  :<C-u>CocList diagnostics<cr>
--- " Find symbol of current document
--- nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
--- " Search workspace symbols
--- nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
--- " list commands available
--- nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
--- " manage extensions
--- nnoremap <silent> <leader>cx  :<C-u>CocList extensions<cr>
--- " Resume latest coc list
--- nnoremap <silent> <leader>cl  :<C-u>CocListResume<CR>
+  -- " Mappings using CoCList:
+  -- " Show all diagnostics.
+  -- nnoremap <silent> <leader>cd  :<C-u>CocList diagnostics<cr>
+  -- " Find symbol of current document
+  -- nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+  -- " Search workspace symbols
+  -- nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
+  -- " list commands available
+  -- nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+  -- " manage extensions
+  -- nnoremap <silent> <leader>cx  :<C-u>CocList extensions<cr>
+  -- " Resume latest coc list
+  -- nnoremap <silent> <leader>cl  :<C-u>CocListResume<CR>
 end
 
 local function on_attach(client, bufnr)
@@ -162,83 +155,83 @@ local client_capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = cmp_nvim_lsp.update_capabilities(client_capabilities)
 
 lsp_installer.on_server_ready(function(server)
-    local opts = {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        flags = {
-            -- This will be the default in neovim 0.7+
-            debounce_text_changes = 150,
+  local opts = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+      -- This will be the default in neovim 0.7+
+      debounce_text_changes = 150,
+    },
+  }
+
+  if server.name == "rust_analyzer" then
+    local rustopts = {
+      tools = { -- rust-tools options
+        autoSetHints = true,
+        hover_with_actions = true,
+        inlay_hints = {
+          show_parameter_hints = true,
+          parameter_hints_prefix = "",
+          other_hints_prefix = "",
         },
-    }
+      },
 
-    if server.name == "rust_analyzer" then
-        local rustopts = {
-            tools = { -- rust-tools options
-                autoSetHints = true,
-                hover_with_actions = true,
-                inlay_hints = {
-                    show_parameter_hints = true,
-                    parameter_hints_prefix = "",
-                    other_hints_prefix = "",
-                },
+      -- all the opts to send to nvim-lspconfig
+      -- these override the defaults set by rust-tools.nvim
+      -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
+      server = vim.tbl_deep_extend("force", server:get_default_options(), opts, {
+        settings = {
+          -- to enable rust-analyzer settings visit:
+          -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+          ["rust-analyzer"] = {
+            completion = {
+              postfix = {
+                enable = true,
+              },
             },
+            -- enable clippy on save
+            checkOnSave = {
+              command = "clippy",
+            },
+            cargo = {
+              loadOutDirsFromCheck = true,
+            },
+            procMacro = {
+              enable = true,
+            },
+            rustfmt = {
+              extraArgs = { "--config", "merge_imports=true" },
+            },
+          },
+        },
+      }),
+    }
+    rust_tools.setup(rustopts)
+    server:attach_buffers()
+  else
+    if server.name == "sumneko_lua" then
+      local sumneko_opts = {
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" },
+            },
+            workspace = {
+              library = {
+                [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+                [vim.fn.stdpath "config" .. "/lua"] = true,
+              },
+            },
+          },
+        },
+      }
 
-            -- all the opts to send to nvim-lspconfig
-            -- these override the defaults set by rust-tools.nvim
-            -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
-            server = vim.tbl_deep_extend("force", server:get_default_options(), opts, {
-                settings = {
-                    -- to enable rust-analyzer settings visit:
-                    -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-                    ["rust-analyzer"] = {
-                        completion = {
-                            postfix = {
-                                enable = true,
-                            },
-                        },
-                        -- enable clippy on save
-                        checkOnSave = {
-                            command = "clippy"
-                        },
-                        cargo = {
-                            loadOutDirsFromCheck = true,
-                        },
-                        procMacro = {
-                            enable = true,
-                        },
-                        rustfmt = {
-                            extraArgs = { '--config', 'merge_imports=true' },
-                        },
-                    }
-                },
-            }),
-        }
-        rust_tools.setup(rustopts)
-        server:attach_buffers()
-    else
-        if server.name == "sumneko_lua" then
-            local sumneko_opts = {
-                settings = {
-                    Lua = {
-                        diagnostics = {
-                            globals = { "vim" },
-                        },
-                        workspace = {
-                            library = {
-                                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                                [vim.fn.stdpath("config") .. "/lua"] = true,
-                            },
-                        },
-                    },
-                },
-            }
-
-            opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
-        end
-        -- This setup() function is exactly the same as lspconfig's setup function.
-        -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-        server:setup(opts)
+      opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
     end
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+  end
 end)
 
 require "user.lsp.null-ls"

@@ -9,7 +9,7 @@ local keymap = vim.api.nvim_set_keymap
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-keymap("", ",", "<leader>", { silent = true } )
+keymap("", ",", "<leader>", { silent = true })
 
 -- Modes
 --   normal_mode = "n",
@@ -46,7 +46,6 @@ keymap("n", "<leader>i", ":set list!<CR>", opts)
 -- Make zO recursively open whatever fold we're in, even if it's partially open.
 keymap("n", "z0", "zcz0", opts)
 
-
 -- Save with <C-s>
 keymap("n", "<C-s>", ":silent update<CR>", opts)
 keymap("i", "<C-s>", "<Esc>:silent update<CR>", opts)
@@ -73,7 +72,6 @@ vim.cmd [[
     endfunc
 ]]
 keymap("n", "<leader>n", ":call NumberToggle()<CR>", opts)
-
 
 -- "Uppercase word" mapping
 --

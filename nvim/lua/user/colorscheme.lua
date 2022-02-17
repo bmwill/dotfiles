@@ -19,10 +19,10 @@ vim.cmd [[match ErrorMsg '^\(<\|=\|>\||\)\{7\}\(.\+\)\?$']]
 
 -- Italics
 vim.cmd [[
-    if &term =~ 'xterm-256color'
-        let &t_ZH ="\<Esc>[3m"
-        let &t_ZR ="\<Esc>[23m"
-    endif
+  if &term =~ 'xterm-256color'
+    let &t_ZH ="\<Esc>[3m"
+    let &t_ZR ="\<Esc>[23m"
+  endif
 ]]
 
 -- Use italics for comments
@@ -31,7 +31,7 @@ vim.cmd "highlight Comment cterm=italic"
 -- disable Background Color Erase (BCE) so that color schemes
 -- render properly when inside 256-color tmux and GNU screen.
 vim.cmd [[
-    if &term =~ '256color'
-        set t_ut=
-    endif
+  if &term =~ '256color'
+    set t_ut=
+  endif
 ]]
