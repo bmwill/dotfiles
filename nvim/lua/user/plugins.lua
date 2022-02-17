@@ -98,6 +98,7 @@ return packer.startup(function(use)
     use "neovim/nvim-lspconfig" -- enable LSP
     use "williamboman/nvim-lsp-installer" -- simple to use language server installer
     use { "simrat39/rust-tools.nvim", commit = "7b4d155dd47e211ee661cbb4c7969b245f768edb" }
+    use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
 
     -- Git
     use "lewis6991/gitsigns.nvim"
