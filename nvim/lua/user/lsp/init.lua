@@ -138,10 +138,6 @@ local function lsp_keymaps(client, bufnr)
   -- nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
   -- " Search workspace symbols
   -- nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
-  -- " list commands available
-  -- nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
-  -- " manage extensions
-  -- nnoremap <silent> <leader>cx  :<C-u>CocList extensions<cr>
   -- " Resume latest coc list
   -- nnoremap <silent> <leader>cl  :<C-u>CocListResume<CR>
 end
