@@ -105,13 +105,19 @@ local function lsp_keymaps(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   -- Symbol renaming
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>cr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>Telescope lsp_code_actions theme=cursor<CR>", opts)
   -- Use `[d` and `]d` to navigate diagnostics
   vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gl", '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ql", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ql", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ql", "<cmd>Telescope diagnostics<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<cmd>Telescope diagnostics<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ls", "<cmd>Telescope lsp_workspace_symbols<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lo", "<cmd>Telescope lsp_document_symbols<CR>", opts)
 
   --  Apply AutoFix to problem on the current line.
   vim.cmd [[ command! AutoFix execute 'lua require("user.lsp.autofix").autofix()' ]]
@@ -130,16 +136,6 @@ local function lsp_keymaps(client, bufnr)
   if client.name == "rust_analyzer" then
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<cmd>RustToggleInlayHints<CR>", opts)
   end
-
-  -- " Mappings using CoCList:
-  -- " Show all diagnostics.
-  -- nnoremap <silent> <leader>cd  :<C-u>CocList diagnostics<cr>
-  -- " Find symbol of current document
-  -- nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
-  -- " Search workspace symbols
-  -- nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
-  -- " Resume latest coc list
-  -- nnoremap <silent> <leader>cl  :<C-u>CocListResume<CR>
 end
 
 local function on_attach(client, bufnr)

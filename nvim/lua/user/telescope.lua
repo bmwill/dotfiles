@@ -10,7 +10,17 @@ telescope.setup({
 
     -- prompt_prefix = " ",
     -- selection_caret = " ",
-    path_display = { "smart" },
+    -- path_display = { "smart" }, -- determines how paths are displayed
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--trim", -- trim leading indentation when grepping
+    },
 
     mappings = {
       i = {
@@ -46,6 +56,7 @@ telescope.setup({
 
       n = {
         ["<esc>"] = actions.close,
+        ["<C-c>"] = actions.close,
         ["<CR>"] = actions.select_default,
         ["<C-x>"] = actions.select_horizontal,
         ["<C-v>"] = actions.select_vertical,
@@ -78,6 +89,18 @@ telescope.setup({
     },
   },
   pickers = {
+    buffers = {
+      show_all_buffers = true,
+      sort_lastused = true,
+      theme = "dropdown",
+      previewer = false,
+      mappings = {
+        i = {
+          ["<c-d>"] = actions.delete_buffer,
+        },
+      },
+    },
+
     -- Default configuration for builtin pickers goes here:
     -- picker_name = {
     --   picker_config_key = value,
@@ -94,3 +117,11 @@ telescope.setup({
     -- please take a look at the readme of the extension you want to configure
   },
 })
+
+vim.api.nvim_set_keymap("n", "<leader>sl", ":Telescope resume<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "z=", ":Telescope spell_suggest theme=cursor<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>b", ":Telescope buffers<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>f", ":Telescope find_files<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>F", ":Telescope git_files<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>gg", ":Telescope grep_string<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>G", ":Telescope live_grep<CR>", { noremap = true, silent = true })

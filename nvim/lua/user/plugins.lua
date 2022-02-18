@@ -64,12 +64,6 @@ return packer.startup(function(use)
 
   use "rust-lang/rust.vim"
 
-  vim.cmd [[
-    if executable('brew')
-      exe 'set rtp+=' . system('printf $(brew --prefix)/opt/fzf')
-    endif
-  ]]
-
   -- Peak at contents of registers with ", @, and <C-R>
   use "junegunn/vim-peekaboo"
 

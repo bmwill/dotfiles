@@ -92,50 +92,8 @@ vim.cmd [[
 "     Plugin Configuration
 " ----------------------------
 
-" ---- fzf ------------------------------------------------------------
-" https://github.com/junegunn/fzf/blob/master/README-VIM.md
-
-" This is the default extra key bindings
-" let g:fzf_action = {
-"   \ 'ctrl-t': 'tab split',
-"   \ 'ctrl-x': 'split',
-"   \ 'ctrl-v': 'vsplit' }
-
-nnoremap <leader>f :call fzf#run(fzf#wrap({
-  \   'source': 'fd --type f'
-  \ }))<CR>
-
-nnoremap <leader>F :call fzf#run(fzf#wrap({
-  \   'source': 'fd --type f -- . "$(git rev-parse --show-toplevel)"'
-  \ }))<CR>
-
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-"nnoremap <leader>b :ls<cr>:b<space> " non-fzf version
-nnoremap <silent> <Leader>b :call fzf#run({
-  \   'source':  reverse(<sid>buflist()),
-  \   'sink':    function('<sid>bufopen'),
-  \   'options': '+m',
-  \   'down':    len(<sid>buflist()) + 2
-  \ })<CR>
-
 " ---- fugitive & git -------------------------------------------------
 " https://github.com/tpope/vim-fugitive
-
-" git grep
-nnoremap <leader>gg :botright split<CR>
-  \:resize 20<CR>
-  \:terminal git --no-pager grep "<c-r>=expand("<cword>")<CR>"<CR>
-
 
 " Maybe add a mapping for :Gblame --reverse
 nnoremap <leader>gb :call Blame()<CR>
