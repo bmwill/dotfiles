@@ -1,3 +1,6 @@
+-- Lua config for Neovim
+-- https://github.com/nanotee/nvim-lua-guide
+
 require "user.options"
 require "user.keymaps"
 require "user.plugins"
@@ -6,6 +9,7 @@ require "user.completion"
 require "user.lsp"
 require "user.gitsigns"
 require "user.telescope"
+require "user.hop"
 
 -- Line Return
 -- Make sure Vim returns to the same line when you reopen a file.

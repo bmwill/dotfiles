@@ -59,8 +59,7 @@ return packer.startup(function(use)
   use "tpope/vim-abolish"
 
   -- Easily move to places in a buffer
-  -- using <leader><leader><motion>
-  use "easymotion/vim-easymotion"
+  use "phaazon/hop.nvim"
 
   use "rust-lang/rust.vim"
 
