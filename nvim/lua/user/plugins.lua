@@ -64,9 +64,6 @@ return packer.startup(function(use)
 
   use "rust-lang/rust.vim"
 
-  -- Peak at contents of registers with ", @, and <C-R>
-  use "junegunn/vim-peekaboo"
-
   -- Color Schemes
   -- Plugin 'tomasr/molokai' -- Molokai theme (currently pre-installed)
   vim.g.gruvbox_italic = 1
