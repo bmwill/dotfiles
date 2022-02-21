@@ -12,12 +12,18 @@ vim.g.maplocalleader = " "
 keymap("", ",", "<leader>", { silent = true })
 
 -- Modes
---   normal_mode = "n",
---   insert_mode = "i",
---   visual_mode = "v",
---   visual_block_mode = "x",
---   term_mode = "t",
---   command_mode = "c",
+--  Short-name  Affected modes                            Help page       Vimscript equivalent
+--  ''          Normal, Visual, Select, Operator-pending  mapmode-nvo     :map
+--  'n'         Normal                                    mapmode-n       :nmap
+--  'v'         Visual and Select                         mapmode-v       :vmap
+--  's'         Select                                    mapmode-s       :smap
+--  'x'         Visual                                    mapmode-x       :xmap
+--  'o'         Operator-pending                          mapmode-o       :omap
+--  '!'         Insert and Command-line                   mapmode-ic      :map!
+--  'i'         Insert                                    mapmode-i       :imap
+--  'l'         Insert, Command-line, Lang-Arg            mapmode-l       :lmap
+--  'c'         Command-line                              mapmode-c       :cmap
+--  't'         Terminal                                  mapmode-t       :tmap
 
 -- Normal --
 
