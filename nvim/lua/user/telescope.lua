@@ -7,10 +7,6 @@ local actions = require "telescope.actions"
 
 telescope.setup({
   defaults = {
-
-    -- prompt_prefix = " ",
-    -- selection_caret = " ",
-    -- path_display = { "smart" }, -- determines how paths are displayed
     vimgrep_arguments = {
       "rg",
       "--color=never",
@@ -88,6 +84,8 @@ telescope.setup({
       },
     },
   },
+
+  -- Default configuration for builtin pickers goes here:
   pickers = {
     buffers = {
       show_all_buffers = true,
@@ -100,28 +98,16 @@ telescope.setup({
         },
       },
     },
-
-    -- Default configuration for builtin pickers goes here:
-    -- picker_name = {
-    --   picker_config_key = value,
-    --   ...
-    -- }
-    -- Now the picker_config_key will be applied every time you call this
-    -- builtin picker
-  },
-  extensions = {
-    -- Your extension configuration goes here:
-    -- extension_name = {
-    --   extension_config_key = value,
-    -- }
-    -- please take a look at the readme of the extension you want to configure
   },
 })
 
-vim.api.nvim_set_keymap("n", "<leader>sl", ":Telescope resume<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "z=", ":Telescope spell_suggest theme=cursor<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>b", ":Telescope buffers<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>f", ":Telescope find_files<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>F", ":Telescope git_files<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>gg", ":Telescope grep_string<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>G", ":Telescope live_grep<CR>", { noremap = true, silent = true })
+local opts = { noremap = true, silent = true }
+local keymap = vim.api.nvim_set_keymap
+
+keymap("n", "<leader>sl", ":Telescope resume<CR>", opts)
+keymap("n", "z=", ":Telescope spell_suggest theme=cursor<CR>", opts)
+keymap("n", "<leader>b", ":Telescope buffers<CR>", opts)
+keymap("n", "<leader>f", ":Telescope find_files<CR>", opts)
+keymap("n", "<leader>F", ":Telescope git_files<CR>", opts)
+keymap("n", "<leader>gg", ":Telescope grep_string<CR>", opts)
+keymap("n", "<leader>G", ":Telescope live_grep<CR>", opts)

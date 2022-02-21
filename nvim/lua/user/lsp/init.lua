@@ -66,9 +66,6 @@ local function setup()
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
   })
-
-  -- Don't pass messages to |ins-completion-menu|
-  vim.cmd [[set shortmess+=c]]
 end
 setup()
 
@@ -157,68 +154,23 @@ lsp_installer.on_server_ready(function(server)
   }
 
   if server.name == "rust_analyzer" then
-    local rustopts = {
-      tools = { -- rust-tools options
-        autoSetHints = true,
-        hover_with_actions = true,
-        inlay_hints = {
-          show_parameter_hints = true,
-          parameter_hints_prefix = "",
-          other_hints_prefix = "",
-        },
-      },
+    local rust_analyzer_opts = require("user.lsp.settings").rust_analyzer
+    -- all the opts to send to nvim-lspconfig
+    -- these override the defaults set by rust-tools.nvim
+    -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
+    local server_opts = vim.tbl_deep_extend("force", server:get_default_options(), opts, rust_analyzer_opts)
+    local rust_tools_opts = require("user.lsp.settings").rust_tools
 
-      -- all the opts to send to nvim-lspconfig
-      -- these override the defaults set by rust-tools.nvim
-      -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
-      server = vim.tbl_deep_extend("force", server:get_default_options(), opts, {
-        settings = {
-          -- to enable rust-analyzer settings visit:
-          -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-          ["rust-analyzer"] = {
-            completion = {
-              postfix = {
-                enable = true,
-              },
-            },
-            -- enable clippy on save
-            checkOnSave = {
-              command = "clippy",
-            },
-            cargo = {
-              loadOutDirsFromCheck = true,
-            },
-            procMacro = {
-              enable = true,
-            },
-            rustfmt = {
-              extraArgs = { "--config", "merge_imports=true" },
-            },
-          },
-        },
-      }),
-    }
-    rust_tools.setup(rustopts)
+    opts = vim.tbl_deep_extend("force", rust_tools_opts, {
+      server = server_opts,
+    })
+
+    rust_tools.setup(opts)
     server:attach_buffers()
   else
     if server.name == "sumneko_lua" then
-      local sumneko_opts = {
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" },
-            },
-            workspace = {
-              library = {
-                [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-                [vim.fn.stdpath "config" .. "/lua"] = true,
-              },
-            },
-          },
-        },
-      }
-
-      opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
+      local sumneko_opts = require("user.lsp.settings").sumneko_lua
+      opts = vim.tbl_deep_extend("force", opts, sumneko_opts)
     end
     -- This setup() function is exactly the same as lspconfig's setup function.
     -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
