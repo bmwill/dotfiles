@@ -30,12 +30,12 @@ M.rust_analyzer = {
 -- 'rust-tools' plugin options
 M.rust_tools = {
   tools = {
-    autoSetHints = true,
+    autoSetHints = false,
     hover_with_actions = true,
     inlay_hints = {
       show_parameter_hints = true,
-      parameter_hints_prefix = "",
-      other_hints_prefix = "",
+      parameter_hints_prefix = "<- ",
+      other_hints_prefix = "=> ",
     },
   },
 }
