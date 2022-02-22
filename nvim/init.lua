@@ -10,6 +10,7 @@ require "user.lsp"
 require "user.gitsigns"
 require "user.telescope"
 require "user.hop"
+require "user.nvim-tree"
 
 -- Line Return
 -- Make sure Vim returns to the same line when you reopen a file.
