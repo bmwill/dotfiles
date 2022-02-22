@@ -34,8 +34,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
     export BROWSER='open'
 fi
 
-export EDITOR=vim
-export VISUAL=vim
+export EDITOR=nvim
+export VISUAL=nvim
 # ignore case, exit if it fits on one screen, allow colors for ls and grep
 export LESS="-iFXR"
 export PAGER=less

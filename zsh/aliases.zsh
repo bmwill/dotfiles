@@ -8,6 +8,11 @@ alias p='${(z)PAGER}'
 alias sa='alias | grep -i'
 alias type='type -a'
 
+# prefer nvim to vim if its available
+if (( $+commands[nvim] )); then
+    alias vim='nvim'
+fi
+
 # Always enable colored `grep` output
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'

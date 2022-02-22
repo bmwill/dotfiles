@@ -130,7 +130,7 @@ abbreviations=(
     'R'     '| tr A-z N-za-m'       # (ROT13)
     'SL'    '| sort | less'
     'S'     '| sort -u'
-    'V'     '|& vim -'
+    'V'     '|& nvim -'
     'gc'    'git commit -m "'
 )
 

@@ -11,6 +11,7 @@ DIRSTACKSIZE=10
 # used for `cd ~<named-dir>`
 hash -d dotfiles=~/dotfiles
 hash -d vim=~/.vim
+hash -d nvim=~/.config/nvim
 hash -d zsh=~/.zsh
 
 alias -g ...='../..'
