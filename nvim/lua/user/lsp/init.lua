@@ -93,35 +93,39 @@ local function lsp_keymaps(client, bufnr)
   vim.cmd [[command! -nargs=? MyLspHover :lua vim.lsp.buf.hover()]]
   vim.cmd [[setlocal keywordprg=:MyLspHover]]
 
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  local function bufmap(keys, command)
+    local opts = { noremap = true, silent = true }
+    vim.api.nvim_buf_set_keymap(bufnr, "n", keys, command, opts)
+  end
+
+  bufmap("gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
+  bufmap("gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+  bufmap("gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
+  bufmap("gh", "<cmd>lua vim.lsp.buf.hover()<CR>")
+  bufmap("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+  bufmap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
   -- Symbol renaming
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>cr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>Telescope lsp_code_actions theme=cursor<CR>", opts)
+  bufmap("<leader>cr", "<cmd>lua vim.lsp.buf.rename()<CR>")
+  -- bufmap("gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+  bufmap("gr", "<cmd>Telescope lsp_references<CR>")
+  -- bufmap("<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+  bufmap("<leader>ca", "<cmd>Telescope lsp_code_actions theme=cursor<CR>")
   -- Use `[d` and `]d` to navigate diagnostics
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gl", '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>', opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ql", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ql", "<cmd>Telescope diagnostics<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<cmd>Telescope diagnostics<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ls", "<cmd>Telescope lsp_workspace_symbols<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lo", "<cmd>Telescope lsp_document_symbols<CR>", opts)
+  bufmap("[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>')
+  bufmap("]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>')
+  bufmap("gl", '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>')
+  -- bufmap("<leader>ql", "<cmd>lua vim.diagnostic.setloclist()<CR>")
+  bufmap("<leader>ql", "<cmd>Telescope diagnostics<CR>")
+  bufmap("<leader>ld", "<cmd>Telescope diagnostics<CR>")
+  bufmap("<leader>ls", "<cmd>Telescope lsp_workspace_symbols<CR>")
+  bufmap("<leader>lo", "<cmd>Telescope lsp_document_symbols<CR>")
 
   --  Apply AutoFix to problem on the current line.
   vim.cmd [[ command! AutoFix execute 'lua require("user.lsp.autofix").autofix()' ]]
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>qf", "<cmd>AutoFix<CR>", opts)
+  bufmap("<leader>qf", "<cmd>AutoFix<CR>")
 
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  bufmap("<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
   vim.cmd [[
     augroup lsp_format_on_save
@@ -131,7 +135,7 @@ local function lsp_keymaps(client, bufnr)
   ]]
 
   if client.name == "rust_analyzer" then
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<cmd>RustToggleInlayHints<CR>", opts)
+    bufmap("<leader>lh", "<cmd>RustToggleInlayHints<CR>")
   end
 end
 
