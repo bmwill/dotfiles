@@ -17,7 +17,10 @@ end
 def addUpstream(branch)
   upstream = `git rev-parse --abbrev-ref --symbolic-full-name \
               #{branch}@{u} 2>/dev/null`.strip
-  upstream = "master" if !$?.success?
+  if !$?.success?
+    upstream = `git rev-parse --abbrev-ref --symbolic-full-name main`.strip
+    upstream = "master" if !$?.success?
+  end
 
   if tooManyCommits(branch, upstream) && !branch.match("HEAD")
     @heads.delete(branch)
