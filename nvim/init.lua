@@ -83,6 +83,7 @@ vim.cmd [[
     nnoremap <buffer> <leader>rt :RustTest -- --nocapture<CR>
     nnoremap <buffer> <leader>rT :RustTest!<CR>
     nnoremap <buffer> <leader>rr :Cruntarget<CR>
+    nnoremap <buffer> <leader>rc :Cargo check --all-targets<CR>
   endfunction
 ]]
 
