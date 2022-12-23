@@ -16,13 +16,14 @@ M.rust_analyzer = {
       },
       cargo = {
         loadOutDirsFromCheck = true,
+        runBuildScripts = true,
       },
       procMacro = {
         enable = true,
       },
-      rustfmt = {
-        extraArgs = { "--config", "merge_imports=true" },
-      },
+      -- rustfmt = {
+      --   extraArgs = { "--config", "merge_imports=true" },
+      -- },
     },
   },
 }
