@@ -16,4 +16,4 @@ end
 vim.cmd [[match ErrorMsg '^\(<\|=\|>\||\)\{7\}\(.\+\)\?$']]
 
 -- Use italics for comments
-vim.cmd "highlight Comment cterm=italic"
+vim.cmd "highlight Comment cterm=italic gui=italic"
