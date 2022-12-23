@@ -14,7 +14,7 @@
 set nocompatible
 
 " Load plugins
-source $HOME/.vim/plugins.vim
+" source $HOME/.vim/plugins.vim
 
 syntax on                 " Turns syntax on
 set history=1000          " Increase :cmdline history
