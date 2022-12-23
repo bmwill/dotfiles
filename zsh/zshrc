@@ -21,6 +21,12 @@ function profile () {
     ZSH_PROFILE_RC=1 zsh "$@"
 }
 
+
+# ---- local overrides ------------------------------------------------
+
+# Use '~/.zshrc.local' file for machine dependent modifications
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
 # ---- general configuration ------------------------------------------
 
 setopt LONG_LIST_JOBS # display PID when suspending processes
@@ -66,8 +72,3 @@ unset file
 # - $FZF_COMPLETION_TRIGGER (default: '**')
 # - $FZF_COMPLETION_OPTS    (default: empty)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# ---- local overrides ------------------------------------------------
-
-# Use '~/.zshrc.local' file for machine dependent modifications
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
