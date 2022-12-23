@@ -2,16 +2,16 @@
 
 # Underline the user name when logged in as root.
 if [[ "${USER}" == "root" ]]; then
-  user_style="%F{160}%U%n%u%f"
+  user_style="%F{red}%U%n%u%f"
 else
-  user_style="%F{160}%n%f"
+  user_style="%F{red}%n%f"
 fi
 
 # Underline the hostname when connected via SSH.
 if [[ "${SSH_TTY}" ]]; then
-  host_style="%F{37}%U%m%u%f"
+  host_style="%F{cyan}%U%m%u%f"
 else
-  host_style="%F{37}%m%f"
+  host_style="%F{cyan}%m%f"
 fi
 
 setopt prompt_subst
