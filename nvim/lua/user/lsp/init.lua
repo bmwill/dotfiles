@@ -71,7 +71,7 @@ setup()
 
 local function lsp_highlight_document(client)
   -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.document_highlight then
     vim.cmd [[
       hi def link LspReferenceText CursorColumn
       hi def link LspReferenceRead LspReferenceText
@@ -145,7 +145,7 @@ local function on_attach(client, bufnr)
 end
 
 local client_capabilities = vim.lsp.protocol.make_client_capabilities()
-local capabilities = cmp_nvim_lsp.update_capabilities(client_capabilities)
+local capabilities = cmp_nvim_lsp.default_capabilities(client_capabilities)
 
 lsp_installer.on_server_ready(function(server)
   local opts = {
