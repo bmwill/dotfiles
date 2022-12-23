@@ -89,6 +89,7 @@ vim.cmd [[
 -- Don't add files from the stdlib and third-party crates to the buffer list
 vim.cmd [[
   autocmd! BufReadPost ~/.cargo/registry/* setlocal nobuflisted
+  autocmd! BufReadPost ~/.cargo/git/* setlocal nobuflisted
   autocmd! BufReadPost ~/.rustup/* setlocal nobuflisted
 ]]
 
