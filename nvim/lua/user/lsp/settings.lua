@@ -31,10 +31,11 @@ M.rust_analyzer = {
 -- 'rust-tools' plugin options
 M.rust_tools = {
   tools = {
-    autoSetHints = false,
-    hover_with_actions = true,
+    -- hover_with_actions = true, -- Depricated
     inlay_hints = {
-      show_parameter_hints = true,
+      auto = true,
+      only_current_line = true,
+      show_parameter_hints = false,
       parameter_hints_prefix = "<- ",
       other_hints_prefix = "=> ",
     },
