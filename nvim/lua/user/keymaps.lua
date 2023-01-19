@@ -147,3 +147,23 @@ keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+
+-- Window Navigation
+-- see https://gist.github.com/mislav/5189704 and https://github.com/eliasnorrby/dotfiles/commit/76c2d72282412b4e03620139af358b7a0f10fe76
+local window_navigation = function(direction)
+    local window = vim.api.nvim_get_current_win()
+    vim.cmd("silent! wincmd " .. direction)
+
+    -- if we successuflly moved to a new window or we are not in tmux, bail
+    if window ~= vim.api.nvim_get_current_win() or vim.env.TMUX == nil then
+        return
+    end
+
+    local session = vim.split(vim.env.TMUX, ',', true)[3]
+    vim.fn.system('tmux select-pane -t \'$' .. session .. '\' -' .. vim.fn.tr(direction, 'phjkl', 'lLDUR'))
+end
+
+vim.keymap.set("n", "<A-h>", function() window_navigation('h') end, opts)
+vim.keymap.set("n", "<A-j>", function() window_navigation('j') end, opts)
+vim.keymap.set("n", "<A-k>", function() window_navigation('k') end, opts)
+vim.keymap.set("n", "<A-l>", function() window_navigation('l') end, opts)
