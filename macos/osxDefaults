@@ -20,6 +20,12 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # Set Theme to Dark
 defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
+# Turn off FontSmoothing
+defaults write -g AppleFontSmoothing -int 0
+
+# Allow Control + Command + Click to drag windows without title bar
+defaults write -g NSWindowShouldDragOnGesture -bool true
+
 # Set highlight color to green
 #defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
 
