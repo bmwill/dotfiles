@@ -263,6 +263,11 @@ function inplace-mkdir {
 zle -N inplace-mkdir
 bindkey '^sM' inplace-mkdir
 
+#k# [Ctrl-X d] insert date
+function insert-datestamp () { LBUFFER+=${(%):-'%D{%Y-%m-%d}'}; }
+zle -N insert-datestamp
+bindkey "^xd" insert-datestamp
+
 #k# [Ctrl-X Ctrl-X] complete word from history
 zle -C hist-complete complete-word _generic
 zstyle ':completion:hist-complete:*' completer _history
