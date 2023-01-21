@@ -10,9 +10,6 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-" Configuration for coc.nvim located in: ~/.vim/after/plugin/coc.vim
-Plug 'neoclide/coc.nvim', {'tag': 'v0.0.80'}
-
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 " gc - toggle comments
@@ -24,14 +21,6 @@ Plug 'tpope/vim-surround'
 " Coercion of words
 " https://github.com/tpope/vim-abolish
 Plug 'tpope/vim-abolish'
-
-" Easily move to places in a buffer
-" using <leader><leader><motion>
-Plug 'easymotion/vim-easymotion'
-
-let g:rustfmt_autosave = 1
-let g:rustfmt_options = '--config merge_imports=true'
-Plug 'rust-lang/rust.vim'
 
 if executable('brew')
     exe 'set rtp+=' . system('printf $(brew --prefix)/opt/fzf')
