@@ -10,6 +10,12 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # General UI/UX                                                               #
 ###############################################################################
 
+# Set computer name (as done via System Preferences → Sharing)
+#sudo scutil --set ComputerName "NAME"
+#sudo scutil --set HostName "NAME"
+#sudo scutil --set LocalHostName "NAME"
+#sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "NAME"
+
 #defaults write com.apple.systemuiserver menuExtras -array \
 #    "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
 #    "/System/Library/CoreServices/Menu Extras/AirPort.menu" \
