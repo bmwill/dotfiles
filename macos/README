@@ -1,0 +1,3 @@
+Add terminal to Developer Tools:
+
+- sudo spctl developer-mode enable-terminal
