@@ -62,7 +62,8 @@ return packer.startup(function(use)
   -- Easily move to places in a buffer
   use "phaazon/hop.nvim"
 
-  use "rust-lang/rust.vim"
+  -- use "rust-lang/rust.vim"
+  use "bmwill/rust.vim"
 
   -- Color Schemes
   -- Plugin 'tomasr/molokai' -- Molokai theme (currently pre-installed)
