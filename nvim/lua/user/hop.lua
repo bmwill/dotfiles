@@ -5,14 +5,11 @@ end
 
 hop.setup({ keys = "asdghklqwertyuiopzxcvbnmfj;" })
 
-local opts = { noremap = true, silent = true }
-local keymap = vim.api.nvim_set_keymap
-
-keymap("n", "<leader><leader>w", ":HopWordAC<CR>", opts)
-keymap("n", "<leader><leader>b", ":HopWordBC<CR>", opts)
-keymap("n", "<leader><leader>j", ":HopLineStartAC<CR>", opts)
-keymap("n", "<leader><leader>k", ":HopLineStartBC<CR>", opts)
-keymap("n", "s", ":HopChar1<CR>", opts)
-keymap("n", "S", ":HopChar2<CR>", opts)
-keymap("n", "gs", ":HopChar1MW<CR>", opts)
-keymap("n", "gS", ":HopChar2MW<CR>", opts)
+vim.keymap.set("n", "<leader><leader>w", ":HopWordAC<CR>")
+vim.keymap.set("n", "<leader><leader>b", ":HopWordBC<CR>")
+vim.keymap.set("n", "<leader><leader>j", ":HopLineStartAC<CR>")
+vim.keymap.set("n", "<leader><leader>k", ":HopLineStartBC<CR>")
+vim.keymap.set("n", "s", ":HopChar1<CR>")
+vim.keymap.set("n", "S", ":HopChar2<CR>")
+vim.keymap.set("n", "gs", ":HopChar1MW<CR>")
+vim.keymap.set("n", "gS", ":HopChar2MW<CR>")

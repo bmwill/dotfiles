@@ -1,15 +1,6 @@
-local opts = { noremap = true, silent = true }
-
--- Shorten function name
-local keymap = vim.api.nvim_set_keymap
-
 -- Set <Leader> key
---vim.g.mapleader = ","
---Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-keymap("", ",", "<leader>", { silent = true })
 
 -- Modes
 --  Short-name  Affected modes                            Help page       Vimscript equivalent
@@ -28,41 +19,41 @@ keymap("", ",", "<leader>", { silent = true })
 -- Normal --
 
 -- Disable going into command-line window
-keymap("n", "q:", "<Nop>", opts)
+vim.keymap.set("n", "q:", "<Nop>")
 
 -- Change j and k to move through wrapped lines
-keymap("n", "j", "gj", opts)
-keymap("n", "k", "gk", opts)
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
 
 -- Jump to tag in a new split
-keymap("n", "<C-\\>", "<C-w>v<C-]>", opts)
+vim.keymap.set("n", "<C-\\>", "<C-w>v<C-]>")
 
 -- Toggle spelling
-keymap("n", "<leader>sp", ":setlocal spell!<CR>", opts)
+vim.keymap.set("n", "<leader>sp", ":setlocal spell!<CR>")
 -- Rebuild .spl file from 'spellfile'
-keymap("n", "<leader>sP", ":mkspell! " .. vim.fn.stdpath "config" .. "/spell/dictionary.utf-8.add<CR>", opts)
+vim.keymap.set("n", "<leader>sP", ":mkspell! " .. vim.fn.stdpath "config" .. "/spell/dictionary.utf-8.add<CR>")
 
 -- Clear Search highlighting when hitting 'return'
 -- This unsets the 'last search pattern' register
-keymap("n", "<CR>", ":noh<CR><CR>", opts)
+vim.keymap.set("n", "<CR>", ":noh<CR><CR>")
 
 -- Toggle [i]nvisible characters
-keymap("n", "<leader>i", ":set list!<CR>", opts)
+vim.keymap.set("n", "<leader>i", ":set list!<CR>")
 
 -- Make zO recursively open whatever fold we're in, even if it's partially open.
-keymap("n", "z0", "zcz0", opts)
+vim.keymap.set("n", "z0", "zcz0")
 
 -- Save with <C-s>
-keymap("n", "<C-s>", ":silent update<CR>", opts)
-keymap("i", "<C-s>", "<Esc>:silent update<CR>", opts)
-keymap("v", "<C-s>", "<Esc>:silent update<CR>gv", opts)
+vim.keymap.set("n", "<C-s>", ":silent update<CR>")
+vim.keymap.set("i", "<C-s>", "<Esc>:silent update<CR>")
+vim.keymap.set("v", "<C-s>", "<Esc>:silent update<CR>gv")
 
 -- Remove all trailing whitespace by pressing <leader>ww
 -- uses mark 'z'
-keymap("n", "<leader>ww", [[mz:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>`z]], opts)
+vim.keymap.set("n", "<leader>ww", [[mz:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>`z]])
 
 -- Reload init.lua
-keymap("n", "<leader>sv", ":ReloadConfig<CR>", opts)
+vim.keymap.set("n", "<leader>sv", ":ReloadConfig<CR>")
 
 -- Toggle Numbers
 vim.cmd [[
@@ -77,7 +68,7 @@ vim.cmd [[
         endif
     endfunc
 ]]
-keymap("n", "<leader>n", ":call NumberToggle()<CR>", opts)
+vim.keymap.set("n", "<leader>n", ":call NumberToggle()<CR>")
 
 -- "Uppercase word" mapping
 --
@@ -99,54 +90,54 @@ keymap("n", "<leader>n", ":call NumberToggle()<CR>", opts)
 --
 -- It works by exiting out of insert mode using gUiw to uppercase inside the
 -- current word, then gi to enter insert mode at the end of the word.
-keymap("i", "<C-u>", "<Esc>gUiwgi", opts)
+vim.keymap.set("i", "<C-u>", "<Esc>gUiwgi")
 -- because completion breaks <C-u>
-keymap("i", "<C-g><C-u>", "<Esc>gUiwgi", opts)
+vim.keymap.set("i", "<C-g><C-u>", "<Esc>gUiwgi")
 
 -- Formatting
-keymap("n", "Q", "gqip", opts)
-keymap("v", "Q", "gq", opts)
+vim.keymap.set("n", "Q", "gqip")
+vim.keymap.set("v", "Q", "gq")
 
 -- Toggle Wrap
-keymap("n", "<leader>W", ":set wrap!<CR>", opts)
+vim.keymap.set("n", "<leader>W", ":set wrap!<CR>")
 
 -- highlight last inserted text
-keymap("n", "gV", "`[v`]", opts)
+vim.keymap.set("n", "gV", "`[v`]")
 
 -- Better window navigation
--- keymap("n", "<C-h>", "<C-w>h", opts)
--- keymap("n", "<C-j>", "<C-w>j", opts)
--- keymap("n", "<C-k>", "<C-w>k", opts)
--- keymap("n", "<C-l>", "<C-w>l", opts)
+-- vim.keymap.set("n", "<C-h>", "<C-w>h")
+-- vim.keymap.set("n", "<C-j>", "<C-w>j")
+-- vim.keymap.set("n", "<C-k>", "<C-w>k")
+-- vim.keymap.set("n", "<C-l>", "<C-w>l")
 
-keymap("n", "<leader>e", ":Lex 30<cr>", opts)
+vim.keymap.set("n", "<leader>e", ":Lex 30<cr>")
 
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize +2<CR>", opts)
-keymap("n", "<C-Down>", ":resize -2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+vim.keymap.set("n", "<C-Up>", ":resize +2<CR>")
+vim.keymap.set("n", "<C-Down>", ":resize -2<CR>")
+vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>")
+vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>")
 
 -- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprevious<CR>", opts)
+vim.keymap.set("n", "<S-l>", ":bnext<CR>")
+vim.keymap.set("n", "<S-h>", ":bprevious<CR>")
 
 -- Visual --
 -- Stay in indent mode
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
 
 -- Move text up and down
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
-keymap("v", "p", '"_dP', opts)
+vim.keymap.set("v", "<A-j>", ":m .+1<CR>==")
+vim.keymap.set("v", "<A-k>", ":m .-2<CR>==")
+vim.keymap.set("v", "p", '"_dP')
 
 -- Visual Block --
 -- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv")
+vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv")
+vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv")
+vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv")
 
 -- Window Navigation
 -- see https://gist.github.com/mislav/5189704 and https://github.com/eliasnorrby/dotfiles/commit/76c2d72282412b4e03620139af358b7a0f10fe76
@@ -163,7 +154,7 @@ local window_navigation = function(direction)
     vim.fn.system('tmux select-pane -t \'$' .. session .. '\' -' .. vim.fn.tr(direction, 'phjkl', 'lLDUR'))
 end
 
-vim.keymap.set("n", "<A-h>", function() window_navigation('h') end, opts)
-vim.keymap.set("n", "<A-j>", function() window_navigation('j') end, opts)
-vim.keymap.set("n", "<A-k>", function() window_navigation('k') end, opts)
-vim.keymap.set("n", "<A-l>", function() window_navigation('l') end, opts)
+vim.keymap.set("n", "<A-h>", function() window_navigation('h') end)
+vim.keymap.set("n", "<A-j>", function() window_navigation('j') end)
+vim.keymap.set("n", "<A-k>", function() window_navigation('k') end)
+vim.keymap.set("n", "<A-l>", function() window_navigation('l') end)

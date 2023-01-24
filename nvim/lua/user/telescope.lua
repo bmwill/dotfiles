@@ -125,13 +125,10 @@ telescope.setup({
 
 telescope.load_extension("ui-select")
 
-local opts = { noremap = true, silent = true }
-local keymap = vim.api.nvim_set_keymap
-
-keymap("n", "<leader>sl", ":Telescope resume<CR>", opts)
-keymap("n", "z=", ":Telescope spell_suggest theme=cursor<CR>", opts)
-keymap("n", "<leader>b", ":Telescope buffers<CR>", opts)
-keymap("n", "<leader>f", ":Telescope find_files<CR>", opts)
-keymap("n", "<leader>F", ":Telescope git_files<CR>", opts)
-keymap("n", "<leader>gg", ":Telescope grep_string<CR>", opts)
-keymap("n", "<leader>G", ":Telescope live_grep<CR>", opts)
+vim.keymap.set("n", "<leader>sl", ":Telescope resume<CR>")
+vim.keymap.set("n", "z=", ":Telescope spell_suggest theme=cursor<CR>")
+vim.keymap.set("n", "<leader>b", ":Telescope buffers<CR>")
+vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>")
+vim.keymap.set("n", "<leader>F", ":Telescope git_files<CR>")
+vim.keymap.set("n", "<leader>gg", ":Telescope grep_string<CR>")
+vim.keymap.set("n", "<leader>G", ":Telescope live_grep<CR>")
