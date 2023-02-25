@@ -42,8 +42,8 @@ M.rust_tools = {
   },
 }
 
--- LSP settings for 'sumneko-lua'
-M.sumneko_lua = {
+-- LSP settings for 'lua_ls'
+M.lua_ls = {
   settings = {
     Lua = {
       diagnostics = {

@@ -8,11 +8,6 @@ if not status_ok then
   return
 end
 
-local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
-if not status_ok then
-  return
-end
-
 local status_ok, rust_tools = pcall(require, "rust-tools")
 if not status_ok then
   return
@@ -67,6 +62,7 @@ local function setup()
     border = "rounded",
   })
 end
+
 setup()
 
 local function lsp_highlight_document(client)
@@ -139,6 +135,27 @@ local function lsp_keymaps(client, bufnr)
   end
 end
 
+require("mason").setup({
+  ui = {
+    icons = {
+      package_installed = "✓",
+    },
+  },
+})
+
+require("mason-tool-installer").setup({
+  ensure_installed = {
+    -- "codelldb", -- for debugging
+    "stylua",
+  },
+  auto_update = false,
+  run_on_start = true,
+})
+
+require("mason-lspconfig").setup({
+  ensure_installed = { "rust_analyzer", "lua_ls" },
+})
+
 local function on_attach(client, bufnr)
   lsp_keymaps(client, bufnr)
   lsp_highlight_document(client)
@@ -147,39 +164,56 @@ end
 local client_capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = cmp_nvim_lsp.default_capabilities(client_capabilities)
 
-lsp_installer.on_server_ready(function(server)
-  local opts = {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = {
-      -- This will be the default in neovim 0.7+
-      debounce_text_changes = 150,
-    },
-  }
+-- Package installation folder
+-- local install_root_dir = vim.fn.stdpath "data" .. "/mason"
 
-  if server.name == "rust_analyzer" then
+require("mason-lspconfig").setup_handlers({
+  function(server_name)
+    local opts = {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }
+    require("lspconfig")[server_name].setup({ opts })
+  end,
+  ["rust_analyzer"] = function()
+    local opts = {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }
+
     local rust_analyzer_opts = require("user.lsp.settings").rust_analyzer
     -- all the opts to send to nvim-lspconfig
     -- these override the defaults set by rust-tools.nvim
     -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
-    local server_opts = vim.tbl_deep_extend("force", server:get_default_options(), opts, rust_analyzer_opts)
+    local server_opts = vim.tbl_deep_extend("force", opts, rust_analyzer_opts)
     local rust_tools_opts = require("user.lsp.settings").rust_tools
 
+    -- DAP settings - https://github.com/simrat39/rust-tools.nvim#a-better-debugging-experience
+    -- local extension_path = install_root_dir .. "/packages/codelldb/extension/"
+    -- local codelldb_path = extension_path .. "adapter/codelldb"
+    -- local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
     opts = vim.tbl_deep_extend("force", rust_tools_opts, {
       server = server_opts,
+      -- dap = {
+      --   adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+      -- },
     })
 
+    -- require("dapui").setup()
     rust_tools.setup(opts)
-    server:attach_buffers()
-  else
-    if server.name == "sumneko_lua" then
-      local sumneko_opts = require("user.lsp.settings").sumneko_lua
-      opts = vim.tbl_deep_extend("force", opts, sumneko_opts)
-    end
-    -- This setup() function is exactly the same as lspconfig's setup function.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    server:setup(opts)
-  end
-end)
+  end,
+  ["lua_ls"] = function()
+    local opts = {
+      on_attach = function(client, bufnr)
+        client.server_capabilities.documentFormattingProvider = false
+        on_attach(client, bufnr)
+      end,
+      capabilities = capabilities,
+    }
+    local lua_ls_opts = require("user.lsp.settings").lua_ls
+    opts = vim.tbl_deep_extend("force", opts, lua_ls_opts)
+    require("lspconfig").lua_ls.setup(opts)
+  end,
+})
 
 require "user.lsp.null-ls"

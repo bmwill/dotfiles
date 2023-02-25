@@ -88,7 +88,10 @@ return packer.startup(function(use)
 
   -- LSP
   use "neovim/nvim-lspconfig" -- enable LSP
-  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+  use({ "williamboman/mason.nvim" })
+  use({ "williamboman/mason-lspconfig.nvim" })
+  use({ "WhoIsSethDaniel/mason-tool-installer.nvim" })
+
   -- use({ "simrat39/rust-tools.nvim", commit = "7b4d155dd47e211ee661cbb4c7969b245f768edb" })
   use "simrat39/rust-tools.nvim"
   use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
@@ -98,7 +101,11 @@ return packer.startup(function(use)
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"
-  use {'nvim-telescope/telescope-ui-select.nvim' }
+  use({ "nvim-telescope/telescope-ui-select.nvim" })
+
+  -- Debugging
+  -- use 'mfussenegger/nvim-dap'
+  -- use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
