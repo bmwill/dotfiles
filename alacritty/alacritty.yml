@@ -105,7 +105,12 @@ window:
   # the default theme variant.
   #decorations_theme_variant: None
 
-  option_as_alt: true
+  # Make `Option` key behave as `Alt` (macOS only):
+  #   - OnlyLeft
+  #   - OnlyRight
+  #   - Both
+  #   - None (default)
+  option_as_alt: Both
 
 #scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -939,9 +944,6 @@ cursor:
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
 #working_directory: None
-
-# Send ESC (\x1b) before characters when alt is pressed.
-alt_send_esc: true
 
 # Allow IME input into the window.
 #
