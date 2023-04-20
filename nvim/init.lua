@@ -95,6 +95,10 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
+  autocmd! BufReadPost *.move setlocal syntax=rust
+]]
+
+vim.cmd [[
 " ----------------------------
 "     Plugin Configuration
 " ----------------------------
