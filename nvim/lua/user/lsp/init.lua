@@ -154,7 +154,7 @@ require("mason-tool-installer").setup({
 })
 
 require("mason-lspconfig").setup({
-  ensure_installed = { "rust_analyzer", "lua_ls" },
+  ensure_installed = { "lua_ls" },
 })
 
 local function on_attach(client, bufnr)
