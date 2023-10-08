@@ -120,15 +120,16 @@ local function lsp_keymaps(client, bufnr)
   vim.cmd [[ command! AutoFix execute 'lua require("user.lsp.autofix").autofix()' ]]
   bufmap("<leader>qf", "<cmd>AutoFix<CR>")
 
-  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
-  bufmap("<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format()' ]]
+  bufmap("<leader>lf", "<cmd>lua vim.lsp.buf.format()<CR>")
 
-  vim.cmd [[
-    augroup lsp_format_on_save
-      autocmd! * <buffer>
-      autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)
-    augroup END
-  ]]
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function(args)
+      require("conform").format({ bufnr = args.buf, lsp_fallback = true })
+      -- vim.lsp.buf.format({ async = false })
+    end,
+  })
 
   if client.name == "rust_analyzer" then
     bufmap("<leader>lh", "<cmd>RustToggleInlayHints<CR>")
@@ -157,6 +158,7 @@ require("mason-lspconfig").setup({
 })
 
 local function on_attach(client, bufnr)
+  client.server_capabilities.semanticTokensProvider = nil
   lsp_keymaps(client, bufnr)
   lsp_highlight_document(client)
 end
@@ -216,4 +218,11 @@ require("mason-lspconfig").setup_handlers({
   end,
 })
 
-require "user.lsp.null-ls"
+-- Only run stylua when we can find a root dir
+require("conform.formatters.stylua").require_cwd = true
+
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+  },
+})
