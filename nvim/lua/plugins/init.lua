@@ -56,6 +56,11 @@ return {
   "williamboman/mason.nvim",
   "williamboman/mason-lspconfig.nvim",
   "WhoIsSethDaniel/mason-tool-installer.nvim",
+  {
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
+  },
 
   "simrat39/rust-tools.nvim",
   "stevearc/conform.nvim", -- for formatters and linters
