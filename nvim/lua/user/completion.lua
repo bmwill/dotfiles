@@ -46,6 +46,29 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
+local types = require("cmp.types")
+local compare = require("cmp.config.compare")
+
+-- See https://github.com/hrsh7th/nvim-cmp/blob/main/lua/cmp/types/lsp.lua#L178-L204 for more types
+---@type table<integer, integer>
+local modified_priority = {
+  [types.lsp.CompletionItemKind.Variable] = types.lsp.CompletionItemKind.Method,
+  -- [types.lsp.CompletionItemKind.Snippet] = 0, -- top
+  -- [types.lsp.CompletionItemKind.Keyword] = 0, -- top
+  [types.lsp.CompletionItemKind.Text] = 100, -- bottom
+}
+
+local function modified_kind(entry1, entry2)
+  local kind1 = entry1:get_kind()
+  local kind2 = entry2:get_kind()
+  kind1 = modified_priority[kind1] or kind1
+  kind2 = modified_priority[kind2] or kind2
+  if kind1 ~= kind2 then
+    return kind1 - kind2 < 0
+  end
+  return nil
+end
+
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -112,6 +135,28 @@ cmp.setup({
     { name = "buffer" },
     { name = "path" },
   },
+  sorting = {
+    -- https://github.com/hrsh7th/nvim-cmp/blob/main/lua/cmp/config/compare.lua
+    comparators = {
+      compare.offset,
+      compare.exact,
+      compare.recently_used,
+      modified_kind,
+      compare.length,
+      compare.locality,
+      compare.score,
+      compare.order,
+
+      -- compare.offset,
+      -- compare.exact,
+      -- compare.score,
+      -- compare.recently_used,
+      -- compare.locality,
+      -- modified_kind,
+      -- compare.length,
+      -- compare.order,
+    },
+  },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
@@ -122,6 +167,6 @@ cmp.setup({
     },
   },
   experimental = {
-    ghost_text = true,
+    ghost_text = false,
   },
 })
