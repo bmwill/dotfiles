@@ -12,6 +12,10 @@ require "user.telescope"
 require "user.hop"
 require "user.nvim-tree"
 
+if vim.fn.executable "rg" == 1 then
+  vim.o.grepprg = "rg --vimgrep --hidden --glob '!.git'"
+end
+
 -- Line Return
 -- Make sure Vim returns to the same line when you reopen a file.
 vim.cmd [[
