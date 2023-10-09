@@ -9,7 +9,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 require "user.plugins"
-require "user.colorscheme"
 require "user.completion"
 require "user.lsp"
 require "user.gitsigns"
