@@ -9,8 +9,6 @@ return {
     },
   },
 
-  "tpope/vim-fugitive",
-  "tpope/vim-rhubarb",
   -- gc - toggle comments
   "tpope/vim-commentary",
   -- ds - delete surrounding
@@ -61,9 +59,6 @@ return {
 
   "simrat39/rust-tools.nvim",
   "stevearc/conform.nvim", -- for formatters and linters
-
-  -- Git
-  "lewis6991/gitsigns.nvim",
 
   -- Telescope
   "nvim-telescope/telescope.nvim",

@@ -27,7 +27,6 @@ require("lazy").setup("plugins")
 
 require "user.completion"
 require "user.lsp"
-require "user.gitsigns"
 require "user.telescope"
 require "user.hop"
 require "user.nvim-tree"
@@ -116,45 +115,4 @@ vim.cmd [[
 
 vim.cmd [[
   autocmd! BufReadPost *.move setlocal syntax=rust
-]]
-
-vim.cmd [[
-" ----------------------------
-"     Plugin Configuration
-" ----------------------------
-
-" ---- fugitive & git -------------------------------------------------
-" https://github.com/tpope/vim-fugitive
-
-" Maybe add a mapping for :Gblame --reverse
-nnoremap <leader>gb :call Blame()<CR>
-function! Blame() abort
-  if &filetype ==# 'fugitiveblame'
-    " close the blame layer
-    normal gq
-  else
-    execute "Git blame"
-  endif
-endfunction
-
-nnoremap <leader>gc :call ShowCommit()<CR>
-function! ShowCommit() abort
-  " Quick return if the blame layer isn't open
-  if &filetype !=# 'fugitiveblame'
-    echo "Not in fugitiveblame buffer"
-  else
-    let commit = matchstr(getline('.'), '\x\{,8}\x')
-
-    execute "botright split"
-    execute "resize 20"
-    execute "terminal git --no-pager log -1 " . commit
-
-    normal gg
-  endif
-endfunction
-
-augroup fugitive_autocmds
-  autocmd!
-  autocmd BufReadPost fugitive://* set bufhidden=wipe
-augroup END
 ]]
