@@ -55,3 +55,8 @@ for k, v in pairs(options) do
 end
 
 vim.cmd "noh" -- force highlighting off when config is reloaded
+
+-- Use ripgrep for grepping
+if vim.fn.executable "rg" == 1 then
+  vim.o.grepprg = "rg --vimgrep --hidden --glob '!.git'"
+end

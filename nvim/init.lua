@@ -1,8 +1,13 @@
 -- Lua config for Neovim
 -- https://github.com/nanotee/nvim-lua-guide
 
-require "user.options"
-require "user.keymaps"
+-- Set <Leader> and <LocalLeader> keys
+--
+-- Set this early because otherwise if you have any mappings you set
+-- BEFORE doing this, they will be set to the OLD leader.
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 require "user.plugins"
 require "user.colorscheme"
 require "user.completion"
@@ -11,10 +16,6 @@ require "user.gitsigns"
 require "user.telescope"
 require "user.hop"
 require "user.nvim-tree"
-
-if vim.fn.executable "rg" == 1 then
-  vim.o.grepprg = "rg --vimgrep --hidden --glob '!.git'"
-end
 
 -- Line Return
 -- Make sure Vim returns to the same line when you reopen a file.

@@ -1,6 +1,5 @@
--- Set <Leader> key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- NOTE:
+-- <Leader> and <LocalLeader> are set in the top-level init.lua
 
 -- Modes
 --  Short-name  Affected modes                            Help page       Vimscript equivalent
@@ -154,7 +153,15 @@ local window_navigation = function(direction)
   vim.fn.system("tmux select-pane -t '$" .. session .. "' -" .. vim.fn.tr(direction, "phjkl", "lLDUR"))
 end
 
-vim.keymap.set("n", "<A-h>", function() window_navigation('h') end)
-vim.keymap.set("n", "<A-j>", function() window_navigation('j') end)
-vim.keymap.set("n", "<A-k>", function() window_navigation('k') end)
-vim.keymap.set("n", "<A-l>", function() window_navigation('l') end)
+vim.keymap.set("n", "<A-h>", function()
+  window_navigation "h"
+end)
+vim.keymap.set("n", "<A-j>", function()
+  window_navigation "j"
+end)
+vim.keymap.set("n", "<A-k>", function()
+  window_navigation "k"
+end)
+vim.keymap.set("n", "<A-l>", function()
+  window_navigation "l"
+end)
