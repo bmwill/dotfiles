@@ -1,17 +1,4 @@
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
-require("lazy").setup({
+return {
   -- My plugins here
   "nvim-lua/popup.nvim", -- An implementation of the Popup API from vim in Neovim
   "nvim-lua/plenary.nvim", -- Useful lua functions used by lots of plugins
@@ -73,7 +60,7 @@ require("lazy").setup({
   "WhoIsSethDaniel/mason-tool-installer.nvim",
 
   "simrat39/rust-tools.nvim",
-  'stevearc/conform.nvim', -- for formatters and linters
+  "stevearc/conform.nvim", -- for formatters and linters
 
   -- Git
   "lewis6991/gitsigns.nvim",
@@ -85,4 +72,4 @@ require("lazy").setup({
   -- Debugging
   -- use 'mfussenegger/nvim-dap'
   -- use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
-})
+}
