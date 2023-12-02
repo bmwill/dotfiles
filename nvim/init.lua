@@ -52,6 +52,7 @@ vim.cmd [[
   augroup END
 ]]
 
+-- use plenary.reload?
 function _G.ReloadConfig()
   for name, _ in pairs(package.loaded) do
     if name:match "^user" then

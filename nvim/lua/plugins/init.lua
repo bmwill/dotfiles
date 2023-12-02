@@ -60,6 +60,9 @@ return {
     "j-hui/fidget.nvim",
     tag = "legacy",
     event = "LspAttach",
+    opts = {
+      -- options
+    },
   },
 
   "simrat39/rust-tools.nvim",
