@@ -100,10 +100,10 @@ vim.cmd [[
   autocmd! FileType rust call SetupRustEnv()
   function! SetupRustEnv()
     nnoremap <buffer> <leader>rf :RustFmt<CR>
-    nnoremap <buffer> <leader>rt :RustTest -- --nocapture<CR>
-    nnoremap <buffer> <leader>rT :RustTest!<CR>
+    nnoremap <buffer> <leader>rt :RustTest --all-features -- --nocapture<CR>
+    nnoremap <buffer> <leader>rT :RustTest! --all-features<CR>
     nnoremap <buffer> <leader>rr :Cruntarget<CR>
-    nnoremap <buffer> <leader>rc :Cargo check --all-targets<CR>
+    nnoremap <buffer> <leader>rc :Cargo check --all-features --all-targets<CR>
   endfunction
 ]]
 
