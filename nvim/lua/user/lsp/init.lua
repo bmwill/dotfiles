@@ -132,7 +132,7 @@ local function lsp_keymaps(client, bufnr)
   })
 
   if client.name == "rust_analyzer" then
-    bufmap("<leader>lh", "<cmd>RustToggleInlayHints<CR>")
+    bufmap("<leader>lh", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })<CR>")
   end
 end
 

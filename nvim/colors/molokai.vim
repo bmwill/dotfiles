@@ -276,6 +276,14 @@ hi GitSignsAdd ctermfg=154 ctermbg=235
 hi GitSignsChange ctermfg=81 ctermbg=235
 hi GitSignsDelete ctermfg=162 ctermbg=235
 
+hi LspInlayHint ctermfg=244 guifg=#808080 cterm=italic gui=italic
+hi TabLine cterm=underline ctermfg=15 ctermbg=242 guifg=#808080 guibg=#1b1d1e
+hi TabLineFill cterm=reverse gui=reverse guifg=#1b1d1e guibg=#1b1d1e
+hi TabLineSel cterm=bold gui=bold
+hi Visual ctermfg=none ctermbg=238 guibg=#403d3d
+hi Pmenu           cterm=none
+hi PmenuSel        cterm=none
+
 " Must be at the end, because of ctermbg=234 bug.
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
 set background=dark

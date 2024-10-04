@@ -51,7 +51,7 @@ return {
   "hrsh7th/cmp-nvim-lua", -- nvim specific lua completions
 
   -- snippets
-  "L3MON4D3/LuaSnip", --snippet engine
+  "L3MON4D3/LuaSnip",
 
   -- LSP
   "neovim/nvim-lspconfig", -- enable LSP

@@ -10,6 +10,7 @@ local options = {
   timeoutlen = 1000, -- time to wait for a mapped sequence to complete (in milliseconds)
   fileencoding = "utf-8", -- the encoding written to a file
   -- termguicolors = true, -- set term gui colors (most terminals support this)
+  termguicolors = false,
   showcmd = true, -- Display incomplete commands
   showmode = true, -- Display current mode
   autoread = true, -- read file when it is modified outside of vim
