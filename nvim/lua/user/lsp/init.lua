@@ -177,33 +177,6 @@ require("mason-lspconfig").setup_handlers({
     }
     require("lspconfig")[server_name].setup({ opts })
   end,
-  ["rust_analyzer"] = function()
-    local opts = {
-      on_attach = on_attach,
-      capabilities = capabilities,
-    }
-
-    local rust_analyzer_opts = require("user.lsp.settings").rust_analyzer
-    -- all the opts to send to nvim-lspconfig
-    -- these override the defaults set by rust-tools.nvim
-    -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
-    local server_opts = vim.tbl_deep_extend("force", opts, rust_analyzer_opts)
-    local rust_tools_opts = require("user.lsp.settings").rust_tools
-
-    -- DAP settings - https://github.com/simrat39/rust-tools.nvim#a-better-debugging-experience
-    -- local extension_path = install_root_dir .. "/packages/codelldb/extension/"
-    -- local codelldb_path = extension_path .. "adapter/codelldb"
-    -- local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
-    opts = vim.tbl_deep_extend("force", rust_tools_opts, {
-      server = server_opts,
-      -- dap = {
-      --   adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
-      -- },
-    })
-
-    -- require("dapui").setup()
-    rust_tools.setup(opts)
-  end,
   ["lua_ls"] = function()
     local opts = {
       on_attach = function(client, bufnr)
@@ -226,3 +199,34 @@ require("conform").setup({
     lua = { "stylua" },
   },
 })
+
+local start_rust_analyzer = function()
+  local opts = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    -- cmd = { "/Users/brandon/.cargo/bin/rust-analyzer", "rust-analyzer" },
+  }
+
+  local rust_analyzer_opts = require("user.lsp.settings").rust_analyzer
+  -- all the opts to send to nvim-lspconfig
+  -- these override the defaults set by rust-tools.nvim
+  -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
+  local server_opts = vim.tbl_deep_extend("force", opts, rust_analyzer_opts)
+  local rust_tools_opts = require("user.lsp.settings").rust_tools
+
+  -- DAP settings - https://github.com/simrat39/rust-tools.nvim#a-better-debugging-experience
+  -- local extension_path = install_root_dir .. "/packages/codelldb/extension/"
+  -- local codelldb_path = extension_path .. "adapter/codelldb"
+  -- local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
+  opts = vim.tbl_deep_extend("force", rust_tools_opts, {
+    server = server_opts,
+    -- dap = {
+    --   adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+    -- },
+  })
+
+  -- require("dapui").setup()
+  rust_tools.setup(opts)
+end
+
+start_rust_analyzer()

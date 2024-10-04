@@ -17,6 +17,7 @@ M.rust_analyzer = {
       cargo = {
         loadOutDirsFromCheck = true,
         runBuildScripts = true,
+        features = "all",
       },
       procMacro = {
         enable = true,

@@ -25,6 +25,8 @@ return {
   -- use "rust-lang/rust.vim"
   "bmwill/rust.vim",
 
+  "tzakian/move.vim",
+
   -- Color Schemes
   -- Plugin 'tomasr/molokai' -- Molokai theme (currently pre-installed)
   -- {
